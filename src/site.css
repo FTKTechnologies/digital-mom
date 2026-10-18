@@ -231,3 +231,6 @@ figure:has(> .photo-pill-caption) { position: relative; }
 .photo-pill-caption strong { color: #ffffff; font-weight: 600; }
 .photo-pill-caption a { color: inherit; text-decoration-color: #fbf9f4b3; }
 @media (max-width: 767px) { .photo-pill-caption { background: var(--color-sand); color: var(--color-ink); text-shadow: none; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* Gallery jump links land with the section heading 24px from the top (not the padding above it). */
+.gallery-section { scroll-margin-top: calc(24px - clamp(48px, 6vw, 88px)); }

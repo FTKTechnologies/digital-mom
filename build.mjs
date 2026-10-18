@@ -104,7 +104,7 @@ const galleryBody = (await Promise.all(galleryShown.map(async ({ s, items }) => 
             </button>
           </li>`;
   }))).join('\n') : placeholderTiles;
-  return `    <section id="${esc(s.slug)}" class="wrap scroll-mt-6 border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(s.slug)}-heading" data-scroll-zone>
+  return `    <section id="${esc(s.slug)}" class="gallery-section wrap border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(s.slug)}-heading" data-scroll-zone>
       <div class="mb-10 grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
         <div>
           <h2 id="${esc(s.slug)}-heading" class="m-0 font-display text-[clamp(36px,4.4vw,60px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">${esc(s.title)}</h2>

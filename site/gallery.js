@@ -36,3 +36,24 @@
   });
   dialog.addEventListener('close', () => { img.removeAttribute('src'); opener?.focus(); });
 })();
+
+// Jump links at the top: scroll to the section, then re-aim once the scroll ends, in case anything above it
+// changed height on the way (pictures decoding, headline reveals), so the heading always lands in the same spot.
+(() => {
+  const links = [...document.querySelectorAll('nav[aria-label="Gallery sections"] a[href^="#"]')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  links.forEach(link => link.addEventListener('click', event => {
+    const target = document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    event.preventDefault();
+    history.replaceState(null, '', link.getAttribute('href'));
+    const go = behavior => target.scrollIntoView({ behavior, block: 'start' });
+    go(reduce ? 'auto' : 'smooth');
+    let timer = 0;
+    const settle = () => { clearTimeout(timer); timer = setTimeout(() => { removeEventListener('scroll', settle); go('auto'); }, 150); };
+    addEventListener('scroll', settle, { passive: true });
+    settle();
+    target.querySelector('h2')?.setAttribute('tabindex', '-1');
+    target.querySelector('h2')?.focus({ preventScroll: true });
+  }));
+})();
