@@ -19,8 +19,8 @@ const esc = v => String(v).replaceAll('&', '&amp;').replaceAll('"', '&quot;').re
 const team = JSON.parse(await readFile(src('team.json'), 'utf8')).filter(m => m.published);
 const teamMembers = team.map((m, i) => `      <article class="grid items-center gap-8 md:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] md:gap-16${i % 2 ? ' md:[&>div:first-child]:order-2' : ''}" data-scroll-zone>
         <div class="relative isolate mx-auto w-full max-w-[440px] md:mx-0">
-          <div class="absolute -inset-3 -z-10 ${i % 2 ? 'rotate-[3deg]' : '-rotate-[3deg]'} bg-sand" aria-hidden="true"></div>
-          <div class="overflow-hidden" data-scroll="wipe"><img class="block h-auto w-full" src="/assets/team/${esc(m.photo)}" width="900" height="1125" alt="${esc(m.alt)}" loading="lazy"></div>
+          <div class="absolute -inset-3 -z-10 ${i % 2 ? 'rotate-[3deg]' : '-rotate-[3deg]'} rounded-[36px] bg-sand" aria-hidden="true"></div>
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/team/${esc(m.photo)}" width="900" height="1125" alt="${esc(m.alt)}" loading="lazy"></div>
         </div>
         <div>
           <h3 data-scroll="words" class="m-0 font-display text-[clamp(38px,4.4vw,60px)] font-bold leading-[1] tracking-[-0.02em]">${esc(m.name)}</h3>

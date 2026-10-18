@@ -80,6 +80,10 @@
   @media (max-width: 400px) { dialog { padding: 30px 22px; } dialog h2 { font-size: 42px; } }
 }
 
+/* Photos shot on a cool lavender backdrop: warm them toward the sand palette so they sit in the page. */
+.photo-frame { position: relative; isolation: isolate; overflow: hidden; border-radius: 28px; background: var(--color-sand); }
+.photo-blend { display: block; width: 100%; height: auto; filter: sepia(.32) saturate(.82) contrast(.97) brightness(1.02); mix-blend-mode: multiply; }
+
 /* Word masks for headline reveals (added by scroll-effects.js, so no-JS and reduced motion keep plain text). */
 .mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .2em; margin-bottom: -.2em; padding-right: .04em; margin-right: -.04em; }
 .mask-word { display: inline-block; will-change: transform; }
