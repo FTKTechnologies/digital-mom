@@ -1,0 +1,24 @@
+{
+  "name": "digital-mom-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:html": "node build.mjs",
+    "build:css": "tailwindcss -i ./src/site.css -o ./site/assets/styles.css --minify",
+    "build": "npm run build:html && npm run build:css",
+    "dev:css": "tailwindcss -i ./src/site.css -o ./site/assets/styles.css --watch",
+    "serve": "php -S 127.0.0.1:8744 -t site",
+    "pack": "node pack.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "gsap": "^3.15.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "private": true
+}

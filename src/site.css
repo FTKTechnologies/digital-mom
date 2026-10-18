@@ -1,0 +1,67 @@
+@import "tailwindcss" source("../site");
+
+@font-face{font-family:Cormorant;src:url('./cormorant.ttf') format('truetype');font-style:normal;font-weight:400 700;font-display:swap}
+@font-face{font-family:Cormorant;src:url('./cormorant-italic.ttf') format('truetype');font-style:italic;font-weight:400 700;font-display:swap}
+
+@theme {
+  --color-olive: #525438;
+  --color-olive-deep: #3b3d28;
+  --color-ink: #292b20;
+  --color-bronze: #a0764e;
+  --color-paper: #fbf9f4;
+  --color-sand: #e8e1d3;
+  --color-gold: #dfccaa;
+  --color-muted: #626254;
+  --color-line: #d8d6ca;
+  --font-display: Cormorant, Georgia, serif;
+  --font-body: "Segoe UI", Arial, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { margin: 0; overflow-x: clip; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: 16px; line-height: 1.65; }
+  button, input, textarea { font: inherit; }
+  button { cursor: pointer; }
+  :where(a, button, input, textarea):focus-visible { outline: 3px solid var(--color-bronze); outline-offset: 5px; }
+  .on-olive :where(a, button):focus-visible { outline-color: var(--color-paper); }
+  body:has(dialog[open]) { overflow: hidden; }
+}
+
+@layer components {
+  .wrap { width: min(1280px, calc(100% - 44px)); margin-inline: auto; }
+  @media (min-width: 800px) { .wrap { width: calc(100% - 64px); } }
+  @media (min-width: 1100px) { .wrap { width: min(1280px, calc(100% - 112px)); } }
+
+  .btn { display: inline-flex; align-items: center; gap: .75rem; min-height: 56px; background: var(--color-olive); color: #fff; padding: .875rem 1.5rem; font-size: 15px; text-decoration: none; border: 0; transition: background-color .16s ease, transform .16s ease; }
+  .btn:hover { background: var(--color-olive-deep); }
+  .btn:active { transform: translateY(1px); }
+  .btn > .arrow { margin-left: 1.25rem; font-size: 20px; line-height: 1; }
+  .link { display: inline-flex; align-items: center; gap: .875rem; min-height: 44px; border: 0; background: transparent; color: inherit; padding: 0; font-size: 15px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #a0764e99; }
+  .link:hover { text-decoration-color: var(--color-ink); }
+
+  dialog { margin: auto; border: 1px solid var(--color-line); background: var(--color-paper); color: var(--color-ink); width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 40px); padding: 36px 38px; overflow-y: auto; box-shadow: 0 24px 80px #11150f38; }
+  dialog::backdrop { background: #1c211bc2; }
+  dialog h2 { font: 500 47px/1 var(--font-display); letter-spacing: -.03em; margin: 0 0 17px; }
+  dialog h2 em { color: var(--color-olive); }
+  #contact-intro { font-size: 14px; color: var(--color-muted); margin: 0 0 23px; }
+  .modal-close { position: absolute; top: 10px; right: 12px; width: 44px; height: 44px; border: 0; background: transparent; color: var(--color-olive); font-size: 30px; line-height: 1; }
+  .modal-close:hover { background: var(--color-sand); }
+  form label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; }
+  form input, form textarea { display: block; width: 100%; background: #fffdf9; border: 1px solid #9a9b88; border-radius: 0; padding: 10px 12px; font-size: 16px; color: var(--color-ink); }
+  form input { min-height: 45px; }
+  form textarea { resize: vertical; min-height: 100px; }
+  .form-note { font-size: 13px; line-height: 1.6; color: var(--color-muted); margin: 15px 0 0; }
+  #form-status { font-size: 14px; line-height: 1.5; margin: 14px 0; }
+  .form-submit { justify-content: space-between; width: 100%; }
+  .form-submit:disabled { opacity: .6; cursor: wait; }
+  .honey { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  @media (max-width: 400px) { dialog { padding: 30px 22px; } dialog h2 { font-size: 42px; } }
+}
+
+/* Story words only dim once GSAP has split them, so no-JS and reduced motion stay fully readable. */
+.w { opacity: .22; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn { transition: none; }
+}

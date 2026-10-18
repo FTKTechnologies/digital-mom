@@ -1,0 +1,11 @@
+# Dependencies and build leftovers
+node_modules/
+*.zip
+
+# Brand source material (large, may contain private files). The site ships its own copies in site/assets/.
+/assets/
+
+# Local tooling
+.claude/
+.env
+*.log

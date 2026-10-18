@@ -1,0 +1,14 @@
+{
+  "url": "https://digital-mom.co.za",
+  "name": "Digital Mom",
+  "phone": "+27 82 411 6268",
+  "whatsapp": "https://wa.me/27824116268",
+  "whatsapp_hello": "https://wa.me/27824116268?text=Hi%20Digital%20Mom%2C%20I%E2%80%99d%20love%20to%20chat%20about%20my%20business.",
+  "nav": [
+    { "label": "Home", "href": "/", "live": true },
+    { "label": "Services", "href": "/services/", "live": false },
+    { "label": "Our work", "href": "/work/", "live": false },
+    { "label": "About", "href": "/about/", "live": false },
+    { "label": "Contact", "href": "/contact/", "live": false }
+  ]
+}
