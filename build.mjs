@@ -261,7 +261,7 @@ if (hasGallery || galleryDraft) pages.push({
   meta: { title: 'Gallery | Digital Mom', description: 'A visual look at social media, web design, SEO and graphic design, the four services Digital Mom offers.', cta: true, noindex: galleryDraft },
   body: `  <main id="main">
     <section class="wrap pb-12 pt-14 md:pb-16 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
-      <h1 id="page-title" class="m-0 max-w-[13ch] font-display text-[clamp(44px,8vw,104px)] font-bold leading-[.96] tracking-[-0.03em]" data-scroll="words">The look of the work.</h1>
+      <h1 id="page-title" class="m-0 max-w-[13ch] font-display text-[clamp(44px,8vw,104px)] font-bold leading-[.96] tracking-[-0.03em]" data-scroll="words">Good work speaks for itself.</h1>
       <p class="mb-10 mt-8 max-w-[52ch] text-lg leading-[1.7] md:text-xl">A visual feel for each of our four services. Pick one to jump to it, or tap any picture to see it bigger.</p>
 ${galleryJump}
     </section>
