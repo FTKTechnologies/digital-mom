@@ -6,9 +6,14 @@
   "whatsapp_hello": "https://wa.me/27824116268?text=Hi%20Digital%20Mom%2C%20I%E2%80%99d%20love%20to%20chat%20about%20my%20business.",
   "nav": [
     { "label": "Home", "href": "/", "live": true },
-    { "label": "Services", "href": "/services/", "live": false },
+    { "label": "About", "href": "/about/", "live": true },
+    { "label": "Services", "href": "/services/", "live": true },
     { "label": "Our work", "href": "/work/", "live": false },
-    { "label": "About", "href": "/about/", "live": false },
-    { "label": "Contact", "href": "/contact/", "live": false }
+    { "label": "Contact", "href": "/contact/", "live": true }
+  ],
+  "footer_links": [
+    { "label": "How we work", "href": "/how-we-work/" },
+    { "label": "FAQs", "href": "/faqs/" },
+    { "label": "Privacy policy", "href": "/privacy/" }
   ]
 }

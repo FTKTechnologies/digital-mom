@@ -39,6 +39,26 @@
   .btn > .arrow { margin-left: 1.25rem; font-size: 20px; line-height: 1; }
   .link { display: inline-flex; align-items: center; gap: .875rem; min-height: 44px; border: 0; background: transparent; color: inherit; padding: 0; font-size: 15px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #a0764e99; }
   .link:hover { text-decoration-color: var(--color-ink); }
+  .on-olive .link { text-decoration-color: #fbf9f499; }
+  .on-olive .link:hover { text-decoration-color: var(--color-paper); }
+  .btn-light { display: inline-flex; align-items: center; gap: .75rem; min-height: 56px; background: var(--color-paper); color: var(--color-olive); padding: .875rem 1.5rem; font-size: 15px; text-decoration: none; border: 0; transition: background-color .16s ease, transform .16s ease; }
+  .btn-light:hover { background: #fff; }
+  .btn-light:active { transform: translateY(1px); }
+  .btn-light > .arrow { margin-left: 1.25rem; font-size: 20px; line-height: 1; }
+  .chip { min-height: 44px; padding: .5rem 1.1rem; border: 1px solid var(--color-line); background: transparent; color: var(--color-ink); font-size: 15px; transition: background-color .16s ease, border-color .16s ease; }
+  .chip:hover { border-color: var(--color-olive); }
+  .chip[aria-pressed="true"] { background: var(--color-olive); border-color: var(--color-olive); color: #fff; }
+  .list-dash { margin: 0; padding: 0; list-style: none; }
+  .list-dash li { position: relative; padding: .55rem 0 .55rem 1.75rem; font-size: 17px; line-height: 1.6; }
+  .list-dash li::before { content: ''; position: absolute; left: 0; top: 1.35em; width: .9rem; height: 2px; background: var(--color-bronze); }
+  .faq details { border-top: 1px solid var(--color-line); }
+  .faq details:last-child { border-bottom: 1px solid var(--color-line); }
+  .faq summary { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; min-height: 64px; padding: 1.1rem 0; cursor: pointer; list-style: none; font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; flex: none; font-family: var(--font-body); font-size: 28px; font-weight: 300; line-height: 1; transition: transform .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details > div { padding: 0 0 1.5rem; max-width: 62ch; color: var(--color-muted); font-size: 17px; line-height: 1.7; }
+  form select { display: block; width: 100%; min-height: 45px; background: #fffdf9; border: 1px solid #9a9b88; border-radius: 0; padding: 10px 12px; font-size: 16px; color: var(--color-ink); }
 
   dialog { margin: auto; border: 1px solid var(--color-line); background: var(--color-paper); color: var(--color-ink); width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 40px); padding: 36px 38px; overflow-y: auto; box-shadow: 0 24px 80px #11150f38; }
   dialog::backdrop { background: #1c211bc2; }
@@ -52,12 +72,21 @@
   form input { min-height: 45px; }
   form textarea { resize: vertical; min-height: 100px; }
   .form-note { font-size: 13px; line-height: 1.6; color: var(--color-muted); margin: 15px 0 0; }
-  #form-status { font-size: 14px; line-height: 1.5; margin: 14px 0; }
+  .form-note a { text-decoration: underline; text-underline-offset: 3px; }
+  .form-status { font-size: 14px; line-height: 1.5; margin: 14px 0; min-height: 1.5em; }
   .form-submit { justify-content: space-between; width: 100%; }
   .form-submit:disabled { opacity: .6; cursor: wait; }
   .honey { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   @media (max-width: 400px) { dialog { padding: 30px 22px; } dialog h2 { font-size: 42px; } }
 }
+
+/* Word masks for headline reveals (added by scroll-effects.js, so no-JS and reduced motion keep plain text). */
+.mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .2em; margin-bottom: -.2em; padding-right: .04em; margin-right: -.04em; }
+.mask-word { display: inline-block; will-change: transform; }
+
+/* Divider lines that draw in. Default is fully drawn. */
+[data-scroll=draw] { position: relative; --draw: 1; }
+[data-scroll=draw]::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--color-line); transform: scaleX(var(--draw)); transform-origin: left center; }
 
 /* Story words only dim once GSAP has split them, so no-JS and reduced motion stay fully readable. */
 .w { opacity: .22; }

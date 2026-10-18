@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Natasha Minnie",
+    "slug": "natasha",
+    "role": "The creative mind behind Digital Mom",
+    "quote": "A man who stops advertising to save money is like a man who stops the clock to save time.",
+    "photo": "natasha.jpg",
+    "alt": "Natasha smiling, sitting on a white backdrop in a black top and jeans with one hand in her hair.",
+    "bio": [
+      "Hi, I’m Natasha Minnie — the creative mind behind Digital Mom.",
+      "I didn’t start out wanting to be a “marketing expert.” I simply followed my passion for design, creativity, connection, and solving real-world problems. Along the way, I discovered the magic of digital marketing and how powerful it can be when done with heart.",
+      "Today, I help businesses transform quiet online spaces into vibrant, engaged communities. Whether it’s through strategy, content creation, or visual design, I love building brands that look good, sound real, and actually connect with people.",
+      "Let me help you do just that — by managing your social media and giving you the space to focus on what you do best: growing your business."
+    ],
+    "published": true
+  },
+  {
+    "name": "Charlene",
+    "slug": "charlene",
+    "role": "Client-focused, creative and strategy-driven",
+    "quote": "If your brand doesn’t speak, someone else’s will. Make sure yours says something worth hearing.",
+    "photo": "charlene.jpg",
+    "alt": "Charlene smiling, sitting on a white backdrop in a patterned dark top and jeans with a hand on her head.",
+    "bio": [
+      "Hi, I’m Charlene — the client-focused creative and strategy-driven soul at Digital Mom.",
+      "My passion lies in building strong, meaningful relationships and helping brands grow with purpose. I thrive in the space where connection meets creativity — whether I’m pitching fresh ideas, managing client relationships, or designing content that tells a story.",
+      "Sales may be my strength, but it’s the trust and collaboration I build along the way that truly matter.",
+      "I’m here to make sure every client feels heard, supported, and excited about what’s next."
+    ],
+    "published": true
+  },
+  {
+    "name": "Danika",
+    "slug": "danika",
+    "role": "The creative force behind the planning, ideas and words",
+    "quote": "If your audience isn’t listening, it’s not their fault. It’s yours.",
+    "photo": "danika.jpg",
+    "alt": "Danika smiling, sitting on a white backdrop in a black top and jeans with her head resting on one hand.",
+    "bio": [
+      "Hi I’m Danika — the creative force behind the planning, ideas, and words at Digital Mom.",
+      "I’m passionate about turning messy thoughts into meaningful strategies, and I believe that good content starts with clear intention. Whether I’m researching trends, writing copy, or capturing on-brand photography, my goal is always the same: to help brands speak clearly and connect deeply.",
+      "It’s not about chasing trends, it’s about creating content that reflects the heart of a brand and resonates with the people it’s meant for.",
+      "I’m here to help you communicate with clarity, show up with confidence, and create content that actually works."
+    ],
+    "published": true
+  },
+  {
+    "name": "Name to come",
+    "slug": "fourth",
+    "role": "",
+    "quote": "",
+    "photo": "fourth.jpg",
+    "alt": "Smiling team member in a green top, sitting on a white backdrop with her chin resting on her hand.",
+    "bio": [],
+    "published": false
+  }
+]

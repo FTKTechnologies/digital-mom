@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "social-media-marketing",
+    "title": "Social Media Marketing",
+    "short": "A clearer plan for your channels, with content that sounds like your business and gives people a reason to pay attention.",
+    "intro": "A feed needs more than the occasional burst of inspiration. We plan content around what your business is doing, what your audience needs to know and what you want the brand to be known for, then make it: the captions, the photos, the reels. The goal is a social presence that looks and sounds like the business behind it.",
+    "includes": [
+      "Content planning and calendar direction.",
+      "Caption writing and content messaging.",
+      "Photography, reels and short-form video, planned around your products and your people.",
+      "Behind-the-scenes content that gives your audience something real to see.",
+      "Publishing and ongoing channel support where agreed."
+    ],
+    "fit": "Businesses that want a clearer plan and consistent creative support.",
+    "meta": "Social media marketing from Digital Mom: content planning, captions, photography and short-form video that sound and look like your business.",
+    "keyline": "Plans, captions, reels and shoots that look like you."
+  },
+  {
+    "slug": "web-design",
+    "title": "Web Design",
+    "short": "A website that looks like your brand, says what you do clearly and makes it easy for people to get in touch.",
+    "intro": "Your website is where everything else lands: the social post, the Google search, the recommendation from a friend. It should show people quickly what you do, whether it is for them and how to take the next step. We design sites that feel like your brand and work properly on a phone.",
+    "includes": [
+      "Page structure and layout planned around what your visitors need to find.",
+      "Design that follows your brand, built to work on phones, tablets and desktops.",
+      "Copy direction, so headings and calls to action say something specific.",
+      "Contact forms and WhatsApp links that make getting in touch easy.",
+      "Launch setup and handover, with the scope confirmed before work starts."
+    ],
+    "fit": "Businesses that need a new site, or a site that finally matches how good the business is.",
+    "meta": "Web design from Digital Mom: clear, on-brand websites that work on every screen and make it easy for customers to get in touch.",
+    "keyline": "A site that matches how good the business is."
+  },
+  {
+    "slug": "seo",
+    "title": "SEO",
+    "short": "Make it easier for the right people to find you when they search, with clear pages and sound technical foundations.",
+    "intro": "When someone searches for what you do, your business should be easy to find and easy to understand. SEO is the work behind that: what your pages say, how they are built and how search engines read them. We start with what your customers actually search for, then fix the pages, structure and details that stand in the way.",
+    "includes": [
+      "Keyword and search-intent research around what your customers look for.",
+      "On-page work: page titles, headings, descriptions and copy.",
+      "Technical checks on structure, speed, mobile use and indexing.",
+      "Local search support, including your Google Business Profile where relevant.",
+      "Content planning for search, and reporting on the data available."
+    ],
+    "fit": "Businesses that want to be found by people already searching for what they do.",
+    "meta": "SEO from Digital Mom: search research, on-page and technical improvements and local search support to help the right customers find you.",
+    "keyline": "Be easy to find when people go looking."
+  },
+  {
+    "slug": "graphic-design",
+    "title": "Graphic Design",
+    "short": "Visuals for everyday communication, promotions and campaigns that feel like they belong to your brand.",
+    "intro": "Your design should help people recognise the brand and understand the message. We create visual material that works with your existing identity, or help shape a clearer creative direction when the brand needs it.",
+    "includes": [
+      "Social media graphics and promotional artwork.",
+      "Campaign visuals and digital adverts.",
+      "Flyers, brochures, company profiles and sales materials.",
+      "Presentation and event collateral.",
+      "Print-ready artwork based on confirmed supplier specifications."
+    ],
+    "fit": "Businesses that need their visual communication to feel considered and connected.",
+    "meta": "Graphic design from Digital Mom: social graphics, campaign visuals, brochures and print-ready artwork that feel like your brand.",
+    "keyline": "Visuals that look like they belong together."
+  }
+]

@@ -9,3 +9,9 @@ node_modules/
 .claude/
 .env
 *.log
+
+# Original project images (large). Optimised copies go to site/assets/work/.
+/work-source/
+
+# Loose reference images dropped in the project root
+/WhatsApp*.jpeg

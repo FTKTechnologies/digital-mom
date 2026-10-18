@@ -38,6 +38,14 @@ if (empty($_SESSION['token']) || !hash_equals($_SESSION['token'], $_POST['token'
 }
 if ($_POST['website'] !== '') reply(400, 'Your message could not be accepted. Please use WhatsApp.');
 if (time() - $_SESSION['issued'] < 3) reply(429, 'Please wait a few seconds, then send your message.');
+// Optional fields from the full enquiry form on /contact/. The contact dialog does not send them.
+$optional = [];
+foreach (['business' => 150, 'link' => 300, 'topic' => 80] as $key => $max) {
+    $value = isset($_POST[$key]) && is_string($_POST[$key]) ? trim($_POST[$key]) : '';
+    if (strlen($value) > $max || preg_match('/[\x00-\x1F\x7F]/', $value) || ($value !== '' && !preg_match('//u', $value))) reply(422, 'Please check the optional fields.');
+    $optional[$key] = $value;
+}
+if ($optional['link'] !== '' && (!filter_var($optional['link'], FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $optional['link']))) reply(422, 'Please enter a full website or social link starting with https://, or leave it empty.');
 $name = trim($_POST['name']);
 $email = trim($_POST['email']);
 $message = trim($_POST['message']);
@@ -70,7 +78,11 @@ fclose($handle);
 // These addresses stay on the PHP server and are never returned to the browser.
 $recipient = 'charlene@digital-mom.co.za';
 $headers = ['From' => 'Digital Mom Website <website@digital-mom.co.za>', 'Reply-To' => $email, 'MIME-Version' => '1.0', 'Content-Type' => 'text/plain; charset=UTF-8'];
-$body = "Website enquiry\n\nName: {$name}\nEmail: {$email}\n\n{$message}\n";
+$details = "Name: {$name}\nEmail: {$email}\n";
+foreach (['business' => 'Business', 'topic' => 'Needs help with', 'link' => 'Website or social link'] as $key => $label) {
+    if ($optional[$key] !== '') $details .= "{$label}: {$optional[$key]}\n";
+}
+$body = "Website enquiry\n\n{$details}\n{$message}\n";
 if (!@mail($recipient, 'Digital Mom website enquiry', $body, $headers)) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
 unset($_SESSION['token'], $_SESSION['issued']);
 reply(200, 'Your enquiry has been submitted.');

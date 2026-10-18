@@ -1,0 +1,27 @@
+  <main id="main">
+    <section class="wrap pb-12 pt-14 md:pb-16 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
+      <p class="m-0 mb-6 text-sm text-muted"><a class="underline underline-offset-[5px] hover:text-ink" href="/services/">Services</a></p>
+      <h1 id="page-title" class="m-0 max-w-[16ch] font-display text-[clamp(44px,7.4vw,96px)] font-bold leading-[.98] tracking-[-0.03em]" data-scroll="words">{{service_title}}</h1>
+      <p class="mb-0 mt-10 max-w-[56ch] text-lg leading-[1.7] md:text-xl">{{service_intro}}</p>
+    </section>
+
+    <section class="wrap grid gap-12 pb-[clamp(64px,8vw,112px)] md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:gap-20" aria-label="What this includes" data-scroll-zone>
+      <div>
+        <h2 class="m-0 font-display text-[clamp(30px,3.4vw,44px)] font-bold leading-[1.05] tracking-[-0.01em]">Depending on the brief, this can include:</h2>
+        <ul class="list-dash mt-6 max-w-[56ch]">
+            {{service_includes}}
+        </ul>
+      </div>
+      <div class="self-start bg-sand p-8 md:p-10">
+        <h2 class="m-0 font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1]">A good fit for</h2>
+        <p class="mb-0 mt-4 text-[17px] leading-[1.7]">{{service_fit}}</p>
+        <p class="mb-0 mt-6 text-[15px] leading-[1.65] text-muted">Exact deliverables, timing and price are confirmed before any work starts.</p>
+        <p class="mb-0 mt-8"><button class="btn contact-open" type="button" aria-haspopup="dialog">Tell us what you need <span class="arrow" aria-hidden="true">↗</span></button></p>
+      </div>
+    </section>
+
+    <section class="wrap pb-[clamp(64px,8vw,120px)]" aria-labelledby="others-heading" data-scroll-zone>
+      <h2 id="others-heading" class="m-0 mb-8 font-display text-[clamp(30px,3.4vw,44px)] font-bold leading-[1.05]" data-scroll="words">Other things we do</h2>
+{{services_others}}
+    </section>
+  </main>
