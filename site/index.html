@@ -23,21 +23,32 @@
 </head>
 <body>
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-olive focus:p-3 focus:text-white" href="#main">Skip to content</a>
-  <header class="on-olive bg-olive text-paper">
+  <header class="on-olive relative z-40 bg-olive text-paper">
     <div class="wrap flex min-h-[91px] items-center justify-between gap-5 md:min-h-[104px]">
       <a class="block w-[178px] py-[18px] min-[400px]:w-[205px] md:w-[280px]" href="/" aria-label="Digital Mom home"><img class="h-auto w-full" src="/assets/dm-master-logo.svg" alt="Digital Mom — Social Media Marketing" width="3686" height="619"></a>
       <div class="flex items-center gap-7">
-        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] md:flex">
-<a class="underline-offset-[6px] hover:underline" href="/">Home</a>
+        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] lg:flex">
+<a class="underline-offset-[6px] hover:underline underline decoration-bronze decoration-2" href="/" aria-current="page">Home</a>
 <a class="underline-offset-[6px] hover:underline" href="/about/">About</a>
 <a class="underline-offset-[6px] hover:underline" href="/services/">Services</a>
 <a class="underline-offset-[6px] hover:underline" href="/contact/">Contact</a>
         </nav>
-        <button class="contact-open flex min-h-11 min-w-20 items-center justify-between gap-3 border-0 border-b border-paper/40 bg-transparent p-0 text-[13px] text-inherit min-[400px]:text-sm md:min-w-[106px] md:gap-7" type="button" aria-haspopup="dialog">Let’s talk <span class="text-[22px]" aria-hidden="true">↗</span></button>
+        <button class="contact-open hidden min-h-11 min-w-[106px] items-center justify-between gap-7 border-0 border-b border-paper/40 bg-transparent p-0 text-sm text-inherit lg:flex" type="button" aria-haspopup="dialog">Let’s talk <span class="text-[22px]" aria-hidden="true">↗</span></button>
+        <button class="menu-toggle lg:hidden" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="sr-only">Menu</span><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
       </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu lg:hidden" hidden>
+      <nav class="wrap pb-9 pt-1" aria-label="Mobile navigation">
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline text-gold" href="/" aria-current="page">Home</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/about/">About</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/services/">Services</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/contact/">Contact</a>
+        <button class="btn-light contact-open mt-8" type="button" aria-haspopup="dialog">Let’s talk <span class="arrow" aria-hidden="true">↗</span></button>
+      </nav>
     </div>
   </header>
 <main id="main">
+    <div data-glyphs="paper" data-glyph-mask="edges" class="overflow-visible!">
     <section class="wrap grid items-center gap-5 py-9 md:min-h-[min(800px,calc(100svh-104px))] md:grid-cols-[1.03fr_1fr] md:gap-8 md:py-12" aria-labelledby="hero-heading" data-scroll-zone>
       <div data-scroll="scrub" data-min-width="768" data-from-y="0" data-to-y="-36" data-from-opacity="1" data-to-opacity="0.2" data-start="top top" data-end="bottom top" data-scrub="0.4">
         <div class="relative z-10" data-children=":scope > *" data-stagger="0.1" data-distance="26" data-duration="0.9">
@@ -62,6 +73,7 @@
         </div>
       </div>
     </section>
+    </div>
 
     <section aria-labelledby="story-heading" data-story>
       <div class="on-olive bg-olive text-paper" data-story-panel>
@@ -79,52 +91,108 @@
 
     <section class="wrap py-[clamp(72px,9vw,128px)]" aria-labelledby="services-heading" data-scroll-zone>
       <h2 id="services-heading" class="m-0 mb-10 max-w-[14ch] font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">What we can do for your business.</h2>
-      <ul class="m-0 list-none border-b border-line p-0">
-        <li data-scroll="draw">
-          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="/services/social-media-marketing/">
-            <h3 data-scroll="words" class="m-0 font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] md:text-[34px]">Social Media Marketing</h3>
-            <p class="m-0 max-w-[52ch] text-[17px] leading-[1.65] text-muted">A clearer plan for your channels, with content that sounds like your business and gives people a reason to pay attention.</p>
-            <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more <span aria-hidden="true">↗</span></span>
-          </a>
-        </li>
-        <li data-scroll="draw">
-          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="/services/web-design/">
-            <h3 data-scroll="words" class="m-0 font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] md:text-[34px]">Web Design</h3>
-            <p class="m-0 max-w-[52ch] text-[17px] leading-[1.65] text-muted">A website that looks like your brand, says what you do clearly and makes it easy for people to get in touch.</p>
-            <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more <span aria-hidden="true">↗</span></span>
-          </a>
-        </li>
-        <li data-scroll="draw">
-          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="/services/seo/">
-            <h3 data-scroll="words" class="m-0 font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] md:text-[34px]">SEO</h3>
-            <p class="m-0 max-w-[52ch] text-[17px] leading-[1.65] text-muted">Make it easier for the right people to find you when they search, with clear pages and sound technical foundations.</p>
-            <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more <span aria-hidden="true">↗</span></span>
-          </a>
-        </li>
-        <li data-scroll="draw">
-          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="/services/graphic-design/">
-            <h3 data-scroll="words" class="m-0 font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] md:text-[34px]">Graphic Design</h3>
-            <p class="m-0 max-w-[52ch] text-[17px] leading-[1.65] text-muted">Visuals for everyday communication, promotions and campaigns that feel like they belong to your brand.</p>
-            <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more <span aria-hidden="true">↗</span></span>
-          </a>
-        </li>
-      </ul>
+      <div data-scroll="stack">
+        <a data-stack-card class="sticky top-[88px] mb-5 block min-h-[min(68svh,500px)] rounded-[28px] bg-sand text-ink p-7 no-underline md:mb-8 md:p-12" href="/services/social-media-marketing/">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">01</span>
+              <h3 class="m-0 mt-4 font-display text-[clamp(34px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.01em]">Social Media Marketing</h3>
+            </div>
+            <div>
+              <p class="m-0 max-w-[44ch] text-lg leading-[1.65]">A clearer plan for your channels, with content that sounds like your business and gives people a reason to pay attention.</p>
+              <ul class="list-dash mt-5 max-w-[44ch]"><li>Content planning and calendar direction.</li><li>Caption writing and content messaging.</li><li>Photography, reels and short-form video, planned around your products and your people.</li></ul>
+              <span class="mt-6 inline-block text-[15px] underline decoration-current/50 underline-offset-[6px]">Read more <span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </a>
+        <a data-stack-card class="sticky top-[108px] mb-5 block min-h-[min(68svh,500px)] rounded-[28px] bg-olive text-paper p-7 no-underline md:mb-8 md:p-12" href="/services/web-design/">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">02</span>
+              <h3 class="m-0 mt-4 font-display text-[clamp(34px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.01em]">Web Design</h3>
+            </div>
+            <div>
+              <p class="m-0 max-w-[44ch] text-lg leading-[1.65]">A website that looks like your brand, says what you do clearly and makes it easy for people to get in touch.</p>
+              <ul class="list-dash mt-5 max-w-[44ch]"><li>Page structure and layout planned around what your visitors need to find.</li><li>Design that follows your brand, built to work on phones, tablets and desktops.</li><li>Copy direction, so headings and calls to action say something specific.</li></ul>
+              <span class="mt-6 inline-block text-[15px] underline decoration-current/50 underline-offset-[6px]">Read more <span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </a>
+        <a data-stack-card class="sticky top-[128px] mb-5 block min-h-[min(68svh,500px)] rounded-[28px] bg-gold text-ink p-7 no-underline md:mb-8 md:p-12" href="/services/seo/">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">03</span>
+              <h3 class="m-0 mt-4 font-display text-[clamp(34px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.01em]">SEO</h3>
+            </div>
+            <div>
+              <p class="m-0 max-w-[44ch] text-lg leading-[1.65]">Make it easier for the right people to find you when they search, with clear pages and sound technical foundations.</p>
+              <ul class="list-dash mt-5 max-w-[44ch]"><li>Keyword and search-intent research around what your customers look for.</li><li>On-page work: page titles, headings, descriptions and copy.</li><li>Technical checks on structure, speed, mobile use and indexing.</li></ul>
+              <span class="mt-6 inline-block text-[15px] underline decoration-current/50 underline-offset-[6px]">Read more <span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </a>
+        <a data-stack-card class="sticky top-[148px] mb-5 block min-h-[min(68svh,500px)] rounded-[28px] bg-olive-deep text-paper p-7 no-underline md:mb-8 md:p-12" href="/services/graphic-design/">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">04</span>
+              <h3 class="m-0 mt-4 font-display text-[clamp(34px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.01em]">Graphic Design</h3>
+            </div>
+            <div>
+              <p class="m-0 max-w-[44ch] text-lg leading-[1.65]">Visuals for everyday communication, promotions and campaigns that feel like they belong to your brand.</p>
+              <ul class="list-dash mt-5 max-w-[44ch]"><li>Social media graphics and promotional artwork.</li><li>Campaign visuals and digital adverts.</li><li>Flyers, brochures, company profiles and sales materials.</li></ul>
+              <span class="mt-6 inline-block text-[15px] underline decoration-current/50 underline-offset-[6px]">Read more <span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </a>
+      </div>
     </section>
 
     <section class="on-olive bg-olive text-paper" aria-labelledby="listen-heading" data-scroll="curtain">
-      <div class="wrap py-[clamp(72px,9vw,128px)]">
-        <h2 id="listen-heading" class="m-0 mb-12 font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">First, we listen.</h2>
-        <ol class="m-0 grid list-none gap-x-12 gap-y-10 p-0 md:grid-cols-2" data-children=":scope > li" data-stagger="0.1" data-distance="24">
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">1</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Get to know you.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We learn what you do, what matters to your customers and what you want people to understand about the brand.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">2</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Find the angle.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We work out what is worth saying, what is worth showing and how it should sound and look.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">3</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Make the work.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We bring the plan into the real world through writing, design, photography, video and web pages, depending on the brief.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">4</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Keep it moving.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We keep the work connected to what is happening in the business and adjust the plan when priorities change.</p></li>
+      <div class="wrap grid gap-12 py-[clamp(72px,9vw,128px)] md:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] md:gap-20">
+        <div class="md:sticky md:top-28 md:self-start">
+          <h2 id="listen-heading" class="m-0 max-w-[10ch] font-display text-[clamp(44px,5.4vw,80px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">First, we listen.</h2>
+          <p class="mb-0 mt-8 max-w-[34ch] text-[17px] leading-[1.7] text-[#f1efe4]">Before any plan, any caption or any design, we talk. Here is how that conversation goes.</p>
+          <p class="mb-0 mt-8"><a class="link" href="/how-we-work/">See how we work <span aria-hidden="true">↗</span></a></p>
+        </div>
+        <ol class="m-0 grid list-none gap-4 p-0 md:gap-5">
+          <li class="max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-bl-[8px] bg-paper px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Get to know you.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We learn what you do, what matters to your customers and what you want people to understand about the brand.</p></div></li>
+          <li class="ml-auto max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-br-[8px] bg-gold px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Find the angle.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We work out what is worth saying, what is worth showing and how it should sound and look.</p></div></li>
+          <li class="max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-bl-[8px] bg-paper px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Make the work.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We bring the plan into the real world through writing, design, photography, video and web pages, depending on the brief.</p></div></li>
+          <li class="ml-auto max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-br-[8px] bg-gold px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Keep it moving.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We keep the work connected to what is happening in the business and adjust the plan when priorities change.</p></div></li>
         </ol>
-        <p class="mb-0 mt-12"><a class="link" href="/how-we-work/">See how we work <span aria-hidden="true">↗</span></a></p>
       </div>
     </section>
 
 
+
+    <section class="wrap py-[clamp(72px,9vw,128px)]" aria-labelledby="gallery-heading" data-scroll-zone>
+      <div class="mb-12 grid gap-4 md:mb-16 md:grid-cols-[1fr_auto] md:items-end md:gap-12">
+        <h2 id="gallery-heading" data-scroll="words" class="m-0 max-w-[12ch] font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]">Behind the scenes.</h2>
+        <p class="m-0 max-w-[34ch] text-[17px] leading-[1.7] text-muted">The cameras, the laptops and the laughing. A look at how we work when nobody is posting.</p>
+      </div>
+      <div class="grid grid-cols-6 gap-3 md:gap-5">
+        <figure class="col-span-4 m-0 md:col-span-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/cheers.jpg" width="1000" height="1250" alt="Two members of the team laughing and raising green glasses to the camera in heart-shaped sunglasses." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Glasses up. Good work deserves a proper celebration.</figcaption>
+        </figure>
+        <figure class="col-span-2 m-0 self-end md:col-span-2 md:mt-24 md:self-auto">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/laptop.jpg" width="1000" height="1000" alt="Two team members laughing together, one holding a laptop and the other a camera." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Laptop open, camera ready. Planning, research and edits happen here: <a class="underline underline-offset-4 hover:text-ink" href="/services/seo/">SEO</a> and <a class="underline underline-offset-4 hover:text-ink" href="/services/web-design/">web design</a> start with a plan.</figcaption>
+        </figure>
+        <figure class="col-span-3 m-0 md:col-span-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/cameras.jpg" width="1000" height="1250" alt="Two team members standing back to back, each holding a camera and smiling." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Cameras out. Photography and short-form video for <a class="underline underline-offset-4 hover:text-ink" href="/services/social-media-marketing/">social media marketing</a> start with a shoot like this.</figcaption>
+        </figure>
+        <figure class="col-span-3 m-0 md:col-span-3 md:mt-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/couch.jpg" width="1200" height="800" alt="The team lying upside down on a sofa with their legs up the wall, holding cameras." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Upside down, legs up the wall. Not every idea arrives sitting at a desk.</figcaption>
+        </figure>
+        <figure class="col-span-6 m-0 md:col-span-3">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/beanbag.jpg" width="1200" height="800" alt="Team members sitting close together on a beanbag, taking a photo of themselves." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Planning close together. The best ideas come when everyone is in the room.</figcaption>
+        </figure>
+      </div>
+    </section>
 
     <section class="wrap py-[clamp(88px,11vw,152px)]" aria-labelledby="closer-heading" data-scroll-zone>
       <h2 id="closer-heading" class="mb-10 font-display text-[clamp(44px,6.4vw,96px)] font-medium leading-none tracking-[-0.03em]" data-scroll="words">You run the business.<br><em class="text-olive">We’ve got the digital side.</em></h2>
@@ -135,27 +203,31 @@
     </section>
   </main>
 
-  <footer class="wrap grid gap-10 py-14 text-sm text-muted md:grid-cols-[1.4fr_1fr_1fr] md:gap-12 md:py-16" itemscope itemtype="https://schema.org/Organization">
-    <div>
-      <p class="m-0 font-display text-[28px] font-bold leading-none text-ink"><span itemprop="name">Digital Mom</span></p>
-      <p class="mb-0 mt-4 max-w-[40ch] text-[15px] leading-[1.7]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
-    </div>
-    <div>
-      <p class="m-0 text-ink">Explore</p>
-      <nav aria-label="Footer navigation" class="flex flex-wrap gap-x-6">
-<a class="inline-flex min-h-11 items-center hover:underline" href="/">Home</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/about/">About</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/services/">Services</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/contact/">Contact</a>
+  <footer class="on-olive relative isolate overflow-hidden bg-olive-deep text-paper" data-glyphs="dark" data-glyph-mask="bottom" itemscope itemtype="https://schema.org/Organization">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap grid gap-10 pt-16 text-[15px] leading-[1.7] text-paper/80 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12 md:pt-20">
+      <p class="m-0 max-w-[40ch]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Explore</p>
+      <nav aria-label="Footer navigation" class="flex flex-col">
+<a class="inline-flex min-h-11 items-center no-underline hover:underline text-gold" href="/" aria-current="page">Home</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/about/">About</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/services/">Services</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/contact/">Contact</a>
       </nav>
+      </div>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Get in touch</p>
+        <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="https://wa.me/27824116268" aria-label="WhatsApp Digital Mom on +27 82 411 6268"><span itemprop="telephone">+27 82 411 6268</span> <span aria-hidden="true">↗</span></a>
+        <p class="m-0">South Africa</p>
+        <meta itemprop="areaServed" content="South Africa">
+      </div>
     </div>
-    <div>
-      <p class="m-0 text-ink">Get in touch</p>
-      <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="https://wa.me/27824116268" aria-label="WhatsApp Digital Mom on +27 82 411 6268"><span itemprop="telephone">+27 82 411 6268</span> <span aria-hidden="true">↗</span></a>
-      <p class="m-0">South Africa</p>
-      <meta itemprop="areaServed" content="South Africa">
+    <div class="wrap mt-14 md:mt-20" data-scroll="wipe" data-no-zoom data-start="top 98%" data-end="bottom 92%">
+      <img class="mx-auto block h-auto w-[min(1180px,100%)]" src="/assets/dm-logo-white.svg" width="3686" height="619" alt="Digital Mom — Social Media Marketing">
+      <meta itemprop="name" content="Digital Mom">
     </div>
-    <div class="flex flex-col gap-2 border-t border-line pt-6 md:col-span-3 md:flex-row md:items-center md:justify-between">
+    <div class="wrap flex flex-col gap-1 pb-8 pt-8 text-sm text-paper/70 md:flex-row md:items-center md:justify-between">
       <p class="m-0">© 2026 Digital Mom. All rights reserved.</p>
       <div class="flex flex-wrap gap-x-6">
 <a class="inline-flex min-h-11 items-center hover:underline" href="/how-we-work/">How we work</a>
@@ -189,5 +261,7 @@
   <script src="/contact.js" defer></script>
   <script src="/scroll-effects.js" defer></script>
   <script src="/work.js" defer></script>
+  <script src="/menu.js" defer></script>
+  <script src="/glyphs.js" defer></script>
 </body>
 </html>

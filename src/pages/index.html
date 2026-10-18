@@ -1,5 +1,6 @@
 <!--meta {"title":"Social Media Marketing South Africa | Digital Mom","description":"Social media marketing, web design, SEO and graphic design for South African businesses. Meet Digital Mom, the creative team making your online presence reflect your business.","og_description":"Social media marketing, web design, SEO and graphic design for South African businesses. You run the business. We’ve got the digital side.","cta":false} -->
   <main id="main">
+    <div data-glyphs="paper" data-glyph-mask="edges" class="overflow-visible!">
     <section class="wrap grid items-center gap-5 py-9 md:min-h-[min(800px,calc(100svh-104px))] md:grid-cols-[1.03fr_1fr] md:gap-8 md:py-12" aria-labelledby="hero-heading" data-scroll-zone>
       <div data-scroll="scrub" data-min-width="768" data-from-y="0" data-to-y="-36" data-from-opacity="1" data-to-opacity="0.2" data-start="top top" data-end="bottom top" data-scrub="0.4">
         <div class="relative z-10" data-children=":scope > *" data-stagger="0.1" data-distance="26" data-duration="0.9">
@@ -24,6 +25,7 @@
         </div>
       </div>
     </section>
+    </div>
 
     <section aria-labelledby="story-heading" data-story>
       <div class="on-olive bg-olive text-paper" data-story-panel>
@@ -41,23 +43,55 @@
 
     <section class="wrap py-[clamp(72px,9vw,128px)]" aria-labelledby="services-heading" data-scroll-zone>
       <h2 id="services-heading" class="m-0 mb-10 max-w-[14ch] font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">What we can do for your business.</h2>
-{{services_rows}}
+{{services_stack}}
     </section>
 
     <section class="on-olive bg-olive text-paper" aria-labelledby="listen-heading" data-scroll="curtain">
-      <div class="wrap py-[clamp(72px,9vw,128px)]">
-        <h2 id="listen-heading" class="m-0 mb-12 font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">First, we listen.</h2>
-        <ol class="m-0 grid list-none gap-x-12 gap-y-10 p-0 md:grid-cols-2" data-children=":scope > li" data-stagger="0.1" data-distance="24">
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">1</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Get to know you.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We learn what you do, what matters to your customers and what you want people to understand about the brand.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">2</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Find the angle.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We work out what is worth saying, what is worth showing and how it should sound and look.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">3</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Make the work.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We bring the plan into the real world through writing, design, photography, video and web pages, depending on the brief.</p></li>
-          <li><span class="font-display text-[44px] font-bold leading-none text-gold" aria-hidden="true">4</span><h3 class="m-0 mt-2 font-display text-[28px] font-bold leading-[1.1]">Keep it moving.</h3><p class="mb-0 mt-2 max-w-[46ch] text-[17px] leading-[1.7] text-[#f1efe4]">We keep the work connected to what is happening in the business and adjust the plan when priorities change.</p></li>
+      <div class="wrap grid gap-12 py-[clamp(72px,9vw,128px)] md:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] md:gap-20">
+        <div class="md:sticky md:top-28 md:self-start">
+          <h2 id="listen-heading" class="m-0 max-w-[10ch] font-display text-[clamp(44px,5.4vw,80px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">First, we listen.</h2>
+          <p class="mb-0 mt-8 max-w-[34ch] text-[17px] leading-[1.7] text-[#f1efe4]">Before any plan, any caption or any design, we talk. Here is how that conversation goes.</p>
+          <p class="mb-0 mt-8"><a class="link" href="/how-we-work/">See how we work <span aria-hidden="true">↗</span></a></p>
+        </div>
+        <ol class="m-0 grid list-none gap-4 p-0 md:gap-5">
+          <li class="max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-bl-[8px] bg-paper px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Get to know you.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We learn what you do, what matters to your customers and what you want people to understand about the brand.</p></div></li>
+          <li class="ml-auto max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-br-[8px] bg-gold px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Find the angle.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We work out what is worth saying, what is worth showing and how it should sound and look.</p></div></li>
+          <li class="max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-bl-[8px] bg-paper px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Make the work.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We bring the plan into the real world through writing, design, photography, video and web pages, depending on the brief.</p></div></li>
+          <li class="ml-auto max-w-[92%] md:max-w-[560px]"><div class="rounded-[26px] rounded-br-[8px] bg-gold px-6 py-5 text-ink md:px-8 md:py-6" data-scroll="wipe"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">Keep it moving.</h3><p class="mb-0 mt-2 text-[17px] leading-[1.6] text-ink/80">We keep the work connected to what is happening in the business and adjust the plan when priorities change.</p></div></li>
         </ol>
-        <p class="mb-0 mt-12"><a class="link" href="/how-we-work/">See how we work <span aria-hidden="true">↗</span></a></p>
       </div>
     </section>
 
 {{work_teaser}}
+
+    <section class="wrap py-[clamp(72px,9vw,128px)]" aria-labelledby="gallery-heading" data-scroll-zone>
+      <div class="mb-12 grid gap-4 md:mb-16 md:grid-cols-[1fr_auto] md:items-end md:gap-12">
+        <h2 id="gallery-heading" data-scroll="words" class="m-0 max-w-[12ch] font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]">Behind the scenes.</h2>
+        <p class="m-0 max-w-[34ch] text-[17px] leading-[1.7] text-muted">The cameras, the laptops and the laughing. A look at how we work when nobody is posting.</p>
+      </div>
+      <div class="grid grid-cols-6 gap-3 md:gap-5">
+        <figure class="col-span-4 m-0 md:col-span-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/cheers.jpg" width="1000" height="1250" alt="Two members of the team laughing and raising green glasses to the camera in heart-shaped sunglasses." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Glasses up. Good work deserves a proper celebration.</figcaption>
+        </figure>
+        <figure class="col-span-2 m-0 self-end md:col-span-2 md:mt-24 md:self-auto">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/laptop.jpg" width="1000" height="1000" alt="Two team members laughing together, one holding a laptop and the other a camera." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Laptop open, camera ready. Planning, research and edits happen here: <a class="underline underline-offset-4 hover:text-ink" href="/services/seo/">SEO</a> and <a class="underline underline-offset-4 hover:text-ink" href="/services/web-design/">web design</a> start with a plan.</figcaption>
+        </figure>
+        <figure class="col-span-3 m-0 md:col-span-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/cameras.jpg" width="1000" height="1250" alt="Two team members standing back to back, each holding a camera and smiling." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Cameras out. Photography and short-form video for <a class="underline underline-offset-4 hover:text-ink" href="/services/social-media-marketing/">social media marketing</a> start with a shoot like this.</figcaption>
+        </figure>
+        <figure class="col-span-3 m-0 md:col-span-3 md:mt-2">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/couch.jpg" width="1200" height="800" alt="The team lying upside down on a sofa with their legs up the wall, holding cameras." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Upside down, legs up the wall. Not every idea arrives sitting at a desk.</figcaption>
+        </figure>
+        <figure class="col-span-6 m-0 md:col-span-3">
+          <div class="photo-frame" data-scroll="wipe"><img class="photo-blend" src="/assets/gallery/beanbag.jpg" width="1200" height="800" alt="Team members sitting close together on a beanbag, taking a photo of themselves." loading="lazy"></div>
+          <figcaption class="mt-3 max-w-[42ch] text-[15px] leading-[1.55] text-muted">Planning close together. The best ideas come when everyone is in the room.</figcaption>
+        </figure>
+      </div>
+    </section>
 
     <section class="wrap py-[clamp(88px,11vw,152px)]" aria-labelledby="closer-heading" data-scroll-zone>
       <h2 id="closer-heading" class="mb-10 font-display text-[clamp(44px,6.4vw,96px)] font-medium leading-none tracking-[-0.03em]" data-scroll="words">You run the business.<br><em class="text-olive">We’ve got the digital side.</em></h2>

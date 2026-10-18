@@ -15,8 +15,14 @@ Home, About, Services (plus one page each for Social Media Marketing, Web Design
 
 From the project root: `npm run build` (HTML + sitemap + CSS), `npm run serve` (preview on http://127.0.0.1:8744), `npm run pack` (creates `digital-mom-upload.zip` for cPanel, without this README).
 
+## Other files you may want to edit
+- `src/services.json`: each service also has a `how` list (the plain-language "How SEO works" steps on its page) and `includes` (what the work can include).
+- Home page gallery and its captions: `src/pages/index.html` (photos in `site/assets/gallery/`).
+- `site/glyphs.js`: the faint clapper-icon texture behind the hero and footer (mark any section with `data-glyphs="paper|olive|dark"`). `site/menu.js`: the hamburger menu for phones and tablets. `site/work.js`: filters on Our Work.
+- The footer logo is `site/assets/dm-logo-white.svg` (the supplied v4.0 white logo).
+
 ## Team
-`src/team.json` holds the people on the About page: name, role, quote, bio paragraphs and a photo in `site/assets/team/`. The fourth person is already in the file with `"published": false`. Her photo waits in `work-source/team-pending/fourth.jpg` so it is not uploaded early: add her name, role, quote and bio, copy the photo into `site/assets/team/`, set `published` to `true`, then run `npm run build`. Photos are 900x1125 crops of the `Fotos aug 2026` shoot.
+`src/team.json` holds the people on the About page: name, role, quote, bio paragraphs and a photo in `site/assets/team/`. Chanel is published with a placeholder line ("More about Chanel is coming soon."). When her details arrive, replace that line in `bio` with her bio paragraphs and add her `role` and `quote` (both optional). Photos are 900x1125 crops of the `Fotos aug 2026` shoot.
 
 ## Scroll effects (`scroll-effects.js`)
 Add an attribute to any element:

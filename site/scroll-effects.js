@@ -95,9 +95,9 @@ function initScrollEffects(root = document) {
         const inner = element.querySelector('img');
         gsap.fromTo(element, { clipPath: 'inset(100% 0% 0% 0%)' }, {
           clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
-          scrollTrigger: { trigger: element, start: 'top 94%', end: 'top 42%', scrub: 0.5 }
+          scrollTrigger: { trigger: element, start: element.dataset.start || 'top 94%', end: element.dataset.end || 'top 42%', scrub: 0.5 }
         });
-        if (inner) gsap.fromTo(inner, { scale: 1.3 }, {
+        if (inner && !('noZoom' in element.dataset)) gsap.fromTo(inner, { scale: 1.3 }, {
           scale: 1, ease: 'none',
           scrollTrigger: { trigger: element, start: 'top 94%', end: 'bottom 30%', scrub: 0.5 }
         });
@@ -106,6 +106,17 @@ function initScrollEffects(root = document) {
         gsap.fromTo(element, { clipPath: 'inset(0% 5% 0% 5% round 44px)' }, {
           clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
           scrollTrigger: { trigger: element, start: 'top bottom', end: 'top 30%', scrub: 0.4 }
+        });
+      } else if (mode === 'stack') {
+        // Cards pin near the top (CSS sticky) while the next one slides over; the card underneath recedes.
+        const cards = [...element.querySelectorAll('[data-stack-card]')];
+        cards.forEach((card, i) => {
+          const next = cards[i + 1];
+          if (!next) return;
+          gsap.to(card, {
+            scale: 0.93, ease: 'none', transformOrigin: 'center top',
+            scrollTrigger: { trigger: next, start: 'top 88%', end: 'top 22%', scrub: true }
+          });
         });
       } else if (mode === 'draw') {
         // A divider line is drawn across, left to right (see [data-scroll=draw] in site.css).

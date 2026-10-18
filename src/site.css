@@ -80,6 +80,30 @@
   @media (max-width: 400px) { dialog { padding: 30px 22px; } dialog h2 { font-size: 42px; } }
 }
 
+/* Contact-sheet texture (glyphs.js). The canvas sits behind the section's content; masks keep text areas calm. */
+[data-glyphs] { position: relative; isolation: isolate; overflow: hidden; }
+[data-glyphs] > :not(.glyph-canvas):not(.glow) { position: relative; z-index: 1; }
+.glyph-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+[data-glyph-mask="edges"] > .glyph-canvas { -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, #000 100%); mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, #000 100%); }
+[data-glyph-mask="bottom"] > .glyph-canvas { -webkit-mask-image: linear-gradient(to bottom, transparent 42%, #000 88%); mask-image: linear-gradient(to bottom, transparent 42%, #000 88%); }
+[data-glyph-mask="center"] > .glyph-canvas { -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 62%, transparent 8%, #000 92%); mask-image: radial-gradient(ellipse 65% 55% at 50% 62%, transparent 8%, #000 92%); }
+.glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(42% 65% at 0% 100%, #a0764e59, transparent 72%), radial-gradient(42% 65% at 100% 100%, #dfccaa2e, transparent 72%); }
+
+/* Hamburger button and mobile menu panel (see menu.js). */
+.menu-toggle { position: relative; width: 44px; height: 44px; flex: none; border: 0; background: transparent; color: inherit; }
+.menu-toggle .bars { position: absolute; inset: 0; display: block; }
+.menu-toggle .bars i { position: absolute; left: 10px; right: 10px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .25s ease, opacity .2s ease, top .25s ease; }
+.menu-toggle .bars i:nth-child(1) { top: 14px; }
+.menu-toggle .bars i:nth-child(2) { top: 21px; }
+.menu-toggle .bars i:nth-child(3) { top: 28px; }
+.menu-toggle[aria-expanded="true"] .bars i:nth-child(1) { top: 21px; transform: rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .bars i:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] .bars i:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+.mobile-menu { position: absolute; left: 0; right: 0; top: 100%; background: var(--color-olive); border-top: 1px solid #fbf9f433; box-shadow: 0 24px 40px #11150f40; }
+.mobile-menu:not([hidden]) { animation: menu-in .28s ease-out; }
+.mobile-menu a[aria-current="page"] { color: var(--color-gold); }
+@keyframes menu-in { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
 /* Photos shot on a cool lavender backdrop: warm them toward the sand palette so they sit in the page. */
 .photo-frame { position: relative; isolation: isolate; overflow: hidden; border-radius: 28px; background: var(--color-sand); }
 .photo-blend { display: block; width: 100%; height: auto; filter: sepia(.32) saturate(.82) contrast(.97) brightness(1.02); mix-blend-mode: multiply; }
@@ -91,11 +115,14 @@
 /* Divider lines that draw in. Default is fully drawn. */
 [data-scroll=draw] { position: relative; --draw: 1; }
 [data-scroll=draw]::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--color-line); transform: scaleX(var(--draw)); transform-origin: left center; }
+.on-olive [data-scroll=draw]::before { background: #fbf9f44d; }
 
 /* Story words only dim once GSAP has split them, so no-JS and reduced motion stay fully readable. */
 .w { opacity: .22; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .mobile-menu:not([hidden]) { animation: none; }
+  .menu-toggle .bars i { transition: none; }
   .btn { transition: none; }
 }

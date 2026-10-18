@@ -20,6 +20,13 @@
       </div>
     </section>
 
+    <section class="wrap grid gap-10 pb-[clamp(64px,8vw,112px)] md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)] md:gap-20" aria-labelledby="how-heading" data-scroll-zone>
+      <h2 id="how-heading" data-scroll="words" class="m-0 max-w-[12ch] font-display text-[clamp(36px,4.6vw,64px)] font-bold leading-[1.02] tracking-[-0.02em]">How {{service_title}} works</h2>
+      <div class="border-b border-line">
+{{service_how}}
+      </div>
+    </section>
+
     <section class="wrap pb-[clamp(64px,8vw,120px)]" aria-labelledby="others-heading" data-scroll-zone>
       <h2 id="others-heading" class="m-0 mb-8 font-display text-[clamp(30px,3.4vw,44px)] font-bold leading-[1.05]" data-scroll="words">Other things we do</h2>
 {{services_others}}

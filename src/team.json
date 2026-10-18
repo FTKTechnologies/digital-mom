@@ -45,13 +45,15 @@
     "published": true
   },
   {
-    "name": "Name to come",
-    "slug": "fourth",
+    "name": "Chanel",
+    "slug": "chanel",
     "role": "",
     "quote": "",
-    "photo": "fourth.jpg",
-    "alt": "Smiling team member in a green top, sitting on a white backdrop with her chin resting on her hand.",
-    "bio": [],
-    "published": false
+    "photo": "chanel.jpg",
+    "alt": "Chanel smiling, sitting on a white backdrop in a green top with her chin resting on her hand.",
+    "bio": [
+      "More about Chanel is coming soon."
+    ],
+    "published": true
   }
 ]

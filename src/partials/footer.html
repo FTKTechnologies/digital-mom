@@ -1,20 +1,24 @@
 {{cta}}
-  <footer class="wrap grid gap-10 py-14 text-sm text-muted md:grid-cols-[1.4fr_1fr_1fr] md:gap-12 md:py-16" itemscope itemtype="https://schema.org/Organization">
-    <div>
-      <p class="m-0 font-display text-[28px] font-bold leading-none text-ink"><span itemprop="name">{{name}}</span></p>
-      <p class="mb-0 mt-4 max-w-[40ch] text-[15px] leading-[1.7]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
-    </div>
-    <div>
-      <p class="m-0 text-ink">Explore</p>
+  <footer class="on-olive relative isolate overflow-hidden bg-olive-deep text-paper" data-glyphs="dark" data-glyph-mask="bottom" itemscope itemtype="https://schema.org/Organization">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap grid gap-10 pt-16 text-[15px] leading-[1.7] text-paper/80 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12 md:pt-20">
+      <p class="m-0 max-w-[40ch]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Explore</p>
 {{nav_footer}}
+      </div>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Get in touch</p>
+        <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="{{whatsapp}}" aria-label="WhatsApp Digital Mom on {{phone}}"><span itemprop="telephone">{{phone}}</span> <span aria-hidden="true">↗</span></a>
+        <p class="m-0">South Africa</p>
+        <meta itemprop="areaServed" content="South Africa">
+      </div>
     </div>
-    <div>
-      <p class="m-0 text-ink">Get in touch</p>
-      <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="{{whatsapp}}" aria-label="WhatsApp Digital Mom on {{phone}}"><span itemprop="telephone">{{phone}}</span> <span aria-hidden="true">↗</span></a>
-      <p class="m-0">South Africa</p>
-      <meta itemprop="areaServed" content="South Africa">
+    <div class="wrap mt-14 md:mt-20" data-scroll="wipe" data-no-zoom data-start="top 98%" data-end="bottom 92%">
+      <img class="mx-auto block h-auto w-[min(1180px,100%)]" src="/assets/dm-logo-white.svg" width="3686" height="619" alt="Digital Mom — Social Media Marketing">
+      <meta itemprop="name" content="{{name}}">
     </div>
-    <div class="flex flex-col gap-2 border-t border-line pt-6 md:col-span-3 md:flex-row md:items-center md:justify-between">
+    <div class="wrap flex flex-col gap-1 pb-8 pt-8 text-sm text-paper/70 md:flex-row md:items-center md:justify-between">
       <p class="m-0">© {{year}} {{name}}. All rights reserved.</p>
       <div class="flex flex-wrap gap-x-6">
 {{footer_links}}
@@ -28,5 +32,7 @@
   <script src="/contact.js" defer></script>
   <script src="/scroll-effects.js" defer></script>
   <script src="/work.js" defer></script>
+  <script src="/menu.js" defer></script>
+  <script src="/glyphs.js" defer></script>
 </body>
 </html>

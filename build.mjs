@@ -86,11 +86,46 @@ const rows = list => list.map(s => `        <li data-scroll="draw">
             <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more ${arrow}</span>
           </a>
         </li>`).join('\n');
+// Navigation is built per page so the current page is marked (aria-current) in the header, mobile menu and footer.
+const isCurrent = (href, here) => (href === '/' ? here === '/' : here.startsWith(href));
+const navLinks = (here, cls, currentCls) => live.map(i => {
+  const cur = isCurrent(i.href, here);
+  return `<a class="${cls}${cur ? ' ' + currentCls : ''}" href="${esc(i.href)}"${cur ? ' aria-current="page"' : ''}>${esc(i.label)}</a>`;
+}).join('\n');
+const navVars = here => ({
+  nav_header: live.length > 1 ? `        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] lg:flex">\n${navLinks(here, 'underline-offset-[6px] hover:underline', 'underline decoration-bronze decoration-2')}\n        </nav>` : '',
+  nav_mobile: navLinks(here, 'block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline', 'text-gold'),
+  nav_footer: `      <nav aria-label="Footer navigation" class="flex flex-col">\n${navLinks(here, 'inline-flex min-h-11 items-center no-underline hover:underline', 'text-gold')}\n      </nav>`,
+});
+
+// Home page: services as cards that stack at the top while scrolling (see data-scroll="stack").
+const stackTones = [
+  { card: 'bg-sand text-ink', sticky: 'top-[88px]' },
+  { card: 'bg-olive text-paper', sticky: 'top-[108px]' },
+  { card: 'bg-gold text-ink', sticky: 'top-[128px]' },
+  { card: 'bg-olive-deep text-paper', sticky: 'top-[148px]' },
+];
+const servicesStack = `      <div data-scroll="stack">\n${services.map((s, i) => {
+  const t = stackTones[i % stackTones.length];
+  return `        <a data-stack-card class="sticky ${t.sticky} mb-5 block min-h-[min(68svh,500px)] rounded-[28px] ${t.card} p-7 no-underline md:mb-8 md:p-12" href="${serviceHref(s)}">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+              <h3 class="m-0 mt-4 font-display text-[clamp(34px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.01em]">${esc(s.title)}</h3>
+            </div>
+            <div>
+              <p class="m-0 max-w-[44ch] text-lg leading-[1.65]">${esc(s.short)}</p>
+              <ul class="list-dash mt-5 max-w-[44ch]">${s.includes.slice(0, 3).map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+              <span class="mt-6 inline-block text-[15px] underline decoration-current/50 underline-offset-[6px]">Read more ${arrow}</span>
+            </div>
+          </div>
+        </a>`;
+}).join('\n')}\n      </div>`;
+
 const globals = {
+  services_stack: servicesStack,
   name: esc(site.name), phone: esc(site.phone), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
   year: String(new Date().getFullYear()),
-  nav_header: live.length > 1 ? `        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] md:flex">\n${links('underline-offset-[6px] hover:underline')}\n        </nav>` : '',
-  nav_footer: `      <nav aria-label="Footer navigation" class="flex flex-wrap gap-x-6">\n${live.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`).join('\n')}\n      </nav>`,
   footer_links: site.footer_links.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`).join('\n'),
   services_rows: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(services)}\n      </ul>`,
   service_names: services.map(s => esc(s.title)).join(' / '),
@@ -127,6 +162,7 @@ for (const s of services) {
     vars: {
       service_title: esc(s.title), service_intro: esc(s.intro), service_fit: esc(s.fit),
       service_includes: s.includes.map(i => `<li>${esc(i)}</li>`).join('\n            '),
+      service_how: s.how.map(h => `        <div data-scroll="draw" class="py-7"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(h.lead)}</h3><p class="mb-0 mt-2 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(h.text)}</p></div>`).join('\n'),
       services_others: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(others)}\n      </ul>`,
     },
   });
@@ -140,7 +176,7 @@ for (const p of pages) {
   if (p.urlPath === '/work/' && !hasWork) continue; // no projects yet: no page, no sitemap entry
   const withCta = p.meta.cta === false ? '' : ctaHtml;
   const vars = {
-    ...globals, ...p.vars,
+    ...globals, ...navVars(p.urlPath), ...p.vars,
     title: esc(p.meta.title), description: esc(p.meta.description), og_description: esc(p.meta.og_description || p.meta.description),
     canonical: esc(site.url + p.urlPath), cta: withCta,
   };

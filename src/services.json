@@ -13,7 +13,21 @@
     ],
     "fit": "Businesses that want a clearer plan and consistent creative support.",
     "meta": "Social media marketing from Digital Mom: content planning, captions, photography and short-form video that sound and look like your business.",
-    "keyline": "Plans, captions, reels and shoots that look like you."
+    "keyline": "Plans, captions, reels and shoots that look like you.",
+    "how": [
+      {
+        "lead": "We start with your business.",
+        "text": "We learn what you sell, who buys it and what you want to be known for. That shapes everything we post."
+      },
+      {
+        "lead": "We plan, then make.",
+        "text": "A simple content plan first, then the captions, photos and reels that go with it."
+      },
+      {
+        "lead": "We keep it going.",
+        "text": "Posts go out, we watch what people respond to, and we adjust the plan with you."
+      }
+    ]
   },
   {
     "slug": "web-design",
@@ -29,7 +43,21 @@
     ],
     "fit": "Businesses that need a new site, or a site that finally matches how good the business is.",
     "meta": "Web design from Digital Mom: clear, on-brand websites that work on every screen and make it easy for customers to get in touch.",
-    "keyline": "A site that matches how good the business is."
+    "keyline": "A site that matches how good the business is.",
+    "how": [
+      {
+        "lead": "We map what visitors need.",
+        "text": "Which pages you need, what each one should say and what you want a visitor to do next."
+      },
+      {
+        "lead": "We design it to look like you.",
+        "text": "Layouts, colours and type that follow your brand, checked on phone, tablet and desktop."
+      },
+      {
+        "lead": "We build, test and hand over.",
+        "text": "Forms and links are tested, your content is loaded, and you get a clear handover."
+      }
+    ]
   },
   {
     "slug": "seo",
@@ -45,7 +73,25 @@
     ],
     "fit": "Businesses that want to be found by people already searching for what they do.",
     "meta": "SEO from Digital Mom: search research, on-page and technical improvements and local search support to help the right customers find you.",
-    "keyline": "Be easy to find when people go looking."
+    "keyline": "Be easy to find when people go looking.",
+    "how": [
+      {
+        "lead": "Find what people search for.",
+        "text": "We research the words and questions your customers type into Google when they need what you do."
+      },
+      {
+        "lead": "Match your pages to it.",
+        "text": "Page titles, headings and copy are written so each page clearly answers a search."
+      },
+      {
+        "lead": "Fix what holds you back.",
+        "text": "We check speed, mobile use and how search engines read your site, then fix the problems we find."
+      },
+      {
+        "lead": "Check and adjust.",
+        "text": "We look at the data available, see what is working and change the plan. SEO takes time, and we never promise rankings."
+      }
+    ]
   },
   {
     "slug": "graphic-design",
@@ -61,6 +107,20 @@
     ],
     "fit": "Businesses that need their visual communication to feel considered and connected.",
     "meta": "Graphic design from Digital Mom: social graphics, campaign visuals, brochures and print-ready artwork that feel like your brand.",
-    "keyline": "Visuals that look like they belong together."
+    "keyline": "Visuals that look like they belong together.",
+    "how": [
+      {
+        "lead": "Understand the message.",
+        "text": "What needs saying, to whom, and where it will be seen: on screen or in print."
+      },
+      {
+        "lead": "Design and refine.",
+        "text": "First ideas, your feedback, then refined artwork that follows your brand."
+      },
+      {
+        "lead": "Deliver ready to use.",
+        "text": "Files prepared for the channels you need: social sizes, web, or print-ready to your supplier’s specifications."
+      }
+    ]
   }
 ]

@@ -23,18 +23,28 @@
 </head>
 <body>
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-olive focus:p-3 focus:text-white" href="#main">Skip to content</a>
-  <header class="on-olive bg-olive text-paper">
+  <header class="on-olive relative z-40 bg-olive text-paper">
     <div class="wrap flex min-h-[91px] items-center justify-between gap-5 md:min-h-[104px]">
       <a class="block w-[178px] py-[18px] min-[400px]:w-[205px] md:w-[280px]" href="/" aria-label="Digital Mom home"><img class="h-auto w-full" src="/assets/dm-master-logo.svg" alt="Digital Mom — Social Media Marketing" width="3686" height="619"></a>
       <div class="flex items-center gap-7">
-        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] md:flex">
+        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] lg:flex">
 <a class="underline-offset-[6px] hover:underline" href="/">Home</a>
 <a class="underline-offset-[6px] hover:underline" href="/about/">About</a>
-<a class="underline-offset-[6px] hover:underline" href="/services/">Services</a>
+<a class="underline-offset-[6px] hover:underline underline decoration-bronze decoration-2" href="/services/" aria-current="page">Services</a>
 <a class="underline-offset-[6px] hover:underline" href="/contact/">Contact</a>
         </nav>
-        <button class="contact-open flex min-h-11 min-w-20 items-center justify-between gap-3 border-0 border-b border-paper/40 bg-transparent p-0 text-[13px] text-inherit min-[400px]:text-sm md:min-w-[106px] md:gap-7" type="button" aria-haspopup="dialog">Let’s talk <span class="text-[22px]" aria-hidden="true">↗</span></button>
+        <button class="contact-open hidden min-h-11 min-w-[106px] items-center justify-between gap-7 border-0 border-b border-paper/40 bg-transparent p-0 text-sm text-inherit lg:flex" type="button" aria-haspopup="dialog">Let’s talk <span class="text-[22px]" aria-hidden="true">↗</span></button>
+        <button class="menu-toggle lg:hidden" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="sr-only">Menu</span><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
       </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu lg:hidden" hidden>
+      <nav class="wrap pb-9 pt-1" aria-label="Mobile navigation">
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/">Home</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/about/">About</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline text-gold" href="/services/" aria-current="page">Services</a>
+<a class="block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline" href="/contact/">Contact</a>
+        <button class="btn-light contact-open mt-8" type="button" aria-haspopup="dialog">Let’s talk <span class="arrow" aria-hidden="true">↗</span></button>
+      </nav>
     </div>
   </header>
 <main id="main">
@@ -101,27 +111,31 @@
     </div>
   </section>
 
-  <footer class="wrap grid gap-10 py-14 text-sm text-muted md:grid-cols-[1.4fr_1fr_1fr] md:gap-12 md:py-16" itemscope itemtype="https://schema.org/Organization">
-    <div>
-      <p class="m-0 font-display text-[28px] font-bold leading-none text-ink"><span itemprop="name">Digital Mom</span></p>
-      <p class="mb-0 mt-4 max-w-[40ch] text-[15px] leading-[1.7]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
-    </div>
-    <div>
-      <p class="m-0 text-ink">Explore</p>
-      <nav aria-label="Footer navigation" class="flex flex-wrap gap-x-6">
-<a class="inline-flex min-h-11 items-center hover:underline" href="/">Home</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/about/">About</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/services/">Services</a>
-<a class="inline-flex min-h-11 items-center hover:underline" href="/contact/">Contact</a>
+  <footer class="on-olive relative isolate overflow-hidden bg-olive-deep text-paper" data-glyphs="dark" data-glyph-mask="bottom" itemscope itemtype="https://schema.org/Organization">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap grid gap-10 pt-16 text-[15px] leading-[1.7] text-paper/80 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12 md:pt-20">
+      <p class="m-0 max-w-[40ch]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Explore</p>
+      <nav aria-label="Footer navigation" class="flex flex-col">
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/">Home</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/about/">About</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline text-gold" href="/services/" aria-current="page">Services</a>
+<a class="inline-flex min-h-11 items-center no-underline hover:underline" href="/contact/">Contact</a>
       </nav>
+      </div>
+      <div>
+        <p class="m-0 mb-2 text-sm text-gold">Get in touch</p>
+        <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="https://wa.me/27824116268" aria-label="WhatsApp Digital Mom on +27 82 411 6268"><span itemprop="telephone">+27 82 411 6268</span> <span aria-hidden="true">↗</span></a>
+        <p class="m-0">South Africa</p>
+        <meta itemprop="areaServed" content="South Africa">
+      </div>
     </div>
-    <div>
-      <p class="m-0 text-ink">Get in touch</p>
-      <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="https://wa.me/27824116268" aria-label="WhatsApp Digital Mom on +27 82 411 6268"><span itemprop="telephone">+27 82 411 6268</span> <span aria-hidden="true">↗</span></a>
-      <p class="m-0">South Africa</p>
-      <meta itemprop="areaServed" content="South Africa">
+    <div class="wrap mt-14 md:mt-20" data-scroll="wipe" data-no-zoom data-start="top 98%" data-end="bottom 92%">
+      <img class="mx-auto block h-auto w-[min(1180px,100%)]" src="/assets/dm-logo-white.svg" width="3686" height="619" alt="Digital Mom — Social Media Marketing">
+      <meta itemprop="name" content="Digital Mom">
     </div>
-    <div class="flex flex-col gap-2 border-t border-line pt-6 md:col-span-3 md:flex-row md:items-center md:justify-between">
+    <div class="wrap flex flex-col gap-1 pb-8 pt-8 text-sm text-paper/70 md:flex-row md:items-center md:justify-between">
       <p class="m-0">© 2026 Digital Mom. All rights reserved.</p>
       <div class="flex flex-wrap gap-x-6">
 <a class="inline-flex min-h-11 items-center hover:underline" href="/how-we-work/">How we work</a>
@@ -155,5 +169,7 @@
   <script src="/contact.js" defer></script>
   <script src="/scroll-effects.js" defer></script>
   <script src="/work.js" defer></script>
+  <script src="/menu.js" defer></script>
+  <script src="/glyphs.js" defer></script>
 </body>
 </html>
