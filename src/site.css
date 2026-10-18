@@ -1,7 +1,7 @@
 @import "tailwindcss" source("../site");
 
-@font-face{font-family:Cormorant;src:url('./cormorant.ttf') format('truetype');font-style:normal;font-weight:400 700;font-display:swap}
-@font-face{font-family:Cormorant;src:url('./cormorant-italic.ttf') format('truetype');font-style:italic;font-weight:400 700;font-display:swap}
+@font-face{font-family:'DM Serif Display';src:url('./dm-serif-display.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'DM Serif Display';src:url('./dm-serif-display-italic.woff2') format('woff2');font-style:italic;font-weight:400;font-display:swap}
 
 @theme {
   --color-olive: #525438;
@@ -13,7 +13,7 @@
   --color-gold: #dfccaa;
   --color-muted: #626254;
   --color-line: #d8d6ca;
-  --font-display: Cormorant, Georgia, serif;
+  --font-display: "DM Serif Display", Georgia, serif;
   --font-body: "Segoe UI", Arial, sans-serif;
 }
 
