@@ -1,24 +1,26 @@
 {{cta}}
-  <footer class="on-olive relative isolate overflow-hidden bg-olive-deep text-paper" data-glyphs="dark" data-glyph-mask="bottom" itemscope itemtype="https://schema.org/Organization">
-    <div class="glow" aria-hidden="true"></div>
-    <div class="wrap grid gap-10 pt-16 text-[15px] leading-[1.7] text-paper/80 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12 md:pt-20">
-      <p class="m-0 max-w-[40ch]">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
-      <div>
-        <p class="m-0 mb-2 text-sm text-gold">Explore</p>
+  <footer class="on-olive relative isolate overflow-hidden bg-olive-deep text-paper" data-glyphs="dark" data-glyph-wallpaper data-glyph-mask="sides" itemscope itemtype="https://schema.org/Organization">
+    <div class="footer-mark wrap max-w-[1180px] pt-14 md:pt-20" aria-hidden="true">
+      <div class="footer-mark-window" data-glyph-clear>
+        <img class="footer-mark-logo" src="/assets/dm-logo-white.svg" width="3686" height="619" alt="" data-scroll="scrub" data-from-y="70" data-to-y="0" data-start="top bottom" data-end="bottom 70%">
+      </div>
+      <div class="footer-mark-horizon"></div>
+    </div>
+    <meta itemprop="name" content="{{name}}">
+    <div class="wrap flex max-w-[1180px] flex-col gap-10 pt-4 text-[15px] leading-[1.7] text-paper/80 md:flex-row md:items-start md:justify-between md:gap-16 md:pt-6">
+      <div class="max-w-[44ch]">
+        <p class="m-0">Digital Mom is the creative team behind your social media, web design, SEO and graphic design. We bring the ideas and make sure your business looks as good online as it does in real life.</p>
 {{nav_footer}}
       </div>
-      <div>
-        <p class="m-0 mb-2 text-sm text-gold">Get in touch</p>
-        <a class="inline-flex min-h-11 items-center gap-3 no-underline hover:underline" href="{{whatsapp}}" aria-label="WhatsApp Digital Mom on {{phone}}"><span itemprop="telephone">{{phone}}</span> <span aria-hidden="true">↗</span></a>
-        <p class="m-0">South Africa</p>
+      <div data-glyph-clear class="w-full max-w-[340px] rounded-[24px] border border-paper/15 bg-paper/[0.04] p-6">
+        <p class="m-0 font-display text-[26px] font-bold leading-[1.1] text-paper">Let’s chat.</p>
+        <p class="m-0 mt-2 text-[14px] leading-[1.6] text-paper/70">Message us on WhatsApp and the team will get back to you.</p>
+        <a class="mt-5 flex min-h-12 items-center justify-between gap-3 rounded-full bg-paper px-5 text-[15px] font-medium text-olive no-underline transition-colors hover:bg-white" href="{{whatsapp_hello}}" aria-label="WhatsApp Digital Mom on {{phone}}"><span class="flex items-center gap-2.5"><svg class="size-[20px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.8A8.5 8.5 0 1 1 20.5 11.6Z" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 7.5c-.8 0-1.1 1.1-.7 2.3.8 2.4 2.5 4.1 4.9 4.9 1.2.4 2.3.1 2.3-.7l-1.9-1-1 .7a7.8 7.8 0 0 1-2.8-2.8l.7-1-1-2.4h-.5Z" fill="currentColor"/></svg><span itemprop="telephone">{{phone}}</span></span><span aria-hidden="true">↗</span></a>
+        <p class="m-0 mt-4 flex items-center gap-2 text-[14px] text-paper/70"><svg class="size-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Based in South Africa</p>
         <meta itemprop="areaServed" content="South Africa">
       </div>
     </div>
-    <div class="wrap mt-14 md:mt-20" data-scroll="wipe" data-no-zoom data-start="top 98%" data-end="bottom 92%">
-      <img class="mx-auto block h-auto w-[min(1180px,100%)]" src="/assets/dm-logo-white.svg" width="3686" height="619" alt="Digital Mom — Social Media Marketing">
-      <meta itemprop="name" content="{{name}}">
-    </div>
-    <div class="wrap flex flex-col gap-1 pb-8 pt-8 text-sm text-paper/70 md:flex-row md:items-center md:justify-between">
+    <div class="wrap flex max-w-[1180px] flex-col gap-1 pb-24 pt-12 md:pb-8 md:pt-16 text-sm text-paper/70 md:flex-row md:items-center md:justify-between">
       <p class="m-0">© {{year}} {{name}}. All rights reserved.</p>
       <div class="flex flex-wrap gap-x-6">
 {{footer_links}}
@@ -26,6 +28,15 @@
     </div>
   </footer>
 {{> dialog}}
+  <div class="cookie-banner" role="region" aria-labelledby="cookie-title" hidden>
+    <p id="cookie-title" class="m-0 font-display text-[22px] font-bold leading-[1.15] text-ink">Cookies, with your say-so.</p>
+    <p class="m-0 mt-2 text-[14px] leading-[1.6] text-muted">We would like to use Google Analytics cookies to see which pages help people most. They are only set if you accept. <a class="underline underline-offset-4" href="/cookies/">Cookie policy</a></p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <button class="btn min-h-11 px-5 py-2 text-[14px]" type="button" data-consent="granted">Accept</button>
+      <button class="btn-outline" type="button" data-consent="denied">No thanks</button>
+    </div>
+  </div>
+  <a class="to-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></a>
   <noscript><p class="wrap">To contact us, please use the WhatsApp link in the footer.</p></noscript>
   <script src="/assets/vendor/gsap.min.js" defer></script>
   <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -34,5 +45,6 @@
   <script src="/work.js" defer></script>
   <script src="/menu.js" defer></script>
   <script src="/glyphs.js" defer></script>
+  <script src="/consent.js" defer></script>
 </body>
 </html>

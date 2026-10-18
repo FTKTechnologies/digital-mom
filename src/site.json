@@ -5,15 +5,66 @@
   "whatsapp": "https://wa.me/27824116268",
   "whatsapp_hello": "https://wa.me/27824116268?text=Hi%20Digital%20Mom%2C%20I%E2%80%99d%20love%20to%20chat%20about%20my%20business.",
   "nav": [
-    { "label": "Home", "href": "/", "live": true },
-    { "label": "About", "href": "/about/", "live": true },
-    { "label": "Services", "href": "/services/", "live": true },
-    { "label": "Our work", "href": "/work/", "live": false },
-    { "label": "Contact", "href": "/contact/", "live": true }
+    {
+      "label": "Home",
+      "href": "/",
+      "live": true
+    },
+    {
+      "label": "About",
+      "href": "/about/",
+      "live": true
+    },
+    {
+      "label": "Services",
+      "href": "/services/",
+      "live": true
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery/",
+      "live": false
+    },
+    {
+      "label": "Our work",
+      "href": "/work/",
+      "live": false
+    },
+    {
+      "label": "Contact",
+      "href": "/contact/",
+      "live": true
+    }
   ],
   "footer_links": [
-    { "label": "How we work", "href": "/how-we-work/" },
-    { "label": "FAQs", "href": "/faqs/" },
-    { "label": "Privacy policy", "href": "/privacy/" }
-  ]
+    {
+      "label": "How we work",
+      "href": "/how-we-work/"
+    },
+    {
+      "label": "FAQs",
+      "href": "/faqs/"
+    },
+    {
+      "label": "Privacy policy",
+      "href": "/privacy/"
+    },
+    {
+      "label": "Terms",
+      "href": "/terms/"
+    },
+    {
+      "label": "Cookies",
+      "href": "/cookies/"
+    }
+  ],
+  "ga_id": "",
+  "legal": {
+    "entity": "Digital Mom",
+    "registration": "",
+    "address": "",
+    "email": "charlene@digital-mom.co.za",
+    "information_officer": "Charlene",
+    "updated": "18 October 2026"
+  }
 }

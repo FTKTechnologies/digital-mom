@@ -93,14 +93,42 @@ function initScrollEffects(root = document) {
       } else if (mode === 'wipe') {
         // An image is uncovered from the bottom while the picture inside settles from a slight zoom.
         const inner = element.querySelector('img');
-        gsap.fromTo(element, { clipPath: 'inset(100% 0% 0% 0%)' }, {
-          clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
+        // Keep the element's own rounded corners while it is being uncovered.
+        const radius = parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0;
+        const round = radius ? ` round ${radius}px` : '';
+        gsap.fromTo(element, { clipPath: `inset(100% 0% 0% 0%${round})` }, {
+          clipPath: `inset(0% 0% 0% 0%${round})`, ease: 'none',
           scrollTrigger: { trigger: element, start: element.dataset.start || 'top 94%', end: element.dataset.end || 'top 42%', scrub: 0.5 }
         });
         if (inner && !('noZoom' in element.dataset)) gsap.fromTo(inner, { scale: 1.3 }, {
           scale: 1, ease: 'none',
           scrollTrigger: { trigger: element, start: 'top 94%', end: 'bottom 30%', scrub: 0.5 }
         });
+      } else if (mode === 'chat') {
+        // Messages arrive one at a time like a real chat: ours pop in, then "typing…" before each reply.
+        const items = [...element.children];
+        const typing = items.find(item => 'typing' in item.dataset);
+        const messages = items.filter(item => item !== typing);
+        if (!messages.length) continue;
+        // The chat box has a fixed height and scrolls inside: each message is added at the bottom and the
+        // conversation glides up to show it, with "typing…" just below the last message before each reply.
+        gsap.set(items, { display: 'none' });
+        const timeline = gsap.timeline({ paused: true });
+        const toBottom = () => gsap.to(element, { scrollTop: element.scrollHeight - element.clientHeight, duration: 0.45, ease: 'power2.out', overwrite: true });
+        const pop = (item, at) => timeline
+          .set(item, { display: '' }, at)
+          .call(toBottom, null, '<')
+          .fromTo(item, { scale: 0.6, autoAlpha: 0, y: 12 }, { scale: 1, autoAlpha: 1, y: 0, duration: 0.42, ease: 'back.out(1.7)', immediateRender: false }, '<');
+        const hideTyping = () => timeline
+          .to(typing, { autoAlpha: 0, scale: 0.8, duration: 0.15 }, '+=0.9')
+          .set(typing, { display: 'none' });
+        messages.forEach((item, i) => {
+          if ('me' in item.dataset) { pop(item, i ? '+=0.7' : 0); return; }
+          if (typing) { pop(typing, '+=0.35'); hideTyping(); }
+          pop(item, '>');
+        });
+        if (typing) pop(typing, '+=0.6');
+        ScrollTrigger.create({ trigger: element, start: element.dataset.start || 'top 75%', once: true, onEnter: () => timeline.play() });
       } else if (mode === 'curtain') {
         // A coloured panel opens from rounded, inset edges to full width as it arrives.
         gsap.fromTo(element, { clipPath: 'inset(0% 5% 0% 5% round 44px)' }, {

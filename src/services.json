@@ -3,7 +3,7 @@
     "slug": "social-media-marketing",
     "title": "Social Media Marketing",
     "short": "A clearer plan for your channels, with content that sounds like your business and gives people a reason to pay attention.",
-    "intro": "A feed needs more than the occasional burst of inspiration. We plan content around what your business is doing, what your audience needs to know and what you want the brand to be known for, then make it: the captions, the photos, the reels. The goal is a social presence that looks and sounds like the business behind it.",
+    "intro": "Social media marketing for businesses that want a feed that keeps going. We plan content around what your business is doing, what your audience needs to know and what you want the brand to be known for, then make it: the captions, the photos, the reels. The goal is a social presence that looks and sounds like the business behind it.",
     "includes": [
       "Content planning and calendar direction.",
       "Caption writing and content messaging.",
@@ -11,7 +11,7 @@
       "Behind-the-scenes content that gives your audience something real to see.",
       "Publishing and ongoing channel support where agreed."
     ],
-    "fit": "Businesses that want a clearer plan and consistent creative support.",
+    "fit": "Businesses that know they should post more, but never have the time to plan, shoot and write it.",
     "meta": "Social media marketing from Digital Mom: content planning, captions, photography and short-form video that sound and look like your business.",
     "keyline": "Plans, captions, reels and shoots that look like you.",
     "how": [
@@ -27,7 +27,14 @@
         "lead": "We keep it going.",
         "text": "Posts go out, we watch what people respond to, and we adjust the plan with you."
       }
-    ]
+    ],
+    "photo": "/assets/hero/social-media-marketing.jpg",
+    "photo_alt": "A phone photographing a grazing board of fruit and snacks for social media.",
+    "page_title": "Social Media Marketing South Africa",
+    "photo_credit": {
+      "name": "Priscilla Du Preez",
+      "url": "https://unsplash.com/photos/a-woman-taking-a-picture-of-food-on-her-phone-m8pYWJQnRs0"
+    }
   },
   {
     "slug": "web-design",
@@ -57,7 +64,14 @@
         "lead": "We build, test and hand over.",
         "text": "Forms and links are tested, your content is loaded, and you get a clear handover."
       }
-    ]
+    ],
+    "photo": "/assets/hero/web-design.jpg",
+    "photo_alt": "A laptop showing a website, on a wooden table outdoors beside a potted plant.",
+    "page_title": "Web Design South Africa",
+    "photo_credit": {
+      "name": "solidpixels.",
+      "url": "https://unsplash.com/photos/a-laptop-computer-sitting-on-top-of-a-wooden-table-iq2RzBMj-Wg"
+    }
   },
   {
     "slug": "seo",
@@ -91,13 +105,20 @@
         "lead": "Check and adjust.",
         "text": "We look at the data available, see what is working and change the plan. SEO takes time, and we never promise rankings."
       }
-    ]
+    ],
+    "photo": "/assets/hero/seo.jpg",
+    "photo_alt": "The word Google spelled out in coloured sweets on a white table, beside a laptop open on a Google search.",
+    "page_title": "SEO Services South Africa",
+    "photo_credit": {
+      "name": "lalo Hernandez",
+      "url": "https://unsplash.com/photos/photo-of-mm-forming-google-chocolate-candies-on-table-SYPm1x95IrY"
+    }
   },
   {
     "slug": "graphic-design",
     "title": "Graphic Design",
     "short": "Visuals for everyday communication, promotions and campaigns that feel like they belong to your brand.",
-    "intro": "Your design should help people recognise the brand and understand the message. We create visual material that works with your existing identity, or help shape a clearer creative direction when the brand needs it.",
+    "intro": "Graphic design for the posts, flyers, adverts and brochures your business puts out, so people recognise the brand and get the message. We create visual material that works with your existing identity, or help shape a clearer creative direction when the brand needs it.",
     "includes": [
       "Social media graphics and promotional artwork.",
       "Campaign visuals and digital adverts.",
@@ -105,7 +126,7 @@
       "Presentation and event collateral.",
       "Print-ready artwork based on confirmed supplier specifications."
     ],
-    "fit": "Businesses that need their visual communication to feel considered and connected.",
+    "fit": "Businesses whose posts, flyers and adverts don’t yet look like they come from the same brand.",
     "meta": "Graphic design from Digital Mom: social graphics, campaign visuals, brochures and print-ready artwork that feel like your brand.",
     "keyline": "Visuals that look like they belong together.",
     "how": [
@@ -121,6 +142,13 @@
         "lead": "Deliver ready to use.",
         "text": "Files prepared for the channels you need: social sizes, web, or print-ready to your supplier’s specifications."
       }
-    ]
+    ],
+    "photo": "/assets/hero/graphic-design.jpg",
+    "photo_alt": "A graffiti mural of bold orange, blue, teal and cream shapes painted on a brick wall.",
+    "page_title": "Graphic Design South Africa",
+    "photo_credit": {
+      "name": "Josep Martins",
+      "url": "https://unsplash.com/photos/orange-blue-and-white-artwork-nAsdr5DC2Ss"
+    }
   }
 ]

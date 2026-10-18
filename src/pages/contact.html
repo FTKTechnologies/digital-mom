@@ -15,7 +15,7 @@
         </div>
       </div>
       <div>
-        <form id="enquiry-form" class="bg-sand p-7 md:p-10" action="/contact.php" method="post" data-contact-form>
+        <form id="enquiry-form" class="rounded-[24px] bg-sand p-7 md:p-10" action="/contact.php" method="post" data-contact-form>
           <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
           <label for="enquiry-name">Your name</label>
           <input id="enquiry-name" name="name" autocomplete="name" required minlength="2" maxlength="100">
@@ -30,7 +30,7 @@
           <select id="enquiry-topic" name="topic"><option value="">Choose one</option>{{service_options}}</select>
           <label for="enquiry-message">Tell us a little about the project</label>
           <textarea id="enquiry-message" name="message" rows="5" required minlength="10" maxlength="3000"></textarea>
-          <p class="m-0 mt-1 text-[13px] text-muted">No polished brief? No stress. Tell us what you know so far.</p>
+          <p class="m-0 mt-1 text-[13px] text-muted">You don’t need a polished brief. Tell us what you know so far.</p>
           <div class="honey" aria-hidden="true"><label for="enquiry-website">Leave this field empty</label><input id="enquiry-website" name="website" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="token">
           <p class="form-note">We’ll use your details to respond to your enquiry. Please don’t include passwords or sensitive account information in this form. <a href="/privacy/">Privacy policy</a></p>

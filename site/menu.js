@@ -15,3 +15,16 @@ if (toggle && menu) {
   });
   matchMedia('(min-width: 1024px)').addEventListener('change', event => { if (event.matches) setOpen(false); });
 }
+
+// Back-to-top button: hidden near the top of the page, shown once the visitor has scrolled past one screen.
+const toTop = document.querySelector(".to-top");
+if (toTop) {
+  const update = () => toTop.classList.toggle("is-shown", scrollY > innerHeight);
+  addEventListener("scroll", update, { passive: true });
+  update();
+  toTop.addEventListener("click", event => {
+    event.preventDefault();
+    scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    document.querySelector("header a[href='/']")?.focus({ preventScroll: true });
+  });
+}

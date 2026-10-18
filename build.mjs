@@ -55,7 +55,7 @@ const workCard = (w, i, big) => {
   const attrs = w.url ? ` href="${esc(w.url)}" target="_blank" rel="noopener"` : '';
   return `        <li data-work-category="${esc(w.category)}" class="${big ? 'md:col-span-2' : ''}">
           <${tag} class="group block no-underline"${attrs}>
-            <div class="${big ? 'aspect-[16/10]' : 'aspect-[4/5]'} overflow-hidden bg-sand">${img}</div>
+            <div class="${big ? 'aspect-[16/10]' : 'aspect-[4/5]'} overflow-hidden rounded-[22px] bg-sand">${img}</div>
             <p class="m-0 mt-4 text-sm text-muted">${esc(categories[w.category])}</p>
             <h3 class="m-0 mt-1 font-display text-[28px] font-bold leading-[1.1]">${esc(w.title)}${w.client ? ` <span class="font-normal text-muted">for ${esc(w.client)}</span>` : ''}</h3>
             ${w.summary ? `<p class="m-0 mt-2 max-w-[56ch] text-[17px] leading-[1.65] text-muted">${esc(w.summary)}</p>` : ''}
@@ -73,14 +73,88 @@ ${work.slice(0, 3).map(w => workCard(w, 0, false).replace(' class="">', '>').rep
       <p class="mt-10"><a class="link" href="/work/">See all our work <span aria-hidden="true">↗</span></a></p>
     </section>` : '';
 
+// ---------- gallery (src/gallery.json): pictures of client work, one section per service ----------
+// Pictures live in site/assets/gallery/<service-slug>/. Each item: { "image": "file.jpg", "alt": "...", "caption": "...", "client": "..." }.
+// Sections without pictures are left out. With no pictures at all there is no page, no menu link and no sitemap entry,
+// unless "draft": true, which builds /gallery/ for review (noindex, not in the menu or sitemap) with placeholder tiles.
+const gallery = JSON.parse(await readFile(src('gallery.json'), 'utf8'));
+const gallerySections = services.map(s => ({ s, items: gallery.sections?.[s.slug] || [] }));
+const hasGallery = gallerySections.some(g => g.items.length);
+const galleryDraft = !hasGallery && gallery.draft === true;
+let sharp = null;
+try { sharp = (await import('sharp')).default; } catch { /* without sharp, images are built without width/height */ }
+const imageSize = async file => {
+  if (!sharp) return '';
+  try { const m = await sharp(file).metadata(); return ` width="${m.width}" height="${m.height}"`; } catch { return ''; }
+};
+const galleryShown = gallerySections.filter(g => g.items.length || galleryDraft);
+const galleryJump = `      <nav class="flex flex-wrap gap-3" aria-label="Gallery sections">
+${galleryShown.map(g => `        <a class="chip inline-flex items-center no-underline" href="#${esc(g.s.slug)}">${esc(g.s.title)}</a>`).join('\n')}
+      </nav>`;
+const placeholderTiles = ['aspect-[4/5]', 'aspect-[4/3]', 'aspect-square'].map(r => `          <li class="gallery-tile"><div class="${r} grid place-items-center rounded-[22px] border border-dashed border-olive/30 bg-sand/60 p-6 text-center text-[14px] text-muted">Add pictures in src/gallery.json</div></li>`).join('\n');
+const galleryBody = (await Promise.all(galleryShown.map(async ({ s, items }) => {
+  const tiles = items.length ? (await Promise.all(items.map(async it => {
+    const url = `/assets/gallery/${s.slug}/${it.image}`;
+    const size = await imageSize(out('assets', 'gallery', s.slug, it.image));
+    const caption = [it.caption, it.client && `for ${it.client}`].filter(Boolean).join(' ');
+    return `          <li class="gallery-tile">
+            <button class="gallery-open group relative block w-full overflow-hidden rounded-[22px] border-0 bg-sand p-0 text-left" type="button" data-full="${esc(url)}" data-caption="${esc(caption)}" aria-label="Enlarge: ${esc(it.alt)}">
+              <img class="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]" src="${esc(url)}"${size} alt="${esc(it.alt)}" loading="lazy">
+              ${caption ? `<span class="photo-pill" aria-hidden="true">${esc(caption.replace(/\.$/, ''))}</span>` : ''}
+            </button>
+          </li>`;
+  }))).join('\n') : placeholderTiles;
+  return `    <section id="${esc(s.slug)}" class="wrap scroll-mt-6 border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(s.slug)}-heading" data-scroll-zone>
+      <div class="mb-10 grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
+        <div>
+          <h2 id="${esc(s.slug)}-heading" class="m-0 font-display text-[clamp(36px,4.4vw,60px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">${esc(s.title)}</h2>
+          <p class="mb-0 mt-4 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(s.short)}</p>
+        </div>
+        <a class="link" href="/services/${esc(s.slug)}/">More about ${esc(s.title)} <span aria-hidden="true">↗</span></a>
+      </div>
+      <ul class="gallery-grid m-0 list-none p-0">
+${tiles}
+      </ul>
+    </section>`;
+}))).join('\n');
+
+// ---------- client messages (src/testimonials.json) ----------
+// Real quotes only, used with the client's permission: [{ "quote": "...", "name": "...", "business": "..." }].
+// An empty list means no section on the home page. Three or more drift sideways in a slow loop (paused on hover,
+// still for reduced motion); fewer sit in a simple row.
+const testimonials = JSON.parse(await readFile(src('testimonials.json'), 'utf8')).filter(t => t.quote && t.name);
+const reviewCard = t => `          <li class="review-card">
+            <figure class="m-0">
+              <blockquote class="m-0 text-[16px] leading-[1.6] text-ink">“${esc(t.quote)}”</blockquote>
+              <figcaption class="mt-4 flex items-center gap-3">
+                <span class="grid size-9 flex-none place-items-center rounded-full bg-olive text-[14px] font-semibold text-paper" aria-hidden="true">${esc(t.name.trim()[0].toUpperCase())}</span>
+                <span class="leading-tight"><span class="block text-[15px] font-medium text-ink">${esc(t.name)}</span>${t.business ? `<span class="block text-[13px] text-muted">${esc(t.business)}</span>` : ''}</span>
+              </figcaption>
+            </figure>
+          </li>`;
+const loop = testimonials.length >= 3;
+const reviewList = (hidden = false) => `        <ul class="review-track m-0 list-none p-0"${hidden ? ' aria-hidden="true"' : ''}>
+${testimonials.map(reviewCard).join('\n')}
+        </ul>`;
+const testimonialsSection = testimonials.length ? `    <section class="on-olive overflow-hidden bg-olive-deep py-[clamp(64px,8vw,112px)] text-paper" aria-labelledby="reviews-heading">
+      <div class="wrap mb-10 grid gap-4 md:mb-14 md:grid-cols-[1fr_auto] md:items-end md:gap-12">
+        <h2 id="reviews-heading" class="m-0 max-w-[14ch] font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">What our clients are saying.</h2>
+        <p class="m-0 max-w-[34ch] text-[17px] leading-[1.7] text-paper/75">Messages from the businesses we work with, shared with their permission.</p>
+      </div>
+      <div class="reviews${loop ? ' reviews-loop' : ' wrap'}">
+${reviewList()}${loop ? '\n' + reviewList(true) : ''}
+      </div>
+    </section>` : '';
+
 // ---------- generated fragments ----------
 if (hasWork && !site.nav.find(i => i.href === '/work/')?.live) site.nav.find(i => i.href === '/work/').live = true;
+if (hasGallery && site.nav.find(i => i.href === '/gallery/')) site.nav.find(i => i.href === '/gallery/').live = true;
 const live = site.nav.filter(i => i.live);
 const links = cls => live.map(i => `<a class="${cls}" href="${esc(i.href)}">${esc(i.label)}</a>`).join('\n');
 const arrow = '<span aria-hidden="true">↗</span>';
 const serviceHref = s => `/services/${s.slug}/`;
 const rows = list => list.map(s => `        <li data-scroll="draw">
-          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="${serviceHref(s)}">
+          <a class="group grid gap-3 py-7 no-underline transition-colors hover:bg-sand/50 md:rounded-[16px] md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:items-baseline md:gap-10 md:-mx-3 md:px-3 md:py-9" href="${serviceHref(s)}">
             <h3 data-scroll="words" class="m-0 font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] md:text-[34px]">${esc(s.title)}</h3>
             <p class="m-0 max-w-[52ch] text-[17px] leading-[1.65] text-muted">${esc(s.short)}</p>
             <span class="text-sm underline decoration-bronze/60 underline-offset-[6px] group-hover:decoration-ink">Read more ${arrow}</span>
@@ -95,7 +169,7 @@ const navLinks = (here, cls, currentCls) => live.map(i => {
 const navVars = here => ({
   nav_header: live.length > 1 ? `        <nav aria-label="Main navigation" class="hidden gap-7 text-[15px] lg:flex">\n${navLinks(here, 'underline-offset-[6px] hover:underline', 'underline decoration-bronze decoration-2')}\n        </nav>` : '',
   nav_mobile: navLinks(here, 'block border-t border-paper/20 py-4 font-display text-[34px] font-bold leading-none no-underline', 'text-gold'),
-  nav_footer: `      <nav aria-label="Footer navigation" class="flex flex-col">\n${navLinks(here, 'inline-flex min-h-11 items-center no-underline hover:underline', 'text-gold')}\n      </nav>`,
+  nav_footer: `      <nav aria-label="Footer navigation" class="mt-5 flex flex-wrap gap-x-7 text-paper">\n${navLinks(here, 'inline-flex min-h-11 items-center no-underline hover:underline', 'text-gold')}\n      </nav>`,
 });
 
 // Home page: services as cards that stack at the top while scrolling (see data-scroll="stack").
@@ -122,11 +196,21 @@ const servicesStack = `      <div data-scroll="stack">\n${services.map((s, i) =>
         </a>`;
 }).join('\n')}\n      </div>`;
 
+// Google Analytics only loads after a visitor accepts cookies (consent.js). With no ga_id set, nothing loads and the CSP stays self-only.
+const ga = site.ga_id ? { script: " https://www.googletagmanager.com", connect: " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com", img: " https://*.google-analytics.com https://*.googletagmanager.com" } : { script: "", connect: "", img: "" };
+const csp = `default-src 'self'; script-src 'self'${ga.script}; style-src 'self'; img-src 'self'${ga.img}; font-src 'self'; connect-src 'self'${ga.connect}; form-action 'self'; base-uri 'none'; object-src 'none'`;
+const legal = site.legal || {};
 const globals = {
+  csp: esc(csp), ga_id: esc(site.ga_id || ""),
+  legal_entity: esc(legal.entity || site.name), legal_registration: esc(legal.registration || "[registration number to confirm]"),
+  legal_address: esc(legal.address || "[business address to confirm]"), legal_email: esc(legal.email || ""),
+  legal_officer: esc(legal.information_officer || ""), legal_updated: esc(legal.updated || ""),
   services_stack: servicesStack,
+  testimonials: testimonialsSection,
   name: esc(site.name), phone: esc(site.phone), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
   year: String(new Date().getFullYear()),
-  footer_links: site.footer_links.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`).join('\n'),
+  footer_links: site.footer_links.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`)
+    .concat('<button class="cookie-settings inline-flex min-h-11 items-center border-0 bg-transparent p-0 text-inherit hover:underline" type="button">Cookie settings</button>').join('\n'),
   services_rows: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(services)}\n      </ul>`,
   service_names: services.map(s => esc(s.title)).join(' / '),
   service_options: services.map(s => `<option>${esc(s.title)}</option>`).concat(['<option>Not sure yet</option>', '<option>Something else</option>']).join(''),
@@ -157,10 +241,14 @@ for (const s of services) {
   const others = services.filter(o => o.slug !== s.slug);
   pages.push({
     urlPath: serviceHref(s),
-    meta: { title: `${s.title} | Digital Mom`, description: s.meta },
+    meta: { title: `${s.page_title || s.title} | Digital Mom`, description: s.meta },
     body: serviceTpl,
     vars: {
       service_title: esc(s.title), service_intro: esc(s.intro), service_fit: esc(s.fit),
+      service_photo: esc(s.photo), service_photo_alt: esc(s.photo_alt),
+      // The service page's WhatsApp button opens a chat with a hello that names the service.
+      service_short_name: esc(s.title === 'SEO' ? 'SEO' : s.title.toLowerCase()),
+      service_whatsapp: esc(`${site.whatsapp}?text=${encodeURIComponent(`Hi Digital Mom, I’d love to chat about ${s.title === 'SEO' ? 'SEO' : s.title.toLowerCase()} for my business.`)}`),
       service_includes: s.includes.map(i => `<li>${esc(i)}</li>`).join('\n            '),
       service_how: s.how.map(h => `        <div data-scroll="draw" class="py-7"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(h.lead)}</h3><p class="mb-0 mt-2 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(h.text)}</p></div>`).join('\n'),
       services_others: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(others)}\n      </ul>`,
@@ -168,7 +256,29 @@ for (const s of services) {
   });
 }
 
+if (hasGallery || galleryDraft) pages.push({
+  urlPath: '/gallery/',
+  meta: { title: 'Gallery | Digital Mom', description: 'A visual look at social media, web design, SEO and graphic design, the four services Digital Mom offers.', cta: true, noindex: galleryDraft },
+  body: `  <main id="main">
+    <section class="wrap pb-12 pt-14 md:pb-16 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
+      <h1 id="page-title" class="m-0 max-w-[13ch] font-display text-[clamp(44px,8vw,104px)] font-bold leading-[.96] tracking-[-0.03em]" data-scroll="words">The look of the work.</h1>
+      <p class="mb-10 mt-8 max-w-[52ch] text-lg leading-[1.7] md:text-xl">A visual feel for each of our four services. Pick one to jump to it, or tap any picture to see it bigger.</p>
+${galleryJump}
+    </section>
+${galleryBody}
+  </main>
+  <dialog class="lightbox" aria-label="Picture viewer">
+    <button class="lightbox-close" type="button" aria-label="Close">×</button>
+    <button class="lightbox-step lightbox-prev" type="button" aria-label="Previous picture">←</button>
+    <figure class="m-0"><img alt=""><figcaption></figcaption></figure>
+    <button class="lightbox-step lightbox-next" type="button" aria-label="Next picture">→</button>
+  </dialog>
+  <script src="/gallery.js" defer></script>`,
+  vars: {},
+});
+
 await rm(out('services'), { recursive: true, force: true });
+await rm(out('gallery', 'index.html'), { force: true }); // regenerated only when there are pictures (or draft mode)
 await rm(out('work'), { recursive: true, force: true }); // regenerated only when src/work.json has projects
 const urls = [];
 const ctaHtml = fill(include(partials.cta), globals);
@@ -179,6 +289,7 @@ for (const p of pages) {
     ...globals, ...navVars(p.urlPath), ...p.vars,
     title: esc(p.meta.title), description: esc(p.meta.description), og_description: esc(p.meta.og_description || p.meta.description),
     canonical: esc(site.url + p.urlPath), cta: withCta,
+    robots: p.meta.noindex ? '\n  <meta name="robots" content="noindex">' : '',
   };
   const html = fill(include(partials.head + partials.header + p.body + partials.footer), vars);
   const left = html.match(/\{\{\w+\}\}/);
@@ -186,7 +297,7 @@ for (const p of pages) {
   const target = p.urlPath === '/' ? out('index.html') : out(...p.urlPath.split('/').filter(Boolean), 'index.html');
   await mkdir(path.dirname(target), { recursive: true });
   await writeFile(target, html);
-  urls.push(site.url + p.urlPath);
+  if (!p.meta.noindex) urls.push(site.url + p.urlPath);
   console.log('built', p.urlPath);
 }
 await writeFile(out('sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(u => `<url><loc>${esc(u)}</loc></url>`).join('')}</urlset>\n`);
