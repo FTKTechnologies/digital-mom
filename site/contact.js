@@ -106,49 +106,56 @@ function wireWizard(form) {
   const submit = form.querySelector('[type="submit"]');
   const count = form.querySelector('[data-step-count]');
   const status = form.querySelector('[data-form-status]');
-  let current = 'intro';
+  // data-wizard="two" (the /contact/ page): no intro, and the service and its questions share the first step.
+  const two = box.dataset.wizard === 'two';
+  let current = two ? 'service' : 'intro';
   const steps = () => {
     const topic = form.querySelector('input[name="topic"]:checked')?.value || '';
-    return all.filter(step => step.dataset.step !== 'questions' || topic !== 'unsure');
+    if (two) return [all.filter(step => ['service', 'questions'].includes(step.dataset.step)), all.filter(step => step.dataset.step === 'details')];
+    return all.filter(step => step.dataset.step !== 'questions' || topic !== 'unsure').map(step => [step]);
   };
-  const show = name => {
+  const show = (name, scroll = true) => {
     const list = steps();
-    const index = Math.max(0, list.findIndex(step => step.dataset.step === name));
-    current = list[index].dataset.step;
-    for (const step of all) step.hidden = step !== list[index];
+    const index = Math.max(0, list.findIndex(group => group[0].dataset.step === name));
+    current = list[index][0].dataset.step;
+    for (const step of all) step.hidden = !list[index].includes(step);
     back.hidden = index === 0;
     next.hidden = index === list.length - 1;
     submit.hidden = index !== list.length - 1;
     count.textContent = `Step ${index + 1} of ${list.length}`;
-    box.closest('dialog')?.scrollTo(0, 0);
+    if (!scroll) return;
+    const dialog = box.closest('dialog');
+    if (dialog) dialog.scrollTo(0, 0);
+    else if (two) form.scrollIntoView({ block: 'start', behavior: 'smooth' });
   };
   const valid = () => {
-    const step = all.find(s => s.dataset.step === current);
-    if (current === 'service' && !form.querySelector('input[name="topic"]:checked')) {
+    const group = steps().find(g => g[0].dataset.step === current);
+    if (group.some(s => s.dataset.step === 'service') && !form.querySelector('input[name="topic"]:checked')) {
       status.textContent = 'Please choose what we can help with, or pick “Not sure yet”.';
       return false;
     }
-    for (const field of step.querySelectorAll('input, textarea, select')) if (!field.disabled && !field.checkValidity()) { field.reportValidity(); return false; }
+    for (const field of group.flatMap(s => [...s.querySelectorAll('input, textarea, select')])) if (!field.disabled && !field.checkValidity()) { field.reportValidity(); return false; }
     status.textContent = '';
     return true;
   };
   const move = by => {
     const list = steps();
-    const index = list.findIndex(step => step.dataset.step === current);
-    show(list[Math.min(list.length - 1, Math.max(0, index + by))].dataset.step);
+    const index = list.findIndex(group => group[0].dataset.step === current);
+    show(list[Math.min(list.length - 1, Math.max(0, index + by))][0].dataset.step);
   };
   next.addEventListener('click', () => { if (valid()) move(1); });
   back.addEventListener('click', () => { status.textContent = ''; move(-1); });
   // Enter in a field moves on instead of sending early. Runs before the send handler in wireForm.
   form.addEventListener('submit', event => {
-    if (current === steps().at(-1).dataset.step) return;
+    if (current === steps().at(-1)[0].dataset.step) return;
     event.preventDefault();
     event.stopImmediatePropagation();
     if (valid()) move(1);
   }, true);
   form.addEventListener('change', event => { if (event.target.name === 'topic') status.textContent = ''; });
-  show('intro');
-  return () => show('intro');
+  const first = two ? 'service' : 'intro';
+  show(first, false);
+  return () => show(first);
 }
 
 const restartWizard = [];
