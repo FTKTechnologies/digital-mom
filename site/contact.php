@@ -14,12 +14,23 @@ function reply(int $code, string $message): void {
     exit;
 }
 
+// Sessions live in their own private folder, so the form does not depend on the host's session.save_path (which can be
+// unset or unwritable after a PHP version switch). Old session files are cleared now and then.
+$sessionDirectory = sys_get_temp_dir() . '/digital-mom-sessions';
+if (!is_dir($sessionDirectory)) @mkdir($sessionDirectory, 0700, true);
+if (is_dir($sessionDirectory) && is_writable($sessionDirectory)) {
+    session_save_path($sessionDirectory);
+    if (mt_rand(1, 50) === 1) foreach ((array)glob($sessionDirectory . '/sess_*') as $oldSession) if (is_file($oldSession) && filemtime($oldSession) < time() - 7200) @unlink($oldSession);
+}
 session_name('dm_contact');
 // Written for PHP 7.1 and up. Before 7.3 there is no SameSite session option, so it rides on the cookie path.
 $sessionOptions = ['cookie_httponly' => true, 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'use_strict_mode' => true, 'use_only_cookies' => true];
 if (PHP_VERSION_ID >= 70300) $sessionOptions['cookie_samesite'] = 'Strict';
 else $sessionOptions['cookie_path'] = '/; samesite=Strict';
-if (!session_start($sessionOptions)) reply(503, 'The contact form is unavailable right now. Please WhatsApp us instead.');
+if (!@session_start($sessionOptions)) {
+    error_log('contact.php: session_start failed, save path "' . session_save_path() . '", PHP ' . PHP_VERSION);
+    reply(503, 'The contact form is unavailable right now. Please WhatsApp us instead.');
+}
 $method = $_SERVER['REQUEST_METHOD'] ?? '';
 if ($method === 'GET') {
     if (empty($_SESSION['token']) || time() - ($_SESSION['issued'] ?? 0) > 1800) {
