@@ -17,7 +17,8 @@ template. A client entry never sets its own layout.
 | 2     | `logo`    | Graphic Design | Old logo above new logo on matching white panels, max 420px wide           |
 | 3     | `print`   | Graphic Design | Signature on top, cards two across under it, stacked, max 420px wide      |
 | 4     | `social`  | Social Media   | Campaign cards in a grid beside the text, platforms linked in facts        |
-| 5     | `seo`     | SEO            | PageSpeed score table beside the text, screenshots in a row under it       |
+| 5     | `photo`   | Social Media   | Product or event photos and reel stills, 3 across (2 on phones)            |
+| 6     | `seo`     | SEO            | PageSpeed score table beside the text, screenshots in a row under it       |
 
 Every section uses the same two columns (5 : 7): **info on the left** (title, facts, summary) and **pictures on the right**.
 On phones the pictures follow the text. Social cards sit 4 across on desktop and 3 on phones.
@@ -98,6 +99,11 @@ Make every picture with `case-images.mjs` so sizes match across clients:
 ```
 
 Use `"hidden": true` on a client to keep it off the site until it is ready.
+
+Use `"pending": true` for a client whose pictures have not arrived yet. The client gets its row and page with
+"Pictures follow shortly" panels where pictures are missing, and the page is `noindex` and left out of the sitemap.
+The intro ends with "The full case study follows shortly." Remove `pending` (and that sentence) once the pictures,
+summaries and website link are in.
 
 ## After adding or changing a client
 

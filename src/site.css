@@ -185,6 +185,10 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 .case-facts dd { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--color-ink); }
 /* Pictures under every case study section share one width. */
 .case-media { max-width: 880px; }
+.case-pending { display: grid; place-items: center; align-content: center; gap: 12px; max-width: 420px; aspect-ratio: 16 / 10; padding: 24px; border-radius: 18px; background: var(--color-sand); text-align: center; }
+.case-pending img { opacity: .55; }
+.case-pending p { margin: 0; color: var(--color-muted); font-size: 15px; line-height: 1.5; }
+.case-pending-cover { max-width: none; aspect-ratio: 1600 / 967; color: var(--color-muted); font-size: 15px; }
 .case-shot { box-shadow: 0 1px 0 var(--color-line), 0 18px 40px #11150f1f; }
 .score-table-wrap { overflow-x: auto; border-radius: 18px; background: var(--color-sand); padding: 6px 18px 14px; }
 .score-table { width: 100%; border-collapse: collapse; font-size: 15px; }

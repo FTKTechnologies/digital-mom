@@ -1,6 +1,35 @@
 {
   "clients": [
     {
+      "slug": "icecold",
+      "name": "Icecold",
+      "industry": "Refrigerated truck bodies",
+      "intro": "A company profile and social media content for Icecold, a maker of refrigerated truck bodies. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "print",
+          "title": "Company profile"
+        },
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true
+    },
+    {
+      "slug": "bls",
+      "name": "BLS",
+      "intro": "Social media content for BLS. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true
+    },
+    {
       "slug": "veriserv",
       "name": "Veriserv",
       "url": "https://veriserv.co.za/",
@@ -239,6 +268,35 @@
       ]
     },
     {
+      "slug": "sandton-fun-factory",
+      "name": "Sandton Fun Factory",
+      "intro": "Work for Sandton Fun Factory. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true
+    },
+    {
+      "slug": "innovation-laser-clinic",
+      "name": "Innovation Laser Clinic",
+      "industry": "Beauty, wellness and aesthetics",
+      "intro": "Social media content, reels and product photography for Innovation Laser Clinic. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        },
+        {
+          "type": "photo",
+          "title": "Reels and product photography"
+        }
+      ],
+      "pending": true
+    },
+    {
       "slug": "sacred-sage",
       "name": "Sacred Sage",
       "url": "https://sacredsagerituals.com/",
@@ -355,6 +413,98 @@
           "type": "social"
         }
       ]
+    },
+    {
+      "slug": "grocery-store-bargain-outlet",
+      "name": "Grocery Store Bargain Outlet",
+      "industry": "Grocery retail",
+      "intro": "Social media content for Grocery Store Bargain Outlet, a South African grocery store. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true,
+      "hidden": true
+    },
+    {
+      "slug": "limpopo-ready-mix",
+      "name": "Limpopo Ready Mix",
+      "industry": "Ready-mix concrete",
+      "intro": "Social media content for Limpopo Ready Mix, a ready-mix concrete supplier. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true,
+      "hidden": true
+    },
+    {
+      "slug": "collatan-labs",
+      "name": "CollaTan Labs",
+      "industry": "Tanning and skin care",
+      "intro": "Social media content and product photography for CollaTan Labs. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        },
+        {
+          "type": "photo",
+          "title": "Product photography"
+        }
+      ],
+      "pending": true,
+      "hidden": true
+    },
+    {
+      "slug": "serendipity-boutique-guesthouse",
+      "name": "Serendipity Boutique Guesthouse",
+      "industry": "Hospitality",
+      "intro": "Social media content for Serendipity Boutique Guesthouse. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true,
+      "hidden": true
+    },
+    {
+      "slug": "ambasaam",
+      "name": "Ambasaam",
+      "industry": "Warehousing and distribution",
+      "intro": "Social media posts for Ambasaam, a warehousing and distribution business. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "social",
+          "title": "Social media posts"
+        }
+      ],
+      "pending": true,
+      "hidden": true
+    },
+    {
+      "slug": "tanker-world",
+      "name": "Tanker World",
+      "industry": "Tanker manufacturing",
+      "intro": "A company profile and social media content for Tanker World, a tanker manufacturer. The full case study follows shortly.",
+      "work": [
+        {
+          "type": "print",
+          "title": "Company profile"
+        },
+        {
+          "type": "social",
+          "title": "Social media content"
+        }
+      ],
+      "pending": true,
+      "hidden": true
     }
   ]
 }

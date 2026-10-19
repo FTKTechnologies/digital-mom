@@ -76,7 +76,8 @@ ${work.slice(0, 3).map(w => workCard(w, 0, false).replace(' class="">', '>').rep
 
 // ---------- case studies (src/clients.json): one card per client at /case-studies/, a full page per client ----------
 // A client: { "slug", "name", "url", "industry", "location", "intro", "cover": { "image", "alt" },
-//   "profiles": [{ "platform", "url" }], "hidden": true to keep it out until it is ready,
+//   "profiles": [{ "platform", "url" }], "hidden": true to keep it out until it is ready, "pending": true to show it
+//   with "follows shortly" panels where pictures are missing (the page stays out of Google until pending is removed),
 //   "work": [{ "type": website | logo | print | social | seo, "title", "summary", "facts": { "Label": "value" },
 //     "before"/"after": { "image", "alt" }, "images": [{ "image", "alt", "caption", "label" }], "scores" (seo only) }] }.
 // The type fixes the layout and the order on the page, so every client looks the same. The full template, image sizes
@@ -100,6 +101,7 @@ const workTypes = {
   logo: { service: 'graphic-design', beside: true },       // before/after logo panels (case-images.mjs logo), side by side
   print: { service: 'graphic-design', beside: true },      // cards, signatures, brochures: one row, every picture the same height
   social: { service: 'social-media-marketing', beside: true }, // campaign cards (case-images.mjs card) in a grid, platforms listed
+  photo: { service: 'social-media-marketing', beside: true },  // product and event photos, reel stills: a grid of square-ish shots
   seo: { service: 'seo', beside: true },                   // score table, then the screenshots in one row
 };
 const typeOrder = Object.keys(workTypes);
@@ -118,12 +120,14 @@ const profileLinks = c => (c.profiles || []).filter(p => p.platform && p.url).ma
 const factList = rows => rows.length ? `<dl class="case-facts">
 ${rows.map(([k, v]) => `            <div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('\n')}
           </dl>` : '';
+// Stand-in for pictures that have not arrived yet (clients marked "pending").
+const pendingPanel = text => `<div class="case-pending"><img src="/assets/favicon.svg" width="40" height="40" alt=""><p>${esc(text)}</p></div>`;
 const siteLink = c => c.url ? `<a class="link" href="${esc(c.url)}" target="_blank" rel="noopener">${esc(domainOf(c.url))} <span aria-hidden="true">↗</span></a>` : '';
 
 // Landing page: one row per client, picture on one side and the summary on the other (sides alternate).
 const clientRows = (await Promise.all(clients.map(async (c, i) => `      <article class="client-row grid gap-8 border-t border-line py-[clamp(40px,6vw,80px)] ${i % 2 ? 'md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]' : 'md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]'} md:items-center md:gap-14">
         <a class="client-cover group block overflow-hidden rounded-[22px] bg-sand${i % 2 ? ' md:order-2' : ''}" href="/case-studies/${esc(c.slug)}/" tabindex="-1" aria-hidden="true">
-          ${c.cover ? await clientImg(c, c.cover, ' transition-transform duration-700 group-hover:scale-[1.03]') : ''}
+          ${c.cover ? await clientImg(c, c.cover, ' transition-transform duration-700 group-hover:scale-[1.03]') : `<span class="case-pending case-pending-cover"><img src="/assets/favicon.svg" width="40" height="40" alt=""><span>Pictures follow shortly</span></span>`}
         </a>
         <div>
           <h2 class="m-0 font-display text-[clamp(38px,4.6vw,64px)] font-bold leading-[1] tracking-[-0.02em]"><a class="no-underline hover:underline hover:decoration-bronze/60 hover:underline-offset-8" href="/case-studies/${esc(c.slug)}/">${esc(c.name)}</a></h2>
@@ -175,6 +179,11 @@ ${sc.columns.map((h, k) => `              <tr><th scope="row">${esc(h)}</th>${sc
       parts.push(`<div class="grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-4">
           ${(await Promise.all(images.map(it => pic(it, 'rounded-[12px]')))).join('\n          ')}
         </div>`);
+    } else if (w.type === 'photo') {
+      // Photos and reel stills: square-ish shots, three across on wider screens.
+      parts.push(`<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+          ${(await Promise.all(images.map(it => pic(it, 'rounded-[12px]')))).join('\n          ')}
+        </div>`);
     } else if (w.type === 'logo' && !(w.before && w.after)) {
       // A logo with no "before": the new logo panels stacked, same size as a before/after pair.
       parts.push(`<div class="grid max-w-[420px] gap-4">
@@ -197,6 +206,7 @@ ${sc.columns.map((h, k) => `              <tr><th scope="row">${esc(h)}</th>${sc
         </div>`);
     }
   }
+  if (!parts.length && c.pending) parts.push(pendingPanel('Pictures of this work follow shortly.'));
   const id = `${w.type}-${i + 1}`;
   if (workTypes[w.type].beside && parts.length) {
     return `    <section id="${esc(id)}" class="gallery-section wrap border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(id)}-heading" data-scroll-zone>
@@ -246,7 +256,7 @@ ${workOf(c).map((w, i) => `        <a class="chip inline-flex items-center no-un
       </nav>` : '';
   return {
     urlPath: `/case-studies/${c.slug}/`,
-    meta: { title: `${c.name} case study | Digital Mom`, description: `What Digital Mom did for ${c.name}: ${clientServices(c).map(s => s.title.toLowerCase().replace('seo', 'SEO')).join(', ')}.`, cta: true },
+    meta: { noindex: !!c.pending, title: `${c.name} case study | Digital Mom`, description: `What Digital Mom did for ${c.name}: ${clientServices(c).map(s => s.title.toLowerCase().replace('seo', 'SEO')).join(', ')}.`, cta: true },
     body: `  <main id="main">
     <section class="wrap pb-12 pt-10 md:pb-16 md:pt-16" aria-labelledby="page-title" data-scroll-zone>
       <p class="m-0 mb-8"><a class="link" href="/case-studies/"><span aria-hidden="true">←</span> All case studies</a></p>
@@ -357,7 +367,7 @@ const globals = {
   legal_officer: esc(legal.information_officer || ""), legal_updated: esc(legal.updated || ""),
   services_stack: servicesStack,
   testimonials: testimonialsSection,
-  name: esc(site.name), phone: esc(site.phone), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
+  name: esc(site.name), phone: esc(site.phone), hours: esc(site.hours), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
   year: String(new Date().getFullYear()),
   footer_links: site.footer_links.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`)
     .concat('<button class="cookie-settings inline-flex min-h-11 items-center border-0 bg-transparent p-0 text-inherit hover:underline" type="button">Cookie settings</button>').join('\n'),
