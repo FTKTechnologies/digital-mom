@@ -514,8 +514,8 @@ for (const p of pages) {
 // Maintenance page (src/maintenance.html): always built, only served to everyone while site.json "maintenance" is true.
 {
   const html = fill(include(partials.head + await readFile(src('maintenance.html'), 'utf8')), {
-    ...globals, title: esc(`${site.name} | New website in production`), description: esc('Digital Mom is building a new website. Send us a WhatsApp and the team will get back to you.'),
-    og_description: esc('Digital Mom is building a new website. Send us a WhatsApp and the team will get back to you.'),
+    ...globals, title: esc(`${site.name} | New website in production`), description: esc('Digital Mom is building a new website. Tell us what you need and the team will get back to you.'),
+    og_description: esc('Digital Mom is building a new website. Tell us what you need and the team will get back to you.'),
     canonical: esc(site.url + '/'), robots: '\n  <meta name="robots" content="noindex">',
   }).replace(/(src|href)="(\/[^"?#]+\.(?:css|js))"/g, `$1="$2?v=${buildStamp}"`);
   const left = html.match(/\{\{\w+\}\}/);
@@ -532,7 +532,7 @@ await writeFile(out('robots.txt'), `User-agent: *\nAllow: /\nDisallow: /contact.
 const maintenanceRules = site.maintenance ? `
   # MAINTENANCE MODE (site.json "maintenance": true). Everything except the maintenance page and its files answers 503,
   # unless the browser holds the Team preview pass (set by preview.php). pack.mjs fills in the token in the upload zips.
-  RewriteCond %{REQUEST_URI} !^/(maintenance\\.html|preview\\.php|assets/|scroll-effects\\.js|glyphs\\.js|favicon\\.ico|apple-touch-icon\\.png|robots\\.txt|\\.well-known/)
+  RewriteCond %{REQUEST_URI} !^/(maintenance\\.html|preview\\.php|contact\\.php|contact\\.js|assets/|scroll-effects\\.js|glyphs\\.js|favicon\\.ico|apple-touch-icon\\.png|robots\\.txt|\\.well-known/)
   RewriteCond %{HTTP_COOKIE} !(^|;\\s*)dm_preview={{preview_token}}(;|$)
   RewriteRule ^ - [R=503,L]
 ` : '';

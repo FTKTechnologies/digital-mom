@@ -1,9 +1,29 @@
 <!-- Maintenance page. Built to site/maintenance.html. While site.json "maintenance" is true, the server answers every
      other address with this page (status 503, so search engines know it is temporary). Uses the home hero artwork. -->
   <header class="on-olive relative z-40 bg-olive text-paper">
-    <div class="wrap flex min-h-[91px] items-center justify-between gap-5 md:min-h-[104px]">
-      <img class="block h-auto w-[178px] min-[400px]:w-[205px] md:w-[280px]" src="/assets/dm-master-logo.svg" alt="Digital Mom, Social Media Marketing" width="3686" height="619">
-      <p class="m-0 hidden items-center gap-2.5 text-sm text-paper/80 sm:flex"><span class="onair" aria-hidden="true"></span>New website in production</p>
+    <div class="wrap relative flex min-h-[91px] items-center justify-between gap-5 md:min-h-[104px]">
+      <img class="block h-auto w-[150px] min-[400px]:w-[205px] md:w-[280px]" src="/assets/dm-master-logo.svg" alt="Digital Mom, Social Media Marketing" width="3686" height="619">
+      <div class="flex items-center gap-5">
+        <p class="m-0 hidden items-center gap-2.5 text-sm text-paper/80 md:flex"><span class="onair" aria-hidden="true"></span>New website in production</p>
+        <a class="inline-flex min-h-11 items-center rounded-full border border-paper/40 px-4 text-sm font-medium text-paper no-underline transition-colors hover:bg-paper hover:text-olive" href="#team-preview">Team preview</a>
+      </div>
+      <!-- Opens with CSS :target from the Team preview link, no script needed. preview.php sends people back to one of
+           the note ids when something is wrong, which opens the box with that note. -->
+      <div id="team-preview" class="preview-box absolute right-4 top-full z-50 mt-2 w-[min(420px,calc(100vw-32px))] rounded-[22px] border border-line bg-paper p-6 text-muted shadow-[0_18px_50px_#11150f40] sm:right-6">
+        <div class="flex items-start justify-between gap-4">
+          <p class="m-0 font-display text-[24px] font-bold leading-[1.15] text-ink">Team preview</p>
+          <a class="-mr-2 -mt-1 grid size-10 flex-none place-items-center rounded-full text-[22px] leading-none text-ink no-underline hover:bg-sand" href="#main" aria-label="Close Team preview">×</a>
+        </div>
+        <p class="m-0 mt-1 text-[14px] leading-[1.6]">For the Digital Mom team and reviewers. Enter the shared password to see the site in progress.</p>
+        <p id="team-preview-wrong" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">That password didn’t work. Please try again.</p>
+        <p id="team-preview-wait" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">Too many tries. Please wait 15 minutes, then try again.</p>
+        <p id="team-preview-off" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">Team preview isn’t available right now. Please try again later.</p>
+        <form class="mt-4 flex flex-col gap-3 sm:flex-row" method="post" action="/preview.php">
+          <label class="sr-only" for="preview-password">Team password</label>
+          <input id="preview-password" class="min-h-12 w-full rounded-full border border-line bg-white px-5 text-[15px] text-ink" type="password" name="password" autocomplete="current-password" placeholder="Team password" maxlength="200" required>
+          <button class="btn min-h-12 flex-none justify-center px-5 py-2" type="submit">View the site</button>
+        </form>
+      </div>
     </div>
   </header>
   <main id="main">
@@ -11,12 +31,12 @@
     <section class="wrap grid items-center gap-5 py-9 md:min-h-[min(800px,calc(100svh-104px))] md:grid-cols-[1.03fr_1fr] md:gap-8 md:py-12" aria-labelledby="hero-heading" data-scroll-zone>
       <div>
         <div class="relative z-10" data-children=":scope > *" data-stagger="0.1" data-distance="26" data-duration="0.9">
-          <p class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-paper px-4 py-2 text-[14px] font-medium text-olive sm:hidden"><span class="onair" aria-hidden="true"></span>New website in production</p>
+          <p class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-paper px-4 py-2 text-[14px] font-medium text-olive md:hidden"><span class="onair" aria-hidden="true"></span>New website in production</p>
           <h1 id="hero-heading" data-scroll="words" data-start="top 98%" class="mb-8 font-display text-[clamp(48px,13vw,78px)] font-bold leading-[.98] tracking-[-0.03em] md:text-[clamp(54px,7vw,72px)] lg:text-[clamp(58px,6vw,92px)]">Lights.<br>Camera.<br><em class="whitespace-nowrap font-bold text-olive">Almost there.</em></h1>
           <p data-scroll="words" data-start="top 98%" class="mb-4 max-w-[28ch] text-xl font-medium leading-snug md:text-[22px]">We’re building something great, with all the personality you’d expect.</p>
-          <p class="mb-9 max-w-[46ch] text-[17px] leading-[1.7] text-muted">Our new website is nearly ready for its close-up. The team is still here, planning and making social media, websites and design for South African businesses. If you need us before the big reveal, send us a WhatsApp and we’ll get back to you.</p>
+          <p class="mb-9 max-w-[46ch] text-[17px] leading-[1.7] text-muted">Our new website is nearly ready for its close-up. The team is still here, planning and making social media, websites and design for South African businesses. If you need us before the big reveal, tell us what you need and we’ll get back to you.</p>
           <div class="flex flex-wrap items-center gap-x-7 gap-y-4">
-            <a class="btn" href="{{whatsapp_hello}}"><svg class="size-[21px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.8A8.5 8.5 0 1 1 20.5 11.6Z" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 7.5c-.8 0-1.1 1.1-.7 2.3.8 2.4 2.5 4.1 4.9 4.9 1.2.4 2.3.1 2.3-.7l-1.9-1-1 .7a7.8 7.8 0 0 1-2.8-2.8l.7-1-1-2.4h-.5Z" fill="currentColor"/></svg> WhatsApp us <span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="btn" href="#brief">Tell us what you need <span class="arrow" aria-hidden="true">↓</span></a>
           </div>
         </div>
       </div>
@@ -33,29 +53,32 @@
       </div>
     </section>
     </div>
+
+    <section id="brief" class="wrap grid scroll-mt-6 gap-10 pb-[clamp(64px,8vw,120px)] pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-20 md:pt-12" aria-labelledby="brief-heading">
+      <div class="md:sticky md:top-8 md:self-start">
+        <h2 id="brief-heading" class="m-0 font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]">Tell us what you need.</h2>
+        <p class="mb-0 mt-8 max-w-[40ch] text-lg leading-[1.7]">Pick a service and answer a few quick questions. We’ll read your brief and come back to you with next steps.</p>
+        <ol class="m-0 mt-10 list-none p-0">
+          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">1</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Choose what you need help with.</p></li>
+          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">2</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Answer the questions that fit your project.</p></li>
+          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-y border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">3</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">We get back to you by email.</p></li>
+        </ol>
+      </div>
+      <div>
+{{> enquiry-form}}
+      </div>
+    </section>
   </main>
   <footer class="wrap pb-10 pt-4 text-sm text-muted">
     <div class="flex flex-col gap-1 md:flex-row md:justify-between">
       <p class="m-0">© {{year}} {{name}}. All rights reserved.</p>
-      <p class="m-0">{{location}} · <a class="underline decoration-bronze/60 underline-offset-4 hover:text-ink" href="#team-preview">Team preview</a></p>
-    </div>
-    <!-- Shown with CSS :target, no script needed. preview.php sends people back to one of the note ids on a problem. -->
-    <div id="team-preview" class="preview-box mt-6 max-w-[420px] rounded-[22px] border border-line bg-paper p-6 md:ml-auto">
-      <p class="m-0 font-display text-[24px] font-bold leading-[1.15] text-ink">Team preview</p>
-      <p class="m-0 mt-1 text-[14px] leading-[1.6]">For the Digital Mom team and reviewers. Enter the shared password to see the site in progress.</p>
-      <p id="team-preview-wrong" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">That password didn’t work. Please try again.</p>
-      <p id="team-preview-wait" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">Too many tries. Please wait 15 minutes, then try again.</p>
-      <p id="team-preview-off" class="preview-note mt-3 mb-0 text-[14px] font-medium text-[#a0412d]" role="alert">Team preview isn’t available right now. Please WhatsApp us.</p>
-      <form class="mt-4 flex flex-col gap-3 sm:flex-row" method="post" action="/preview.php">
-        <label class="sr-only" for="preview-password">Team password</label>
-        <input id="preview-password" class="min-h-12 w-full rounded-full border border-line bg-white px-5 text-[15px] text-ink" type="password" name="password" autocomplete="current-password" placeholder="Team password" maxlength="200" required>
-        <button class="btn min-h-12 flex-none justify-center px-5 py-2" type="submit">View the site</button>
-      </form>
+      <p class="m-0">{{location}}</p>
     </div>
   </footer>
   <script src="/assets/vendor/gsap.min.js" defer></script>
   <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
   <script src="/scroll-effects.js" defer></script>
+  <script src="/contact.js" defer></script>
   <script src="/glyphs.js" defer></script>
 </body>
 </html>

@@ -23,30 +23,7 @@
         </div>
       </div>
       <div>
-        <form id="enquiry-form" class="rounded-[24px] bg-sand p-7 md:p-10" action="/contact.php" method="post" data-contact-form>
-          <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
-          <label for="enquiry-name">Your name</label>
-          <input id="enquiry-name" name="name" autocomplete="name" required minlength="2" maxlength="100">
-          <label for="enquiry-business">Business name</label>
-          <input id="enquiry-business" name="business" autocomplete="organization" maxlength="150">
-          <label for="enquiry-email">Email address</label>
-          <input id="enquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
-          <label for="enquiry-phone">WhatsApp number <span class="font-normal text-muted">(optional)</span></label>
-          <input id="enquiry-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30">
-          <label for="enquiry-link">Website or social link <span class="font-normal text-muted">(optional)</span></label>
-          <input id="enquiry-link" name="link" type="url" inputmode="url" maxlength="300" placeholder="https://" aria-describedby="enquiry-link-help">
-          <p id="enquiry-link-help" class="m-0 mt-1 text-[13px] text-muted">Share your website or social page if you have one.</p>
-          <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices">{{enquiry_topics}}</div></fieldset>
-{{enquiry_sets}}
-          <label for="enquiry-message" data-message-label>Tell us a little about the project</label>
-          <textarea id="enquiry-message" name="message" rows="5" required minlength="10" maxlength="3000"></textarea>
-          <p class="m-0 mt-1 text-[13px] text-muted" data-message-help>You don’t need a polished brief. Tell us what you know so far.</p>
-          <div class="honey" aria-hidden="true"><label for="enquiry-website">Leave this field empty</label><input id="enquiry-website" name="website" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="token">
-          <p class="form-note">We’ll use your details to respond to your enquiry. Please don’t include passwords or sensitive account information in this form. <a href="/privacy/">Privacy policy</a></p>
-          <p class="form-status" role="status" aria-live="polite" data-form-status></p>
-          <button class="btn form-submit" type="submit" disabled>Send the details <span class="arrow" aria-hidden="true">↗</span></button>
-        </form>
+{{> enquiry-form}}
       </div>
     </section>
   </main>
