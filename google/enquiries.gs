@@ -1,11 +1,12 @@
 /**
- * Digital Mom website enquiries: Apps Script project (script.new) linked to the "Website enquiries" Google Sheet in the digitalmomseo account.
+ * Digital Mom website enquiries ("Website form connector (do not share)"): Apps Script project linked to the "Website enquiries" Google Sheet in the digitalmomseo account.
  * contact.php posts each enquiry here as JSON. The script adds a row to the sheet, writes a client brief as a Google Doc
  * in the "Client briefs" folder next to the sheet, and returns the Doc link, which goes into the email to info@.
  *
  * Setup: paste into a new Apps Script project, replace PASTE_KEY_HERE with the key from the project's sheet-secret.json,
  * then Deploy > New deployment > Web app, Execute as: Me, Who has access: Anyone. The key keeps strangers out.
- * Anyone with access to the sheet's folder sees the rows and briefs; share the folder, never the script.
+ * Share the "Website enquiries" folder, never this script: anyone with access to the script can read the key. If the
+ * key is ever seen, put a new one here and in sheet-secret.json, then Deploy > Manage deployments > edit > New version.
  */
 const KEY = 'PASTE_KEY_HERE';
 const DAILY_CAP = 50;
