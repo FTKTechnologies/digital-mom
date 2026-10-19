@@ -529,24 +529,6 @@
       "hidden": true
     },
     {
-      "slug": "collatan-labs",
-      "name": "CollaTan Labs",
-      "industry": "Tanning and skin care",
-      "intro": "Social media content and product photography for CollaTan Labs. The full case study follows shortly.",
-      "work": [
-        {
-          "type": "social",
-          "title": "Social media content"
-        },
-        {
-          "type": "photo",
-          "title": "Product photography"
-        }
-      ],
-      "pending": true,
-      "hidden": true
-    },
-    {
       "slug": "serendipity-boutique-guesthouse",
       "name": "Serendipity Boutique Guesthouse",
       "industry": "Hospitality",

@@ -85,6 +85,7 @@ ${work.slice(0, 3).map(w => workCard(w, 0, false).replace(' class="">', '>').rep
 // Pictures live in site/assets/clients/<slug>/. Links to the client's site and pages are normal followed links, so
 // every case study gives the client a backlink. With no visible clients there is no page, menu link or sitemap entry.
 const clients = JSON.parse(await readFile(src('clients.json'), 'utf8')).clients.filter(c => c.slug && c.name && !c.hidden);
+const liveExample = ex => ex && (!ex.href.startsWith('/case-studies/') || clients.some(c => ex.href === `/case-studies/${c.slug}/`));
 const hasGallery = clients.length > 0;
 let sharp = null;
 try { sharp = (await import('sharp')).default; } catch { /* without sharp, images are built without width/height */ }
@@ -419,6 +420,7 @@ for (const s of services) {
       service_includes: s.includes.map(i => `<li>${esc(i)}</li>`).join('\n            '),
       // "What we offer": the specific things this service covers (platforms, logo design, redesigns...), one row each,
       // with a link to a case study that shows it. Readable for visitors and clear for search engines.
+      // An example link only shows when its case study is published (hidden clients have no page).
       service_offers: s.offers?.length ? `    <section class="wrap pb-[clamp(64px,8vw,112px)]" aria-labelledby="offers-heading" data-scroll-zone>
       <div class="grid gap-10 md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)] md:gap-20">
         <h2 id="offers-heading" data-scroll="words" class="m-0 max-w-[13ch] self-start md:sticky md:top-28 font-display text-[clamp(36px,4.6vw,64px)] font-bold leading-[1.02] tracking-[-0.02em]">${esc(s.offers_heading || 'What we offer')}</h2>
@@ -427,7 +429,7 @@ ${s.offers.map(o => `          <li data-scroll="draw" class="grid gap-2 border-t
             <h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(o.title)}</h3>
             <div>
               <p class="m-0 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(o.text)}</p>${o.platforms ? `
-              <ul class="m-0 mt-4 flex list-none flex-wrap gap-2 p-0" aria-label="Platforms">${o.platforms.map(p => `<li class="inline-flex min-h-9 items-center gap-2 rounded-full border border-line px-3.5 text-[14px]"><svg class="size-[18px] text-bronze" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${platformIcons[p].svg}</svg>${platformIcons[p].name}</li>`).join('')}</ul>` : ''}${o.example ? `
+              <ul class="m-0 mt-4 flex list-none flex-wrap gap-2 p-0" aria-label="Platforms">${o.platforms.map(p => `<li class="inline-flex min-h-9 items-center gap-2 rounded-full border border-line px-3.5 text-[14px]"><svg class="size-[18px] text-bronze" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${platformIcons[p].svg}</svg>${platformIcons[p].name}</li>`).join('')}</ul>` : ''}${liveExample(o.example) ? `
               <p class="m-0 mt-3"><a class="link" href="${esc(o.example.href)}">${esc(o.example.label)} <span aria-hidden="true">↗</span></a></p>` : ''}
             </div>
           </li>`).join('\n')}
