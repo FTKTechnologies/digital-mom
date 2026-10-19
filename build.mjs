@@ -371,7 +371,7 @@ const csp = `default-src 'self'; script-src 'self'${ga.script}; style-src 'self'
 // the chosen one), and site/enquiry-fields.php, the same list for contact.php to check answers against.
 const enquiry = JSON.parse(await readFile(src('enquiry.json'), 'utf8')).sets;
 const choice = (type, name, value, label = value) => `<label class="choice"><input type="${type}" name="${name}" value="${esc(value)}"><span>${esc(label)}</span></label>`;
-const enquiryTopics = enquiry.map(s => choice('radio', 'topic', s.key, s.label)).concat(choice('radio', 'topic', 'unsure', 'Not sure yet')).join('');
+const enquiryTopics = enquiry.map(s => choice('checkbox', 'topic[]', s.key, s.label)).concat(choice('checkbox', 'topic[]', 'unsure', 'Not sure yet')).join('');
 const enquirySets = enquiry.map(s => `          <fieldset class="enquiry-set" data-enquiry-set="${esc(s.key)}" data-service="${esc(s.service)}" hidden disabled>
             <legend>${esc(s.label)}: a few quick questions</legend>
 ${s.fields.map(f => {

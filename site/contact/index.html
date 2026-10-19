@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/cormorant.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/assets/styles.css?v=5c850d2bb7">
+  <link rel="stylesheet" href="/assets/styles.css?v=bd56ba0995">
 </head>
 <body>
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-olive focus:p-3 focus:text-white" href="#main">Skip to content</a>
@@ -53,7 +53,7 @@
     </div>
   </header>
 <main id="main">
-    <section class="wrap grid gap-12 pb-[clamp(64px,8vw,120px)] pt-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-20 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
+    <section class="wrap grid gap-12 pb-[clamp(64px,8vw,120px)] pt-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-14 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
       <div class="md:sticky md:top-8 md:self-start">
         <h1 id="page-title" data-scroll="words" data-start="top 98%" class="m-0 font-display text-[clamp(44px,7vw,96px)] font-bold leading-[.96] tracking-[-0.03em]">Let’s start the conversation.</h1>
         <p class="mb-0 mt-8 max-w-[44ch] text-lg leading-[1.7] md:text-xl">Tell us what you are working on, what is falling behind or what you would love someone else to take care of. A few useful details are enough to get the conversation started.</p>
@@ -75,7 +75,7 @@
           </ol>
         </div>
       </div>
-      <div data-wizard="two">
+      <div class="md:self-start" data-wizard="two">
 <!-- The enquiry form with the service question sets (src/enquiry.json). On /contact/ it shows as one form. Inside a
      [data-wizard] container (the maintenance page pop-up) contact.js shows one [data-step] at a time, with Back/Next;
      .wizard-only parts show only there. -->
@@ -91,8 +91,9 @@
             </ol>
           </div>
           <div data-step="service">
-            <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
-            <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices"><label class="choice"><input type="radio" name="topic" value="social"><span>Social media</span></label><label class="choice"><input type="radio" name="topic" value="website"><span>Website</span></label><label class="choice"><input type="radio" name="topic" value="seo"><span>SEO</span></label><label class="choice"><input type="radio" name="topic" value="design"><span>Graphic design</span></label><label class="choice"><input type="radio" name="topic" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>What can we help with? <span class="font-normal text-muted">(pick one or more)</span></legend>
+            <p class="m-0 mb-2 text-[14px] leading-[1.6] text-muted">Choose every service you are interested in. Each one gets a few quick questions, so we know what you need and can come prepared when we get back to you.</p><div class="choices"><label class="choice"><input type="checkbox" name="topic[]" value="social"><span>Social media</span></label><label class="choice"><input type="checkbox" name="topic[]" value="website"><span>Website</span></label><label class="choice"><input type="checkbox" name="topic[]" value="seo"><span>SEO</span></label><label class="choice"><input type="checkbox" name="topic[]" value="design"><span>Graphic design</span></label><label class="choice"><input type="checkbox" name="topic[]" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+            <div class="enquiry-photo photo-frame mt-5 aspect-[16/9] !rounded-[16px]" data-enquiry-photo><img class="photo-blend photo-cover object-[50%_30%]" srcset="/assets/enquiry-talk-640.webp 640w, /assets/enquiry-talk.webp 1200w" sizes="(max-width: 768px) 100vw, 50vw" src="/assets/enquiry-talk.jpg" width="1200" height="675" alt="A woman on a phone call at her desk, a laptop and notebook in front of her." loading="lazy"></div>
           </div>
           <div data-step="questions">
           <fieldset class="enquiry-set" data-enquiry-set="social" data-service="social-media-marketing" hidden disabled>
@@ -235,13 +236,13 @@
   </div>
   <a class="to-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></a>
   <noscript><p class="wrap">To contact us, please use the WhatsApp link in the footer.</p></noscript>
-  <script src="/assets/vendor/gsap.min.js?v=5c850d2bb7" defer></script>
-  <script src="/assets/vendor/ScrollTrigger.min.js?v=5c850d2bb7" defer></script>
-  <script src="/contact.js?v=5c850d2bb7" defer></script>
-  <script src="/scroll-effects.js?v=5c850d2bb7" defer></script>
-  <script src="/work.js?v=5c850d2bb7" defer></script>
-  <script src="/menu.js?v=5c850d2bb7" defer></script>
-  <script src="/glyphs.js?v=5c850d2bb7" defer></script>
-  <script src="/consent.js?v=5c850d2bb7" defer></script>
+  <script src="/assets/vendor/gsap.min.js?v=bd56ba0995" defer></script>
+  <script src="/assets/vendor/ScrollTrigger.min.js?v=bd56ba0995" defer></script>
+  <script src="/contact.js?v=bd56ba0995" defer></script>
+  <script src="/scroll-effects.js?v=bd56ba0995" defer></script>
+  <script src="/work.js?v=bd56ba0995" defer></script>
+  <script src="/menu.js?v=bd56ba0995" defer></script>
+  <script src="/glyphs.js?v=bd56ba0995" defer></script>
+  <script src="/consent.js?v=bd56ba0995" defer></script>
 </body>
 </html>

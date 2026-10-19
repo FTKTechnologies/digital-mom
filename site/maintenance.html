@@ -23,7 +23,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/cormorant.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/assets/styles.css?v=5c850d2bb7">
+  <link rel="stylesheet" href="/assets/styles.css?v=bd56ba0995">
 </head>
 <body>
 <!-- Maintenance page. Built to site/maintenance.html. While site.json "maintenance" is true, the server answers every
@@ -101,8 +101,9 @@
             </ol>
           </div>
           <div data-step="service">
-            <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
-            <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices"><label class="choice"><input type="radio" name="topic" value="social"><span>Social media</span></label><label class="choice"><input type="radio" name="topic" value="website"><span>Website</span></label><label class="choice"><input type="radio" name="topic" value="seo"><span>SEO</span></label><label class="choice"><input type="radio" name="topic" value="design"><span>Graphic design</span></label><label class="choice"><input type="radio" name="topic" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>What can we help with? <span class="font-normal text-muted">(pick one or more)</span></legend>
+            <p class="m-0 mb-2 text-[14px] leading-[1.6] text-muted">Choose every service you are interested in. Each one gets a few quick questions, so we know what you need and can come prepared when we get back to you.</p><div class="choices"><label class="choice"><input type="checkbox" name="topic[]" value="social"><span>Social media</span></label><label class="choice"><input type="checkbox" name="topic[]" value="website"><span>Website</span></label><label class="choice"><input type="checkbox" name="topic[]" value="seo"><span>SEO</span></label><label class="choice"><input type="checkbox" name="topic[]" value="design"><span>Graphic design</span></label><label class="choice"><input type="checkbox" name="topic[]" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+            <div class="enquiry-photo photo-frame mt-5 aspect-[16/9] !rounded-[16px]" data-enquiry-photo><img class="photo-blend photo-cover object-[50%_30%]" srcset="/assets/enquiry-talk-640.webp 640w, /assets/enquiry-talk.webp 1200w" sizes="(max-width: 768px) 100vw, 50vw" src="/assets/enquiry-talk.jpg" width="1200" height="675" alt="A woman on a phone call at her desk, a laptop and notebook in front of her." loading="lazy"></div>
           </div>
           <div data-step="questions">
           <fieldset class="enquiry-set" data-enquiry-set="social" data-service="social-media-marketing" hidden disabled>
@@ -179,10 +180,10 @@
       <p class="m-0">Centurion, Gauteng, South Africa</p>
     </div>
   </footer>
-  <script src="/assets/vendor/gsap.min.js?v=5c850d2bb7" defer></script>
-  <script src="/assets/vendor/ScrollTrigger.min.js?v=5c850d2bb7" defer></script>
-  <script src="/scroll-effects.js?v=5c850d2bb7" defer></script>
-  <script src="/contact.js?v=5c850d2bb7" defer></script>
-  <script src="/glyphs.js?v=5c850d2bb7" defer></script>
+  <script src="/assets/vendor/gsap.min.js?v=bd56ba0995" defer></script>
+  <script src="/assets/vendor/ScrollTrigger.min.js?v=bd56ba0995" defer></script>
+  <script src="/scroll-effects.js?v=bd56ba0995" defer></script>
+  <script src="/contact.js?v=bd56ba0995" defer></script>
+  <script src="/glyphs.js?v=bd56ba0995" defer></script>
 </body>
 </html>

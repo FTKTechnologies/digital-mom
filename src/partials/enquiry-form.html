@@ -13,8 +13,9 @@
             </ol>
           </div>
           <div data-step="service">
-            <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
-            <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices">{{enquiry_topics}}</div></fieldset>
+            <fieldset class="choice-group"><legend>What can we help with? <span class="font-normal text-muted">(pick one or more)</span></legend>
+            <p class="m-0 mb-2 text-[14px] leading-[1.6] text-muted">Choose every service you are interested in. Each one gets a few quick questions, so we know what you need and can come prepared when we get back to you.</p><div class="choices">{{enquiry_topics}}</div></fieldset>
+            <div class="enquiry-photo photo-frame mt-5 aspect-[16/9] !rounded-[16px]" data-enquiry-photo><img class="photo-blend photo-cover object-[50%_30%]" src="/assets/enquiry-talk.jpg" width="1200" height="675" alt="A woman on a phone call at her desk, a laptop and notebook in front of her." loading="lazy"></div>
           </div>
           <div data-step="questions">
 {{enquiry_sets}}
