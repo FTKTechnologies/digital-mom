@@ -264,7 +264,7 @@ ${workOf(c).map((w, i) => `        <a class="chip inline-flex items-center no-un
       </nav>` : '';
   return {
     urlPath: `/case-studies/${c.slug}/`,
-    meta: { noindex: !!c.pending, title: `${c.name} case study | Digital Mom`, description: `What Digital Mom did for ${c.name}: ${clientServices(c).map(s => s.title.toLowerCase().replace('seo', 'SEO')).join(', ')}.`, cta: true },
+    meta: { noindex: !!c.pending, title: `${c.name} case study | Digital Mom`, description: c.description || `What Digital Mom did for ${c.name}: ${clientServices(c).map(s => s.title.toLowerCase().replace('seo', 'SEO')).join(', ')}.`, cta: true },
     body: `  <main id="main">
     <section class="wrap pb-12 pt-10 md:pb-16 md:pt-16" aria-labelledby="page-title" data-scroll-zone>
       <p class="m-0 mb-8"><a class="link" href="/case-studies/"><span aria-hidden="true">←</span> All case studies</a></p>
