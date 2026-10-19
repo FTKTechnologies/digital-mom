@@ -430,9 +430,10 @@
           "title": "Isuzu Golf Day 2026",
           "facts": {
             "Date": "27 August 2026",
-            "What we did": "Photography on the day and an online gallery for the client"
+            "What we did": "Photography on the day and an online gallery for the client",
+            "Photos": "654 in the full gallery, 15 shown here"
           },
-          "summary": "We covered the whole day: the trucks and branding on display, the players arriving, the speeches and the golf itself. The photos are ready for Isuzu to use on social media and in their own communication.",
+          "summary": "We covered the whole day: the trucks and branding on display, the players arriving, the speeches and the golf itself. We could not show all 654 photos here, so this is a selection of 15. The photos are ready for Isuzu to use on social media and in their own communication.",
           "images": [
             {
               "image": "team.jpg",
@@ -444,8 +445,20 @@
               "alt": "A row of white Isuzu trucks on display at the golf day."
             },
             {
+              "image": "rhino-trailer.jpg",
+              "alt": "A trailer with a rhino artwork announcing the all new Rhino Range 2.0."
+            },
+            {
+              "image": "spin-wheel.jpg",
+              "alt": "A Spin the Rhino Wheel game board set up on the lawn."
+            },
+            {
               "image": "goodie-bags.jpg",
               "alt": "Pink Isuzu Golf Day 2026 goodie bags lined up for the players."
+            },
+            {
+              "image": "registration.jpg",
+              "alt": "The Isuzu Truck Centre Midrand registration tent with the hosts in red shirts."
             },
             {
               "image": "fire-pit.jpg",
@@ -464,8 +477,20 @@
               "alt": "Players in matching red golf shirts standing together with their arms folded."
             },
             {
+              "image": "golf-cart.jpg",
+              "alt": "A smiling player giving a thumbs up from a golf cart."
+            },
+            {
+              "image": "putting.jpg",
+              "alt": "A player lining up a putt on the practice green."
+            },
+            {
               "image": "fourball.jpg",
               "alt": "A fourball of golfers posing together on the course."
+            },
+            {
+              "image": "fourball-fun.jpg",
+              "alt": "Four golfers pulling fun poses for the camera on the course."
             },
             {
               "image": "tee-shot.jpg",
