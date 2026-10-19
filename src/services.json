@@ -6,9 +6,10 @@
     "intro": "Social media marketing for businesses that want a feed that keeps going. We plan content around what your business is doing, what your audience needs to know and what you want the brand to be known for, then make it: the captions, the photos, the reels. The goal is a social presence that looks and sounds like the business behind it.",
     "includes": [
       "Content planning and calendar direction.",
-      "Caption writing and content messaging.",
+      "Copywriting for captions, posts and campaigns, written in your brand’s voice.",
       "Photography, reels and short-form video, planned around your products and your people.",
       "Behind-the-scenes content that gives your audience something real to see.",
+      "Email newsletters and campaigns that keep your customers up to date.",
       "Publishing and ongoing channel support where agreed."
     ],
     "fit": "Businesses that know they should post more, but never have the time to plan, shoot and write it.",
@@ -35,7 +36,7 @@
       "name": "Priscilla Du Preez",
       "url": "https://unsplash.com/photos/a-woman-taking-a-picture-of-food-on-her-phone-m8pYWJQnRs0"
     },
-    "offers_heading": "The platforms we work on",
+    "offers_heading": "Platforms and the content we make",
     "offers": [
       {
         "title": "Instagram",
@@ -60,6 +61,34 @@
           "label": "See it in the Veriserv case study",
           "href": "/case-studies/veriserv/"
         }
+      },
+      {
+        "title": "Reels",
+        "text": "Short videos planned, filmed and edited for Instagram, Facebook and TikTok, with covers and captions that suit your feed.",
+        "example": {
+          "label": "See it in the Innovation Laser Clinic case study",
+          "href": "/case-studies/innovation-laser-clinic/"
+        }
+      },
+      {
+        "title": "Product photography",
+        "text": "Clean, styled photos of your products for your feed, your website and your adverts.",
+        "example": {
+          "label": "See it in the CollaTan Labs case study",
+          "href": "/case-studies/collatan-labs/"
+        }
+      },
+      {
+        "title": "Event photography",
+        "text": "Photos from your launch, golf day or year-end function, edited and ready to post while people still remember the day.",
+        "example": {
+          "label": "See it in the Isuzu Golf Day case study",
+          "href": "/case-studies/isuzu/"
+        }
+      },
+      {
+        "title": "Email marketing",
+        "text": "Newsletters and email campaigns designed in your brand, with a clear reason for your customers to open them."
       }
     ]
   },
@@ -71,7 +100,7 @@
     "includes": [
       "Page structure and layout planned around what your visitors need to find.",
       "Design that follows your brand, built to work on phones, tablets and desktops.",
-      "Copy direction, so headings and calls to action say something specific.",
+      "Copywriting for every page, so headings and calls to action say something specific.",
       "Contact forms and WhatsApp links that make getting in touch easy.",
       "Launch setup and handover, with the scope confirmed before work starts."
     ],
@@ -166,7 +195,8 @@
       "Campaign visuals and digital adverts.",
       "Flyers, brochures, company profiles and sales materials.",
       "Presentation and event collateral.",
-      "Print-ready artwork based on confirmed supplier specifications."
+      "Print-ready artwork based on confirmed supplier specifications.",
+      "Brand development: colours, moodboards and simple brand guides."
     ],
     "fit": "Businesses whose posts, flyers and adverts don’t yet look like they come from the same brand.",
     "meta": "Graphic design from Digital Mom: logo design and redesign, digital business cards, email signatures, social media graphics and brochures that feel like your brand.",
@@ -211,6 +241,10 @@
         }
       },
       {
+        "title": "Brand development",
+        "text": "Brand colours, a moodboard and a simple guide to how your logo, type and photos work together, so everything you put out looks like the same business."
+      },
+      {
         "title": "Digital business cards",
         "text": "A business card on the phone, with a QR code that saves your details straight to someone’s contacts.",
         "example": {
@@ -236,7 +270,15 @@
       },
       {
         "title": "Brochures and print",
-        "text": "Flyers, brochures and company profiles, delivered print-ready to your supplier’s specifications."
+        "text": "Flyers, brochures and company profiles, delivered print-ready to your supplier’s specifications.",
+        "example": {
+          "label": "See it in the Icecold case study",
+          "href": "/case-studies/icecold/"
+        }
+      },
+      {
+        "title": "Digital invites",
+        "text": "Invitations for launches, workshops and functions, made for WhatsApp and email, with the date, venue and RSVP details clear at a glance."
       }
     ]
   }
