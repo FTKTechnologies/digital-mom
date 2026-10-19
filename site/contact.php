@@ -8,14 +8,18 @@ header('X-Content-Type-Options: nosniff');
 header("Content-Security-Policy: default-src 'none'; frame-ancestors 'none'");
 header('Referrer-Policy: no-referrer');
 
-function reply(int $code, string $message): never {
+function reply(int $code, string $message): void {
     http_response_code($code);
     echo json_encode(['message' => $message]);
     exit;
 }
 
 session_name('dm_contact');
-session_start(['cookie_httponly' => true, 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'cookie_samesite' => 'Strict', 'use_strict_mode' => true, 'use_only_cookies' => true]);
+// Written for PHP 7.1 and up. Before 7.3 there is no SameSite session option, so it rides on the cookie path.
+$sessionOptions = ['cookie_httponly' => true, 'cookie_secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'use_strict_mode' => true, 'use_only_cookies' => true];
+if (PHP_VERSION_ID >= 70300) $sessionOptions['cookie_samesite'] = 'Strict';
+else $sessionOptions['cookie_path'] = '/; samesite=Strict';
+if (!session_start($sessionOptions)) reply(503, 'The contact form is unavailable right now. Please WhatsApp us instead.');
 $method = $_SERVER['REQUEST_METHOD'] ?? '';
 if ($method === 'GET') {
     if (empty($_SESSION['token']) || time() - ($_SESSION['issued'] ?? 0) > 1800) {
@@ -49,7 +53,7 @@ if ($optional['link'] !== '' && (!filter_var($optional['link'], FILTER_VALIDATE_
 $name = trim($_POST['name']);
 $email = trim($_POST['email']);
 $message = trim($_POST['message']);
-if (strlen($name) < 2 || strlen($name) > 100 || preg_match('/[\x00-\x1F\x7F]/', $name) || strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email) || strlen($message) < 10 || strlen($message) > 12000 || str_contains($message, "\0")) {
+if (strlen($name) < 2 || strlen($name) > 100 || preg_match('/[\x00-\x1F\x7F]/', $name) || strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email) || strlen($message) < 10 || strlen($message) > 12000 || strpos($message, "\0") !== false) {
     reply(422, 'Please enter a valid name, email and a message of 10–3,000 characters.');
 }
 if (preg_match_all('/./us', $message) > 3000 || !preg_match('//u', $message) || !preg_match('//u', $name)) reply(422, 'Please check your message length and text.');
@@ -61,7 +65,7 @@ $rateFile = $rateDirectory . '/' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? 'u
 $handle = @fopen($rateFile, 'c+');
 if (!$handle || !flock($handle, LOCK_EX)) reply(503, 'The contact form is unavailable. Please use WhatsApp.');
 $attempts = json_decode(stream_get_contents($handle), true);
-$attempts = is_array($attempts) ? array_values(array_filter($attempts, fn($stamp) => is_int($stamp) && $stamp > time() - 900)) : [];
+$attempts = is_array($attempts) ? array_values(array_filter($attempts, function ($stamp) { return is_int($stamp) && $stamp > time() - 900; })) : [];
 if (count($attempts) >= 5) {
     flock($handle, LOCK_UN);
     fclose($handle);
@@ -83,6 +87,8 @@ foreach (['business' => 'Business', 'topic' => 'Needs help with', 'link' => 'Web
     if ($optional[$key] !== '') $details .= "{$label}: {$optional[$key]}\n";
 }
 $body = "Website enquiry\n\n{$details}\n{$message}\n";
-if (!@mail($recipient, 'Digital Mom website enquiry', $body, $headers)) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
+$headerLines = '';
+foreach ($headers as $header => $value) $headerLines .= "{$header}: {$value}\r\n";
+if (!@mail($recipient, 'Digital Mom website enquiry', $body, rtrim($headerLines))) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
 unset($_SESSION['token'], $_SESSION['issued']);
 reply(200, 'Your enquiry has been submitted.');
