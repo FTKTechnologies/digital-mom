@@ -490,6 +490,44 @@ for (const f of await allFiles(src())) stampHash.update(path.relative(root, f)).
 stampHash.update(await readFile(fileURLToPath(import.meta.url)));
 for (const f of (await readdir(out())).filter(f => f.endsWith('.js')).sort()) stampHash.update(f).update(await readFile(out(f)));
 const buildStamp = stampHash.digest('hex').slice(0, 10);
+// Mobile-friendly images: every JPG/PNG in site/assets gets WebP copies (640px wide and full size, max 1600px), and every
+// <img> that shows one gets a srcset, so phones download the small file. The original stays as the fallback src.
+// The master logo SVG carries a large embedded picture, so it gets small WebP copies too. Copies are only remade when
+// the original is newer.
+const { stat } = await import('node:fs/promises');
+const variants = new Map(); // "/assets/x.jpg" -> [{ url, w }]
+const newer = async (a, b) => { try { return (await stat(a)).mtimeMs > (await stat(b)).mtimeMs; } catch { return true; } };
+for (const file of sharp ? (await allFiles(out('assets'))).filter(f => /\.(jpe?g|png)$/i.test(f) && !/favicon|apple-touch/i.test(f)) : []) {
+  const url = '/' + path.relative(out(), file).split(path.sep).join('/');
+  const base = file.replace(/\.(jpe?g|png)$/i, '');
+  const { width } = await sharp(file).metadata();
+  const sizes = [...new Set([Math.min(640, width), Math.min(1600, width)])];
+  const list = [];
+  for (const w of sizes) {
+    const target = w === Math.min(1600, width) ? `${base}.webp` : `${base}-${w}.webp`;
+    if (await newer(file, target)) await sharp(file).resize({ width: w, withoutEnlargement: true }).webp({ quality: 78, alphaQuality: 90 }).toFile(target);
+    list.push({ url: url.replace(/\.(jpe?g|png)$/i, '') + (target.endsWith(`-${w}.webp`) ? `-${w}.webp` : '.webp'), w });
+  }
+  variants.set(url, list);
+}
+if (sharp) {
+  const logo = out('assets', 'dm-master-logo.svg');
+  const list = [];
+  for (const w of [560, 840]) {
+    const target = out('assets', `dm-master-logo-${w}.webp`);
+    if (await newer(logo, target)) await sharp(logo, { density: 300 }).resize({ width: w }).webp({ quality: 88, alphaQuality: 100 }).toFile(target);
+    list.push({ url: `/assets/dm-master-logo-${w}.webp`, w });
+  }
+  variants.set('/assets/dm-master-logo.svg', list);
+}
+const responsive = html => html.replace(/<img\b[^>]*>/g, tag => {
+  const srcUrl = (tag.match(/\ssrc="([^"?#]+)"/) || [])[1];
+  if (!srcUrl || !variants.has(srcUrl) || /\ssrcset=/.test(tag)) return tag;
+  const set = variants.get(srcUrl).map(v => `${v.url} ${v.w}w`).join(', ');
+  const sizes = srcUrl.includes('dm-master-logo') ? '(min-width: 768px) 280px, 205px' : '(max-width: 768px) 100vw, 50vw';
+  return tag.replace(/\ssrc="/, ` srcset="${set}" sizes="${sizes}" src="`);
+});
+
 const ctaHtml = fill(include(partials.cta), globals);
 for (const p of pages) {
   if (p.urlPath === '/work/' && !hasWork) continue; // no projects yet: no page, no sitemap entry
@@ -507,7 +545,7 @@ for (const p of pages) {
   if (left) throw new Error(`${p.urlPath}: unresolved placeholder ${left[0]}`);
   const target = p.urlPath === '/' ? out('index.html') : p.urlPath.endsWith('.html') ? out(p.urlPath.slice(1)) : out(...p.urlPath.split('/').filter(Boolean), 'index.html');
   await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(target, html);
+  await writeFile(target, responsive(html));
   if (!p.meta.noindex) urls.push(site.url + p.urlPath);
   console.log('built', p.urlPath);
 }
@@ -520,7 +558,7 @@ for (const p of pages) {
   }).replace(/(src|href)="(\/[^"?#]+\.(?:css|js))"/g, `$1="$2?v=${buildStamp}"`);
   const left = html.match(/\{\{\w+\}\}/);
   if (left) throw new Error(`maintenance page: unresolved placeholder ${left[0]}`);
-  await writeFile(out('maintenance.html'), html);
+  await writeFile(out('maintenance.html'), responsive(html));
   console.log('built /maintenance.html', site.maintenance ? '(ON: every other page is blocked)' : '(off)');
 }
 const lastmod = new Date().toISOString().slice(0, 10); // the build date: every page is rebuilt together
