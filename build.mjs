@@ -367,7 +367,7 @@ const globals = {
   legal_officer: esc(legal.information_officer || ""), legal_updated: esc(legal.updated || ""),
   services_stack: servicesStack,
   testimonials: testimonialsSection,
-  name: esc(site.name), phone: esc(site.phone), hours: esc(site.hours), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
+  name: esc(site.name), phone: esc(site.phone), phone_tel: esc('tel:' + site.phone.replace(/[^+\d]/g, '')), hours: esc(site.hours), email: esc(site.email), whatsapp: esc(site.whatsapp), whatsapp_hello: esc(site.whatsapp_hello),
   year: String(new Date().getFullYear()),
   footer_links: site.footer_links.map(i => `<a class="inline-flex min-h-11 items-center hover:underline" href="${esc(i.href)}">${esc(i.label)}</a>`)
     .concat('<button class="cookie-settings inline-flex min-h-11 items-center border-0 bg-transparent p-0 text-inherit hover:underline" type="button">Cookie settings</button>').join('\n'),
