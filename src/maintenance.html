@@ -36,7 +36,7 @@
           <p data-scroll="words" data-start="top 98%" class="mb-4 max-w-[28ch] text-xl font-medium leading-snug md:text-[22px]">We’re building something great, with all the personality you’d expect.</p>
           <p class="mb-9 max-w-[46ch] text-[17px] leading-[1.7] text-muted">Our new website is nearly ready for its close-up. The team is still here, planning and making social media, websites and design for South African businesses. If you need us before the big reveal, tell us what you need and we’ll get back to you.</p>
           <div class="flex flex-wrap items-center gap-x-7 gap-y-4">
-            <a class="btn" href="#brief">Tell us what you need <span class="arrow" aria-hidden="true">↓</span></a>
+            <button class="btn contact-open" type="button">Tell us what you need <span class="arrow" aria-hidden="true">↗</span></button>
           </div>
         </div>
       </div>
@@ -54,21 +54,13 @@
     </section>
     </div>
 
-    <section id="brief" class="wrap grid scroll-mt-6 gap-10 pb-[clamp(64px,8vw,120px)] pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-20 md:pt-12" aria-labelledby="brief-heading">
-      <div class="md:sticky md:top-8 md:self-start">
-        <h2 id="brief-heading" class="m-0 font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]">Tell us what you need.</h2>
-        <p class="mb-0 mt-8 max-w-[40ch] text-lg leading-[1.7]">Pick a service and answer a few quick questions. We’ll read your brief and come back to you with next steps.</p>
-        <ol class="m-0 mt-10 list-none p-0">
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">1</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Choose what you need help with.</p></li>
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">2</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Answer the questions that fit your project.</p></li>
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-y border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">3</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">We get back to you by email.</p></li>
-        </ol>
-      </div>
-      <div>
-{{> enquiry-form}}
-      </div>
-    </section>
   </main>
+  <dialog id="contact-dialog" class="brief-dialog" aria-label="Tell us what you need">
+    <button class="modal-close" type="button" aria-label="Close the form">×</button>
+    <div data-wizard>
+{{> enquiry-form}}
+    </div>
+  </dialog>
   <footer class="wrap pb-10 pt-4 text-sm text-muted">
     <div class="flex flex-col gap-1 md:flex-row md:justify-between">
       <p class="m-0">© {{year}} {{name}}. All rights reserved.</p>

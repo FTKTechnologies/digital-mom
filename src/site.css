@@ -152,6 +152,13 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 /* Maintenance page: the Team preview box opens from the "Team preview" link (#team-preview) or a problem note. */
 .preview-box, .preview-note { display: none; }
 .preview-box { scroll-margin-top: 160px; } /* keeps the header in view when the box opens */
+/* Enquiry form in stages (maintenance page pop-up): .wizard-only parts show only inside [data-wizard]. */
+.wizard-only { display: none; }
+[data-wizard] .wizard-only:not([hidden]) { display: block; }
+[data-wizard] [data-step][hidden], [data-wizard] .form-submit[hidden] { display: none; }
+dialog.brief-dialog { width: min(600px, calc(100% - 24px)); border-radius: 28px; scrollbar-width: none; } /* no scrollbar cutting the rounded corners; it still scrolls */
+dialog.brief-dialog::-webkit-scrollbar { display: none; }
+dialog.brief-dialog form#enquiry-form { background: transparent; padding: 0; border-radius: 0; }
 .preview-box:target, .preview-box:has(:target) { display: block; }
 .preview-note:target { display: block; }
 @keyframes cookie-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }

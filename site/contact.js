@@ -95,7 +95,67 @@ function wireTopics(form) {
   update();
 }
 
-for (const form of document.querySelectorAll('[data-contact-form]')) wireTopics(form);
+// The form in stages (inside [data-wizard], the maintenance page pop-up): one [data-step] at a time with Back/Next.
+// The questions step is skipped when no service is picked ("Not sure yet"). Send shows on the last step only.
+function wireWizard(form) {
+  const box = form.closest('[data-wizard]');
+  if (!box) return () => {};
+  const all = [...form.querySelectorAll('[data-step]')];
+  const back = form.querySelector('[data-step-back]');
+  const next = form.querySelector('[data-step-next]');
+  const submit = form.querySelector('[type="submit"]');
+  const count = form.querySelector('[data-step-count]');
+  const status = form.querySelector('[data-form-status]');
+  let current = 'intro';
+  const steps = () => {
+    const topic = form.querySelector('input[name="topic"]:checked')?.value || '';
+    return all.filter(step => step.dataset.step !== 'questions' || topic !== 'unsure');
+  };
+  const show = name => {
+    const list = steps();
+    const index = Math.max(0, list.findIndex(step => step.dataset.step === name));
+    current = list[index].dataset.step;
+    for (const step of all) step.hidden = step !== list[index];
+    back.hidden = index === 0;
+    next.hidden = index === list.length - 1;
+    submit.hidden = index !== list.length - 1;
+    count.textContent = `Step ${index + 1} of ${list.length}`;
+    box.closest('dialog')?.scrollTo(0, 0);
+  };
+  const valid = () => {
+    const step = all.find(s => s.dataset.step === current);
+    if (current === 'service' && !form.querySelector('input[name="topic"]:checked')) {
+      status.textContent = 'Please choose what we can help with, or pick “Not sure yet”.';
+      return false;
+    }
+    for (const field of step.querySelectorAll('input, textarea, select')) if (!field.disabled && !field.checkValidity()) { field.reportValidity(); return false; }
+    status.textContent = '';
+    return true;
+  };
+  const move = by => {
+    const list = steps();
+    const index = list.findIndex(step => step.dataset.step === current);
+    show(list[Math.min(list.length - 1, Math.max(0, index + by))].dataset.step);
+  };
+  next.addEventListener('click', () => { if (valid()) move(1); });
+  back.addEventListener('click', () => { status.textContent = ''; move(-1); });
+  // Enter in a field moves on instead of sending early. Runs before the send handler in wireForm.
+  form.addEventListener('submit', event => {
+    if (current === steps().at(-1).dataset.step) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (valid()) move(1);
+  }, true);
+  form.addEventListener('change', event => { if (event.target.name === 'topic') status.textContent = ''; });
+  show('intro');
+  return () => show('intro');
+}
+
+const restartWizard = [];
+for (const form of document.querySelectorAll('[data-contact-form]')) {
+  wireTopics(form);
+  restartWizard.push(wireWizard(form));
+}
 
 const dialog = document.querySelector('#contact-dialog');
 let prepareDialog = () => {};
@@ -108,6 +168,9 @@ for (const form of document.querySelectorAll('[data-contact-form]')) {
 
 if (dialog) {
   document.querySelectorAll('.contact-open').forEach(button => button.addEventListener('click', () => {
+    // After a sent enquiry the stepped form starts again from the first step; otherwise it opens where it was left.
+    const status = dialog.querySelector('[data-form-status]');
+    if (status && status.textContent === MESSAGES.success) { status.textContent = ''; restartWizard.forEach(restart => restart()); }
     dialog.showModal();
     prepareDialog();
   }));

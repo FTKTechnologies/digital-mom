@@ -23,7 +23,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/cormorant.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/assets/styles.css?v=8e5e42ed49">
+  <link rel="stylesheet" href="/assets/styles.css?v=d409bf1e39">
 </head>
 <body>
 <!-- Maintenance page. Built to site/maintenance.html. While site.json "maintenance" is true, the server answers every
@@ -64,7 +64,7 @@
           <p data-scroll="words" data-start="top 98%" class="mb-4 max-w-[28ch] text-xl font-medium leading-snug md:text-[22px]">We’re building something great, with all the personality you’d expect.</p>
           <p class="mb-9 max-w-[46ch] text-[17px] leading-[1.7] text-muted">Our new website is nearly ready for its close-up. The team is still here, planning and making social media, websites and design for South African businesses. If you need us before the big reveal, tell us what you need and we’ll get back to you.</p>
           <div class="flex flex-wrap items-center gap-x-7 gap-y-4">
-            <a class="btn" href="#brief">Tell us what you need <span class="arrow" aria-hidden="true">↓</span></a>
+            <button class="btn contact-open" type="button">Tell us what you need <span class="arrow" aria-hidden="true">↗</span></button>
           </div>
         </div>
       </div>
@@ -82,32 +82,29 @@
     </section>
     </div>
 
-    <section id="brief" class="wrap grid scroll-mt-6 gap-10 pb-[clamp(64px,8vw,120px)] pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-20 md:pt-12" aria-labelledby="brief-heading">
-      <div class="md:sticky md:top-8 md:self-start">
-        <h2 id="brief-heading" class="m-0 font-display text-[clamp(40px,5vw,72px)] font-bold leading-[1] tracking-[-0.02em]">Tell us what you need.</h2>
-        <p class="mb-0 mt-8 max-w-[40ch] text-lg leading-[1.7]">Pick a service and answer a few quick questions. We’ll read your brief and come back to you with next steps.</p>
-        <ol class="m-0 mt-10 list-none p-0">
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">1</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Choose what you need help with.</p></li>
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">2</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">Answer the questions that fit your project.</p></li>
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-3 border-y border-line py-5"><span class="font-display text-[32px] font-bold leading-none text-bronze" aria-hidden="true">3</span><p class="m-0 max-w-[40ch] text-[17px] leading-[1.65] text-muted">We get back to you by email.</p></li>
-        </ol>
-      </div>
-      <div>
-<!-- The enquiry form with the service question sets (src/enquiry.json). Used on /contact/ and the maintenance page. -->
+  </main>
+  <dialog id="contact-dialog" class="brief-dialog" aria-label="Tell us what you need">
+    <button class="modal-close" type="button" aria-label="Close the form">×</button>
+    <div data-wizard>
+<!-- The enquiry form with the service question sets (src/enquiry.json). On /contact/ it shows as one form. Inside a
+     [data-wizard] container (the maintenance page pop-up) contact.js shows one [data-step] at a time, with Back/Next;
+     .wizard-only parts show only there. -->
         <form id="enquiry-form" class="rounded-[24px] bg-sand p-7 md:p-10" action="/contact.php" method="post" data-contact-form>
-          <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
-          <label for="enquiry-name">Your name</label>
-          <input id="enquiry-name" name="name" autocomplete="name" required minlength="2" maxlength="100">
-          <label for="enquiry-business">Business name</label>
-          <input id="enquiry-business" name="business" autocomplete="organization" maxlength="150">
-          <label for="enquiry-email">Email address</label>
-          <input id="enquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
-          <label for="enquiry-phone">WhatsApp number <span class="font-normal text-muted">(optional)</span></label>
-          <input id="enquiry-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30">
-          <label for="enquiry-link">Website or social link <span class="font-normal text-muted">(optional)</span></label>
-          <input id="enquiry-link" name="link" type="url" inputmode="url" maxlength="300" placeholder="https://" aria-describedby="enquiry-link-help">
-          <p id="enquiry-link-help" class="m-0 mt-1 text-[13px] text-muted">Share your website or social page if you have one.</p>
-          <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices"><label class="choice"><input type="radio" name="topic" value="social"><span>Social media</span></label><label class="choice"><input type="radio" name="topic" value="website"><span>Website</span></label><label class="choice"><input type="radio" name="topic" value="seo"><span>SEO</span></label><label class="choice"><input type="radio" name="topic" value="design"><span>Graphic design</span></label><label class="choice"><input type="radio" name="topic" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+          <p class="wizard-only m-0 mb-1 text-[13px] font-semibold uppercase tracking-[.08em] text-bronze" data-step-count></p>
+          <div class="wizard-only" data-step="intro">
+            <h2 class="m-0 font-display text-[clamp(34px,6vw,44px)] font-bold leading-[1.02] tracking-[-0.02em]">Tell us what <em class="text-olive">you need.</em></h2>
+            <p class="m-0 mt-4 text-[16px] leading-[1.65] text-muted">It takes about two minutes, and you don’t need a polished brief.</p>
+            <ol class="m-0 mt-5 list-none p-0">
+              <li class="grid grid-cols-[2.25rem_1fr] gap-x-2 border-t border-line py-3"><span class="font-display text-[26px] font-bold leading-none text-bronze" aria-hidden="true">1</span><span class="text-[16px] leading-[1.55]">Choose what you need help with.</span></li>
+              <li class="grid grid-cols-[2.25rem_1fr] gap-x-2 border-t border-line py-3"><span class="font-display text-[26px] font-bold leading-none text-bronze" aria-hidden="true">2</span><span class="text-[16px] leading-[1.55]">Answer a few quick questions.</span></li>
+              <li class="grid grid-cols-[2.25rem_1fr] gap-x-2 border-y border-line py-3"><span class="font-display text-[26px] font-bold leading-none text-bronze" aria-hidden="true">3</span><span class="text-[16px] leading-[1.55]">Add your details and send. We’ll get back to you by email.</span></li>
+            </ol>
+          </div>
+          <div data-step="service">
+            <p class="m-0 mb-2 text-[15px] leading-[1.6] text-muted">A little about your business and what you need help with is a good place to start.</p>
+            <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices"><label class="choice"><input type="radio" name="topic" value="social"><span>Social media</span></label><label class="choice"><input type="radio" name="topic" value="website"><span>Website</span></label><label class="choice"><input type="radio" name="topic" value="seo"><span>SEO</span></label><label class="choice"><input type="radio" name="topic" value="design"><span>Graphic design</span></label><label class="choice"><input type="radio" name="topic" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+          </div>
+          <div data-step="questions">
           <fieldset class="enquiry-set" data-enquiry-set="social" data-service="social-media-marketing" hidden disabled>
             <legend>Social media: a few quick questions</legend>
             <fieldset class="choice-group"><legend>Platforms <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="Instagram"><span>Instagram</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="Facebook"><span>Facebook</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="LinkedIn"><span>LinkedIn</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="TikTok"><span>TikTok</span></label></div></fieldset>
@@ -146,29 +143,46 @@
             <label for="q-design-when">When it’s needed <span class="font-normal text-muted">(optional)</span></label>
             <input id="q-design-when" name="q[design][when]" maxlength="200" placeholder="For example, before our launch on 3 May">
           </fieldset>
-          <label for="enquiry-message" data-message-label>Tell us a little about the project</label>
-          <textarea id="enquiry-message" name="message" rows="5" required minlength="10" maxlength="3000"></textarea>
-          <p class="m-0 mt-1 text-[13px] text-muted" data-message-help>You don’t need a polished brief. Tell us what you know so far.</p>
-          <div class="honey" aria-hidden="true"><label for="enquiry-website">Leave this field empty</label><input id="enquiry-website" name="website" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="token">
-          <p class="form-note">We’ll use your details to respond to your enquiry. Please don’t include passwords or sensitive account information in this form. <a href="/privacy/">Privacy policy</a></p>
+          </div>
+          <div data-step="details">
+            <label for="enquiry-name">Your name</label>
+            <input id="enquiry-name" name="name" autocomplete="name" required minlength="2" maxlength="100">
+            <label for="enquiry-business">Business name</label>
+            <input id="enquiry-business" name="business" autocomplete="organization" maxlength="150">
+            <label for="enquiry-email">Email address</label>
+            <input id="enquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
+            <label for="enquiry-phone">WhatsApp number <span class="font-normal text-muted">(optional)</span></label>
+            <input id="enquiry-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30">
+            <label for="enquiry-link">Website or social link <span class="font-normal text-muted">(optional)</span></label>
+            <input id="enquiry-link" name="link" type="url" inputmode="url" maxlength="300" placeholder="https://" aria-describedby="enquiry-link-help">
+            <p id="enquiry-link-help" class="m-0 mt-1 text-[13px] text-muted">Share your website or social page if you have one.</p>
+            <label for="enquiry-message" data-message-label>Tell us a little about the project</label>
+            <textarea id="enquiry-message" name="message" rows="4" required minlength="10" maxlength="3000"></textarea>
+            <p class="m-0 mt-1 text-[13px] text-muted" data-message-help>You don’t need a polished brief. Tell us what you know so far.</p>
+            <div class="honey" aria-hidden="true"><label for="enquiry-website">Leave this field empty</label><input id="enquiry-website" name="website" tabindex="-1" autocomplete="off"></div>
+            <input type="hidden" name="token">
+            <p class="form-note">We’ll use your details to respond to your enquiry. Please don’t include passwords or sensitive account information in this form. <a href="/privacy/">Privacy policy</a></p>
+          </div>
           <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+          <div class="wizard-only"><div class="flex items-center justify-between gap-3">
+            <button class="btn-outline" type="button" data-step-back>Back</button>
+            <button class="btn ml-auto" type="button" data-step-next>Next <span class="arrow" aria-hidden="true">→</span></button>
+          </div></div>
           <button class="btn form-submit" type="submit" disabled>Send the details <span class="arrow" aria-hidden="true">↗</span></button>
         </form>
 
-      </div>
-    </section>
-  </main>
+    </div>
+  </dialog>
   <footer class="wrap pb-10 pt-4 text-sm text-muted">
     <div class="flex flex-col gap-1 md:flex-row md:justify-between">
       <p class="m-0">© 2026 Digital Mom. All rights reserved.</p>
       <p class="m-0">Centurion, Gauteng, South Africa</p>
     </div>
   </footer>
-  <script src="/assets/vendor/gsap.min.js?v=8e5e42ed49" defer></script>
-  <script src="/assets/vendor/ScrollTrigger.min.js?v=8e5e42ed49" defer></script>
-  <script src="/scroll-effects.js?v=8e5e42ed49" defer></script>
-  <script src="/contact.js?v=8e5e42ed49" defer></script>
-  <script src="/glyphs.js?v=8e5e42ed49" defer></script>
+  <script src="/assets/vendor/gsap.min.js?v=d409bf1e39" defer></script>
+  <script src="/assets/vendor/ScrollTrigger.min.js?v=d409bf1e39" defer></script>
+  <script src="/scroll-effects.js?v=d409bf1e39" defer></script>
+  <script src="/contact.js?v=d409bf1e39" defer></script>
+  <script src="/glyphs.js?v=d409bf1e39" defer></script>
 </body>
 </html>
