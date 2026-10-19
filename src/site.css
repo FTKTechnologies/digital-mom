@@ -156,6 +156,11 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 .wizard-only { display: none; }
 [data-wizard] .wizard-only:not([hidden]) { display: block; }
 [data-wizard] [data-step][hidden], [data-wizard] .form-submit[hidden] { display: none; }
+/* Stepped form spacing: the status line takes no room while empty, and Back / Next / Send sit a clear gap apart. */
+[data-wizard] .form-status:empty { margin: 0; min-height: 0; }
+[data-wizard] .form-status:not(:empty) { margin: 16px 0 0; }
+[data-wizard] .wizard-only:has([data-step-back]) { margin-top: 24px; }
+[data-wizard] .wizard-only:has([data-step-back]) + .form-submit { margin-top: 12px; }
 dialog.brief-dialog { width: min(600px, calc(100% - 24px)); border-radius: 28px; scrollbar-width: none; } /* no scrollbar cutting the rounded corners; it still scrolls */
 dialog.brief-dialog::-webkit-scrollbar { display: none; }
 dialog.brief-dialog form#enquiry-form { background: transparent; padding: 0; border-radius: 0; }
