@@ -367,6 +367,23 @@ const servicesStack = `      <div data-scroll="stack">\n${services.map((s, i) =>
 // Google Analytics only loads after a visitor accepts cookies (consent.js). With no ga_id set, nothing loads and the CSP stays self-only.
 const ga = site.ga_id ? { script: " https://www.googletagmanager.com", connect: " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com", img: " https://*.google-analytics.com https://*.googletagmanager.com" } : { script: "", connect: "", img: "" };
 const csp = `default-src 'self'; script-src 'self'${ga.script}; style-src 'self'; img-src 'self'${ga.img}; font-src 'self'; connect-src 'self'${ga.connect}; form-action 'self'; base-uri 'none'; object-src 'none'`;
+// Enquiry form question sets (src/enquiry.json): the topic choices, one hidden fieldset per service (contact.js opens
+// the chosen one), and site/enquiry-fields.php, the same list for contact.php to check answers against.
+const enquiry = JSON.parse(await readFile(src('enquiry.json'), 'utf8')).sets;
+const choice = (type, name, value, label = value) => `<label class="choice"><input type="${type}" name="${name}" value="${esc(value)}"><span>${esc(label)}</span></label>`;
+const enquiryTopics = enquiry.map(s => choice('radio', 'topic', s.key, s.label)).concat(choice('radio', 'topic', 'unsure', 'Not sure yet')).join('');
+const enquirySets = enquiry.map(s => `          <fieldset class="enquiry-set" data-enquiry-set="${esc(s.key)}" data-service="${esc(s.service)}" hidden disabled>
+            <legend>${esc(s.label)}: a few quick questions</legend>
+${s.fields.map(f => {
+  const name = `q[${s.key}][${f.name}]`;
+  if (f.type === 'text') return `            <label for="q-${esc(s.key)}-${esc(f.name)}">${esc(f.label)} <span class="font-normal text-muted">(optional)</span></label>
+            <input id="q-${esc(s.key)}-${esc(f.name)}" name="${name}" maxlength="200"${f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : ''}>`;
+  return `            <fieldset class="choice-group"><legend>${esc(f.label)}${f.type === 'checkbox' ? ' <span class="font-normal text-muted">(pick any)</span>' : ''}</legend><div class="choices">${f.options.map(o => choice(f.type, f.type === 'checkbox' ? `${name}[]` : name, o)).join('')}</div></fieldset>`;
+}).join('\n')}
+          </fieldset>`).join('\n');
+const enquiryJson = JSON.stringify(enquiry.map(s => ({ key: s.key, label: s.label, fields: s.fields.map(({ name, label, type, options }) => ({ name, label, type, options: options || [] })) })));
+const phpString = s => `'${s.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+await writeFile(out('enquiry-fields.php'), `<?php\n// Written by build.mjs from src/enquiry.json. The enquiry form's question sets, for contact.php to check answers.\nreturn json_decode(${phpString(enquiryJson)}, true);\n`);
 const legal = site.legal || {};
 const globals = {
   csp: esc(csp), ga_id: esc(site.ga_id || ""),
@@ -381,7 +398,7 @@ const globals = {
     .concat('<button class="cookie-settings inline-flex min-h-11 items-center border-0 bg-transparent p-0 text-inherit hover:underline" type="button">Cookie settings</button>').join('\n'),
   services_rows: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(services)}\n      </ul>`,
   service_names: services.map(s => esc(s.title)).join(' / '),
-  service_options: services.map(s => `<option>${esc(s.title)}</option>`).concat(['<option>Not sure yet</option>', '<option>Something else</option>']).join(''),
+  enquiry_topics: enquiryTopics, enquiry_sets: enquirySets,
   work_grid: workGrid, work_filters: workFilters, work_teaser: workTeaser, team_members: teamMembers,
 };
 
@@ -412,7 +429,7 @@ for (const s of services) {
     meta: { title: `${s.page_title || s.title} | Digital Mom`, description: s.meta },
     body: serviceTpl,
     vars: {
-      service_title: esc(s.title), service_intro: esc(s.intro), service_fit: esc(s.fit),
+      service_quote: esc(`/contact/?service=${s.slug}#enquiry-form`), service_title: esc(s.title), service_intro: esc(s.intro), service_fit: esc(s.fit),
       service_photo: esc(s.photo), service_photo_alt: esc(s.photo_alt),
       // The service page's WhatsApp button opens a chat with a hello that names the service.
       service_short_name: esc(s.title === 'SEO' ? 'SEO' : s.title.toLowerCase()),
@@ -494,8 +511,31 @@ for (const p of pages) {
   if (!p.meta.noindex) urls.push(site.url + p.urlPath);
   console.log('built', p.urlPath);
 }
+// Maintenance page (src/maintenance.html): always built, only served to everyone while site.json "maintenance" is true.
+{
+  const html = fill(include(partials.head + await readFile(src('maintenance.html'), 'utf8')), {
+    ...globals, title: esc(`${site.name} | New website in production`), description: esc('Digital Mom is building a new website. Send us a WhatsApp and the team will get back to you.'),
+    og_description: esc('Digital Mom is building a new website. Send us a WhatsApp and the team will get back to you.'),
+    canonical: esc(site.url + '/'), robots: '\n  <meta name="robots" content="noindex">',
+  }).replace(/(src|href)="(\/[^"?#]+\.(?:css|js))"/g, `$1="$2?v=${buildStamp}"`);
+  const left = html.match(/\{\{\w+\}\}/);
+  if (left) throw new Error(`maintenance page: unresolved placeholder ${left[0]}`);
+  await writeFile(out('maintenance.html'), html);
+  console.log('built /maintenance.html', site.maintenance ? '(ON: every other page is blocked)' : '(off)');
+}
 const lastmod = new Date().toISOString().slice(0, 10); // the build date: every page is rebuilt together
 await writeFile(out('sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${esc(u)}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 await writeFile(out('robots.txt'), `User-agent: *\nAllow: /\nDisallow: /contact.php\n\nSitemap: ${site.url}/sitemap.xml\n`);
 // Apache rules (src/htaccess). The Content-Security-Policy header matches the page meta tag, so it widens with Google Analytics too.
-await writeFile(out('.htaccess'), (await readFile(src('htaccess'), 'utf8')).replace('{{csp}}', csp));
+// With site.json "maintenance": true, every address except the maintenance page and the files it loads answers 503
+// with that page (temporary, so search engines keep the site's listings).
+const maintenanceRules = site.maintenance ? `
+  # MAINTENANCE MODE (site.json "maintenance": true). Everything except the maintenance page and its files answers 503,
+  # unless the browser holds the Team preview pass (set by preview.php). pack.mjs fills in the token in the upload zips.
+  RewriteCond %{REQUEST_URI} !^/(maintenance\\.html|preview\\.php|assets/|scroll-effects\\.js|glyphs\\.js|favicon\\.ico|apple-touch-icon\\.png|robots\\.txt|\\.well-known/)
+  RewriteCond %{HTTP_COOKIE} !(^|;\\s*)dm_preview={{preview_token}}(;|$)
+  RewriteRule ^ - [R=503,L]
+` : '';
+await writeFile(out('.htaccess'), (await readFile(src('htaccess'), 'utf8')).replace('{{csp}}', csp)
+  .replace('{{maintenance_rules}}\n', maintenanceRules)
+  .replace('{{maintenance_error}}\n', site.maintenance ? 'ErrorDocument 503 /maintenance.html\n' : ''));

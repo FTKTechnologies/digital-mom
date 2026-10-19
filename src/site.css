@@ -76,6 +76,18 @@
   .form-status { font-size: 14px; line-height: 1.5; margin: 14px 0; min-height: 1.5em; }
   .form-submit { justify-content: space-between; width: 100%; }
   .form-submit:disabled { opacity: .6; cursor: wait; }
+  form fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  form legend { display: block; padding: 0; font-size: 14px; font-weight: 600; margin: 14px 0 8px; }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  form .choice { position: relative; display: inline-flex; margin: 0; font-size: 14px; font-weight: 500; cursor: pointer; }
+  form .choice input { position: absolute; inset: 0; opacity: 0; min-height: 0; cursor: pointer; }
+  .choice span { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 15px; border: 1px solid #9a9b88; border-radius: 999px; background: #fffdf9; transition: background-color .16s ease, color .16s ease, border-color .16s ease; }
+  .choice:hover span { border-color: var(--color-olive); }
+  .choice input:checked + span { background: var(--color-olive); border-color: var(--color-olive); color: #fff; }
+  .choice input:focus-visible + span { outline: 3px solid var(--color-bronze); outline-offset: 3px; }
+  .enquiry-set { margin-top: 18px !important; padding: 4px 18px 18px !important; border-radius: 18px; background: #fffdf9a6; }
+  .enquiry-set > legend { float: left; width: 100%; font-family: var(--font-display); font-size: 22px; font-weight: 700; margin: 14px 0 0; }
+  .enquiry-set > legend + * { clear: both; }
   .honey { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   @media (max-width: 400px) { dialog { padding: 30px 22px; } dialog h2 { font-size: 42px; } }
 }
@@ -133,6 +145,14 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 @media (min-width: 640px) { .cookie-banner { left: auto; right: 24px; bottom: 24px; margin: 0; } }
 .btn-outline { display: inline-flex; align-items: center; min-height: 44px; padding: .5rem 1.25rem; border-radius: 999px; border: 1px solid var(--color-olive); background: transparent; color: var(--color-olive); font-size: 14px; transition: background-color .16s ease; }
 .btn-outline:hover { background: var(--color-sand); }
+/* Maintenance page: a small "recording" light beside "New website in production". */
+.onair { width: 9px; height: 9px; flex: none; border-radius: 999px; background: #c2452d; animation: onair 1.6s ease-in-out infinite; }
+@keyframes onair { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .onair { animation: none; } }
+/* Maintenance page: the Team preview box opens from the "Team preview" link (#team-preview) or a problem note. */
+.preview-box, .preview-note { display: none; }
+.preview-box:target, .preview-box:has(:target) { display: block; }
+.preview-note:target { display: block; }
 @keyframes cookie-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* Photos shot on a cool lavender backdrop: warm them toward the sand palette so they sit in the page. */

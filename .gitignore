@@ -18,3 +18,7 @@ node_modules/
 
 # Ready-to-upload zips
 /upload/
+
+# Team preview password hash and token (npm run preview-password). Goes only into the upload zips.
+/preview-secret.json
+/site/preview-config.php

@@ -6,7 +6,7 @@
 // Copies to a temp folder first so a running preview server cannot lock files during zipping.
 import { rm, cp, mkdtemp, readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,8 +22,20 @@ const tar = path.join(process.env.SystemRoot || 'C:/Windows', 'System32', 'tar.e
 const makeZip = (target, dir, entries = ['.']) => execFileSync(tar, ['-a', '-c', '-f', target, '-C', dir, ...entries], { stdio: 'inherit' });
 
 const stage = await mkdtemp(path.join(tmpdir(), 'dm-pack-'));
-await cp(path.join(root, 'site'), stage, { recursive: true, filter: src => path.basename(src) !== 'README.md' });
+await cp(path.join(root, 'site'), stage, { recursive: true, filter: src => path.basename(src) !== 'README.md' && path.basename(src) !== 'preview-config.php' });
 try {
+  // Team preview (maintenance mode): the password hash and token from preview-secret.json (gitignored) go into the
+  // zips only, never into site/ or git. See preview-password.mjs.
+  const site = JSON.parse(await readFile(path.join(root, 'src', 'site.json'), 'utf8'));
+  let secret = null;
+  try { secret = JSON.parse(await readFile(path.join(root, 'preview-secret.json'), 'utf8')); } catch { /* no password set yet */ }
+  if (secret && !(/^\$(2y|argon2)[\w$./+=,-]+$/.test(secret.hash) && /^[0-9a-f]{64}$/.test(secret.token))) throw new Error('preview-secret.json is damaged: run `npm run preview-password` again.');
+  if (site.maintenance && !secret) throw new Error('Maintenance mode is on but no Team preview password is set: run `npm run preview-password` first.');
+  const htaccess = path.join(stage, '.htaccess');
+  await writeFile(htaccess, (await readFile(htaccess, 'utf8')).replace('{{preview_token}}', secret ? secret.token : randomBytes(32).toString('hex')));
+  if (secret) await writeFile(path.join(stage, 'preview-config.php'),
+    `<?php\n// Team preview login settings, written by pack.mjs. Change with \`npm run preview-password\`.\nreturn ['hash' => '${secret.hash}', 'token' => '${secret.token}'];\n`);
+
   const files = (await readdir(stage, { recursive: true, withFileTypes: true })).filter(e => e.isFile())
     .map(e => path.relative(stage, path.join(e.parentPath ?? e.path, e.name)).split(path.sep).join('/')).sort();
   const current = {};

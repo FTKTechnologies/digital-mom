@@ -44,17 +44,45 @@ if ($_POST['website'] !== '') reply(400, 'Your message could not be accepted. Pl
 if (time() - $_SESSION['issued'] < 3) reply(429, 'Please wait a few seconds, then send your message.');
 // Optional fields from the full enquiry form on /contact/. The contact dialog does not send them.
 $optional = [];
-foreach (['business' => 150, 'link' => 300, 'topic' => 80] as $key => $max) {
+foreach (['business' => 150, 'link' => 300, 'topic' => 20, 'phone' => 30] as $key => $max) {
     $value = isset($_POST[$key]) && is_string($_POST[$key]) ? trim($_POST[$key]) : '';
     if (strlen($value) > $max || preg_match('/[\x00-\x1F\x7F]/', $value) || ($value !== '' && !preg_match('//u', $value))) reply(422, 'Please check the optional fields.');
     $optional[$key] = $value;
 }
 if ($optional['link'] !== '' && (!filter_var($optional['link'], FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $optional['link']))) reply(422, 'Please enter a full website or social link starting with https://, or leave it empty.');
+if ($optional['phone'] !== '' && !preg_match('/^\+?[0-9 ()-]{7,30}$/', $optional['phone'])) reply(422, 'Please enter a WhatsApp number using digits only, or leave it empty.');
+
+// Service questions (built from src/enquiry.json). Only the chosen service's answers count, and only listed options.
+$sets = is_file(__DIR__ . '/enquiry-fields.php') ? require __DIR__ . '/enquiry-fields.php' : [];
+$set = null;
+foreach (is_array($sets) ? $sets : [] as $candidate) if ($candidate['key'] === $optional['topic']) $set = $candidate;
+if ($optional['topic'] !== '' && $optional['topic'] !== 'unsure' && $set === null) reply(422, 'Please choose what we can help with.');
+$answers = '';
+if ($set !== null) {
+    $given = isset($_POST['q'][$set['key']]) && is_array($_POST['q'][$set['key']]) ? $_POST['q'][$set['key']] : [];
+    foreach ($set['fields'] as $field) {
+        $value = $given[$field['name']] ?? null;
+        if ($value === null || $value === '' || $value === []) continue;
+        if ($field['type'] === 'checkbox') {
+            if (!is_array($value) || count($value) > count($field['options'])) reply(422, 'Please check your answers.');
+            foreach ($value as $item) if (!is_string($item) || !in_array($item, $field['options'], true)) reply(422, 'Please check your answers.');
+            $value = implode(', ', array_unique($value));
+        } elseif ($field['type'] === 'radio') {
+            if (!is_string($value) || !in_array($value, $field['options'], true)) reply(422, 'Please check your answers.');
+        } else {
+            if (!is_string($value) || strlen(trim($value)) > 200 || preg_match('/[\x00-\x1F\x7F]/', $value) || !preg_match('//u', $value)) reply(422, 'Please keep short answers under 200 characters.');
+            $value = trim($value);
+        }
+        $answers .= "- {$field['label']}: {$value}\n";
+    }
+}
+
 $name = trim($_POST['name']);
 $email = trim($_POST['email']);
 $message = trim($_POST['message']);
-if (strlen($name) < 2 || strlen($name) > 100 || preg_match('/[\x00-\x1F\x7F]/', $name) || strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email) || strlen($message) < 10 || strlen($message) > 12000 || strpos($message, "\0") !== false) {
-    reply(422, 'Please enter a valid name, email and a message of 10–3,000 characters.');
+$minimum = $set !== null ? 0 : 10; // with a service picked, the questions carry the brief and the message is optional
+if (strlen($name) < 2 || strlen($name) > 100 || preg_match('/[\x00-\x1F\x7F]/', $name) || strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email) || strlen($message) < $minimum || strlen($message) > 12000 || strpos($message, "\0") !== false) {
+    reply(422, $minimum ? 'Please enter a valid name, email and a message of 10–3,000 characters.' : 'Please enter a valid name and email.');
 }
 if (preg_match_all('/./us', $message) > 3000 || !preg_match('//u', $message) || !preg_match('//u', $name)) reply(422, 'Please check your message length and text.');
 
@@ -83,12 +111,15 @@ fclose($handle);
 $recipient = 'charlene@digital-mom.co.za';
 $headers = ['From' => 'Digital Mom Website <website@digital-mom.co.za>', 'Reply-To' => $email, 'MIME-Version' => '1.0', 'Content-Type' => 'text/plain; charset=UTF-8'];
 $details = "Name: {$name}\nEmail: {$email}\n";
-foreach (['business' => 'Business', 'topic' => 'Needs help with', 'link' => 'Website or social link'] as $key => $label) {
+$topicLabel = $set !== null ? $set['label'] : ($optional['topic'] === 'unsure' ? 'Not sure yet' : '');
+foreach (['business' => 'Business', 'phone' => 'WhatsApp', 'link' => 'Website or social link'] as $key => $label) {
     if ($optional[$key] !== '') $details .= "{$label}: {$optional[$key]}\n";
 }
-$body = "Website enquiry\n\n{$details}\n{$message}\n";
+if ($topicLabel !== '') $details .= "Needs help with: {$topicLabel}\n";
+if ($answers !== '') $details .= "\n{$topicLabel} answers\n{$answers}";
+$body = "Website enquiry\n\n{$details}\n" . ($message !== '' ? "Message:\n{$message}\n" : "(No extra message.)\n");
 $headerLines = '';
 foreach ($headers as $header => $value) $headerLines .= "{$header}: {$value}\r\n";
-if (!@mail($recipient, 'Digital Mom website enquiry', $body, rtrim($headerLines))) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
+if (!@mail($recipient, 'Digital Mom website enquiry' . ($topicLabel !== '' ? ": {$topicLabel}" : ''), $body, rtrim($headerLines))) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
 unset($_SESSION['token'], $_SESSION['issued']);
 reply(200, 'Your enquiry has been submitted.');

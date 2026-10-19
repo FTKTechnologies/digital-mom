@@ -6,6 +6,7 @@ ServerSignature Off
 DirectoryIndex index.html
 ErrorDocument 403 /404.html
 ErrorDocument 404 /404.html
+{{maintenance_error}}
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -16,6 +17,7 @@ ErrorDocument 404 /404.html
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+{{maintenance_rules}}
 
   # Hidden files and folders (.git, .env, .htpasswd...) are never served. .well-known stays open for SSL checks.
   RewriteRule (^|/)\.(?!well-known/) - [F]
@@ -24,9 +26,9 @@ ErrorDocument 404 /404.html
   RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|POST)$
   RewriteRule ^ - [F]
 
-  # contact.php is the only script on the site. Any other .php request (a planted file or a WordPress probe) is refused.
+  # contact.php and preview.php (Team preview login) are the only scripts on the site. Any other .php request (a planted file or a WordPress probe) is refused.
   RewriteCond %{REQUEST_URI} \.(php\d?|phtml|phar|cgi|pl|py|sh|asp|aspx|jsp)$ [NC]
-  RewriteCond %{REQUEST_URI} !^/contact\.php$ [NC]
+  RewriteCond %{REQUEST_URI} !^/(contact|preview)\.php$ [NC]
   RewriteRule ^ - [F]
 
   # Common attack patterns in the address: script tags, folder climbing, code injection, SQL injection.

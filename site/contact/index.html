@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/cormorant.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/assets/styles.css?v=14780df92a">
+  <link rel="stylesheet" href="/assets/styles.css?v=cfa3b014de">
 </head>
 <body>
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-olive focus:p-3 focus:text-white" href="#main">Skip to content</a>
@@ -84,14 +84,53 @@
           <input id="enquiry-business" name="business" autocomplete="organization" maxlength="150">
           <label for="enquiry-email">Email address</label>
           <input id="enquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
+          <label for="enquiry-phone">WhatsApp number <span class="font-normal text-muted">(optional)</span></label>
+          <input id="enquiry-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30">
           <label for="enquiry-link">Website or social link <span class="font-normal text-muted">(optional)</span></label>
           <input id="enquiry-link" name="link" type="url" inputmode="url" maxlength="300" placeholder="https://" aria-describedby="enquiry-link-help">
           <p id="enquiry-link-help" class="m-0 mt-1 text-[13px] text-muted">Share your website or social page if you have one.</p>
-          <label for="enquiry-topic">What do you need help with?</label>
-          <select id="enquiry-topic" name="topic"><option value="">Choose one</option><option>Social Media Marketing</option><option>Web Design</option><option>SEO</option><option>Graphic Design</option><option>Not sure yet</option><option>Something else</option></select>
-          <label for="enquiry-message">Tell us a little about the project</label>
+          <fieldset class="choice-group"><legend>What can we help with?</legend><div class="choices"><label class="choice"><input type="radio" name="topic" value="social"><span>Social media</span></label><label class="choice"><input type="radio" name="topic" value="website"><span>Website</span></label><label class="choice"><input type="radio" name="topic" value="seo"><span>SEO</span></label><label class="choice"><input type="radio" name="topic" value="design"><span>Graphic design</span></label><label class="choice"><input type="radio" name="topic" value="unsure"><span>Not sure yet</span></label></div></fieldset>
+          <fieldset class="enquiry-set" data-enquiry-set="social" data-service="social-media-marketing" hidden disabled>
+            <legend>Social media: a few quick questions</legend>
+            <fieldset class="choice-group"><legend>Platforms <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="Instagram"><span>Instagram</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="Facebook"><span>Facebook</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="LinkedIn"><span>LinkedIn</span></label><label class="choice"><input type="checkbox" name="q[social][platforms][]" value="TikTok"><span>TikTok</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Content <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[social][content][]" value="Static posts"><span>Static posts</span></label><label class="choice"><input type="checkbox" name="q[social][content][]" value="Carousels"><span>Carousels</span></label><label class="choice"><input type="checkbox" name="q[social][content][]" value="Reels"><span>Reels</span></label><label class="choice"><input type="checkbox" name="q[social][content][]" value="Stories"><span>Stories</span></label><label class="choice"><input type="checkbox" name="q[social][content][]" value="Email newsletters"><span>Email newsletters</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Posts per month</legend><div class="choices"><label class="choice"><input type="radio" name="q[social][posts]" value="4"><span>4</span></label><label class="choice"><input type="radio" name="q[social][posts]" value="8"><span>8</span></label><label class="choice"><input type="radio" name="q[social][posts]" value="12"><span>12</span></label><label class="choice"><input type="radio" name="q[social][posts]" value="16 or more"><span>16 or more</span></label><label class="choice"><input type="radio" name="q[social][posts]" value="Not sure"><span>Not sure</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Slides per carousel</legend><div class="choices"><label class="choice"><input type="radio" name="q[social][slides]" value="3 to 5"><span>3 to 5</span></label><label class="choice"><input type="radio" name="q[social][slides]" value="6 to 10"><span>6 to 10</span></label><label class="choice"><input type="radio" name="q[social][slides]" value="Not sure"><span>Not sure</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Photo or video shoots <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[social][shoots][]" value="At our business"><span>At our business</span></label><label class="choice"><input type="checkbox" name="q[social][shoots][]" value="Product shoot"><span>Product shoot</span></label><label class="choice"><input type="checkbox" name="q[social][shoots][]" value="Event coverage"><span>Event coverage</span></label><label class="choice"><input type="checkbox" name="q[social][shoots][]" value="We have our own content"><span>We have our own content</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>What we handle</legend><div class="choices"><label class="choice"><input type="radio" name="q[social][handling]" value="Content only"><span>Content only</span></label><label class="choice"><input type="radio" name="q[social][handling]" value="Content and posting"><span>Content and posting</span></label><label class="choice"><input type="radio" name="q[social][handling]" value="Content, posting and replying to comments"><span>Content, posting and replying to comments</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Type of work</legend><div class="choices"><label class="choice"><input type="radio" name="q[social][term]" value="Ongoing monthly"><span>Ongoing monthly</span></label><label class="choice"><input type="radio" name="q[social][term]" value="Once-off campaign"><span>Once-off campaign</span></label></div></fieldset>
+          </fieldset>
+          <fieldset class="enquiry-set" data-enquiry-set="website" data-service="web-design" hidden disabled>
+            <legend>Website: a few quick questions</legend>
+            <fieldset class="choice-group"><legend>New site or redesign</legend><div class="choices"><label class="choice"><input type="radio" name="q[website][kind]" value="New website"><span>New website</span></label><label class="choice"><input type="radio" name="q[website][kind]" value="Redesign"><span>Redesign</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Number of pages</legend><div class="choices"><label class="choice"><input type="radio" name="q[website][pages]" value="1"><span>1</span></label><label class="choice"><input type="radio" name="q[website][pages]" value="2 to 5"><span>2 to 5</span></label><label class="choice"><input type="radio" name="q[website][pages]" value="6 to 10"><span>6 to 10</span></label><label class="choice"><input type="radio" name="q[website][pages]" value="More than 10"><span>More than 10</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Features <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[website][features][]" value="Contact form"><span>Contact form</span></label><label class="choice"><input type="checkbox" name="q[website][features][]" value="WhatsApp button"><span>WhatsApp button</span></label><label class="choice"><input type="checkbox" name="q[website][features][]" value="Bookings"><span>Bookings</span></label><label class="choice"><input type="checkbox" name="q[website][features][]" value="Online shop"><span>Online shop</span></label><label class="choice"><input type="checkbox" name="q[website][features][]" value="Gallery"><span>Gallery</span></label><label class="choice"><input type="checkbox" name="q[website][features][]" value="Blog"><span>Blog</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>What you already have <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[website][have][]" value="Logo"><span>Logo</span></label><label class="choice"><input type="checkbox" name="q[website][have][]" value="Photos"><span>Photos</span></label><label class="choice"><input type="checkbox" name="q[website][have][]" value="Written copy"><span>Written copy</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Domain and hosting</legend><div class="choices"><label class="choice"><input type="radio" name="q[website][hosting]" value="Already have them"><span>Already have them</span></label><label class="choice"><input type="radio" name="q[website][hosting]" value="Need help"><span>Need help</span></label></div></fieldset>
+            <label for="q-website-when">When it’s needed <span class="font-normal text-muted">(optional)</span></label>
+            <input id="q-website-when" name="q[website][when]" maxlength="200" placeholder="For example, end of March">
+          </fieldset>
+          <fieldset class="enquiry-set" data-enquiry-set="seo" data-service="seo" hidden disabled>
+            <legend>SEO: a few quick questions</legend>
+            <fieldset class="choice-group"><legend>What to manage</legend><div class="choices"><label class="choice"><input type="radio" name="q[seo][manage]" value="Website only"><span>Website only</span></label><label class="choice"><input type="radio" name="q[seo][manage]" value="Google Business Profile only"><span>Google Business Profile only</span></label><label class="choice"><input type="radio" name="q[seo][manage]" value="Both"><span>Both</span></label><label class="choice"><input type="radio" name="q[seo][manage]" value="Not sure"><span>Not sure</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Google Business Profile already set up</legend><div class="choices"><label class="choice"><input type="radio" name="q[seo][gbp]" value="Yes"><span>Yes</span></label><label class="choice"><input type="radio" name="q[seo][gbp]" value="No"><span>No</span></label><label class="choice"><input type="radio" name="q[seo][gbp]" value="Not sure"><span>Not sure</span></label></div></fieldset>
+            <label for="q-seo-areas">Areas you serve <span class="font-normal text-muted">(optional)</span></label>
+            <input id="q-seo-areas" name="q[seo][areas]" maxlength="200" placeholder="For example, Centurion and Pretoria East">
+            <label for="q-seo-services">Services you want to be found for <span class="font-normal text-muted">(optional)</span></label>
+            <input id="q-seo-services" name="q[seo][services]" maxlength="200" placeholder="For example, kitchen renovations">
+            <fieldset class="choice-group"><legend>Type of work</legend><div class="choices"><label class="choice"><input type="radio" name="q[seo][term]" value="Ongoing monthly"><span>Ongoing monthly</span></label><label class="choice"><input type="radio" name="q[seo][term]" value="Once-off check-up"><span>Once-off check-up</span></label></div></fieldset>
+          </fieldset>
+          <fieldset class="enquiry-set" data-enquiry-set="design" data-service="graphic-design" hidden disabled>
+            <legend>Graphic design: a few quick questions</legend>
+            <fieldset class="choice-group"><legend>What you need <span class="font-normal text-muted">(pick any)</span></legend><div class="choices"><label class="choice"><input type="checkbox" name="q[design][need][]" value="Logo"><span>Logo</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Logo refresh"><span>Logo refresh</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Brand development"><span>Brand development</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Business cards"><span>Business cards</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Email signatures"><span>Email signatures</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Flyers or brochures"><span>Flyers or brochures</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Company profile"><span>Company profile</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Digital invites"><span>Digital invites</span></label><label class="choice"><input type="checkbox" name="q[design][need][]" value="Social media graphics"><span>Social media graphics</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Brand guidelines</legend><div class="choices"><label class="choice"><input type="radio" name="q[design][guidelines]" value="Yes"><span>Yes</span></label><label class="choice"><input type="radio" name="q[design][guidelines]" value="No"><span>No</span></label></div></fieldset>
+            <fieldset class="choice-group"><legend>Format</legend><div class="choices"><label class="choice"><input type="radio" name="q[design][format]" value="Print"><span>Print</span></label><label class="choice"><input type="radio" name="q[design][format]" value="Digital"><span>Digital</span></label><label class="choice"><input type="radio" name="q[design][format]" value="Both"><span>Both</span></label></div></fieldset>
+            <label for="q-design-when">When it’s needed <span class="font-normal text-muted">(optional)</span></label>
+            <input id="q-design-when" name="q[design][when]" maxlength="200" placeholder="For example, before our launch on 3 May">
+          </fieldset>
+          <label for="enquiry-message" data-message-label>Tell us a little about the project</label>
           <textarea id="enquiry-message" name="message" rows="5" required minlength="10" maxlength="3000"></textarea>
-          <p class="m-0 mt-1 text-[13px] text-muted">You don’t need a polished brief. Tell us what you know so far.</p>
+          <p class="m-0 mt-1 text-[13px] text-muted" data-message-help>You don’t need a polished brief. Tell us what you know so far.</p>
           <div class="honey" aria-hidden="true"><label for="enquiry-website">Leave this field empty</label><input id="enquiry-website" name="website" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="token">
           <p class="form-note">We’ll use your details to respond to your enquiry. Please don’t include passwords or sensitive account information in this form. <a href="/privacy/">Privacy policy</a></p>
@@ -172,13 +211,13 @@
   </div>
   <a class="to-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></a>
   <noscript><p class="wrap">To contact us, please use the WhatsApp link in the footer.</p></noscript>
-  <script src="/assets/vendor/gsap.min.js?v=14780df92a" defer></script>
-  <script src="/assets/vendor/ScrollTrigger.min.js?v=14780df92a" defer></script>
-  <script src="/contact.js?v=14780df92a" defer></script>
-  <script src="/scroll-effects.js?v=14780df92a" defer></script>
-  <script src="/work.js?v=14780df92a" defer></script>
-  <script src="/menu.js?v=14780df92a" defer></script>
-  <script src="/glyphs.js?v=14780df92a" defer></script>
-  <script src="/consent.js?v=14780df92a" defer></script>
+  <script src="/assets/vendor/gsap.min.js?v=cfa3b014de" defer></script>
+  <script src="/assets/vendor/ScrollTrigger.min.js?v=cfa3b014de" defer></script>
+  <script src="/contact.js?v=cfa3b014de" defer></script>
+  <script src="/scroll-effects.js?v=cfa3b014de" defer></script>
+  <script src="/work.js?v=cfa3b014de" defer></script>
+  <script src="/menu.js?v=cfa3b014de" defer></script>
+  <script src="/glyphs.js?v=cfa3b014de" defer></script>
+  <script src="/consent.js?v=cfa3b014de" defer></script>
 </body>
 </html>

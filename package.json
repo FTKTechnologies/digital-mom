@@ -10,7 +10,8 @@
     "dev:css": "tailwindcss -i ./src/site.css -o ./site/assets/styles.css --watch",
     "serve": "php -S 127.0.0.1:8744 -t site",
     "pack": "node pack.mjs",
-    "images": "node images.mjs"
+    "images": "node images.mjs",
+    "preview-password": "node preview-password.mjs"
   },
   "keywords": [],
   "author": "",

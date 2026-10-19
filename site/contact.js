@@ -64,6 +64,39 @@ function wireForm(form, dialog) {
   return prepare;
 }
 
+// Enquiry form on /contact/: picking a service opens its questions (src/enquiry.json). Closed sets are disabled, so
+// their answers are not sent. With a service picked, the message becomes optional. /contact/?service=<page slug>
+// (the Get a quote buttons) opens with that service picked.
+function wireTopics(form) {
+  const sets = [...form.querySelectorAll('[data-enquiry-set]')];
+  if (!sets.length) return;
+  const message = form.elements.message;
+  const label = form.querySelector('[data-message-label]');
+  const help = form.querySelector('[data-message-help]');
+  const original = { label: label.textContent, help: help.textContent };
+  const update = () => {
+    const topic = form.querySelector('input[name="topic"]:checked')?.value || '';
+    for (const set of sets) {
+      const open = set.dataset.enquirySet === topic;
+      set.hidden = !open;
+      set.disabled = !open;
+    }
+    const picked = topic !== '' && topic !== 'unsure';
+    message.required = !picked;
+    message.minLength = picked ? 0 : 10;
+    label.textContent = picked ? 'Anything else we should know? (optional)' : original.label;
+    help.textContent = picked ? 'Goals, dates, budget or questions. Whatever helps.' : original.help;
+  };
+  form.addEventListener('change', event => { if (event.target.name === 'topic') update(); });
+  form.addEventListener('reset', () => setTimeout(update));
+  const wanted = new URLSearchParams(location.search).get('service');
+  const preset = wanted && sets.find(set => set.dataset.service === wanted);
+  if (preset) form.querySelector(`input[name="topic"][value="${preset.dataset.enquirySet}"]`).checked = true;
+  update();
+}
+
+for (const form of document.querySelectorAll('[data-contact-form]')) wireTopics(form);
+
 const dialog = document.querySelector('#contact-dialog');
 let prepareDialog = () => {};
 for (const form of document.querySelectorAll('[data-contact-form]')) {

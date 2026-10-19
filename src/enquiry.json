@@ -1,0 +1,55 @@
+{
+  "_about": "Question sets for the enquiry form on /contact/. Picking a service there opens its questions. The build turns this into the form and into site/enquiry-fields.php, which contact.php uses to check answers, so a question is added or changed here only. \"service\" links a set to a service page (Get a quote opens /contact/?service=<slug>). Types: checkbox (pick any), radio (pick one), text (short answer).",
+  "sets": [
+    {
+      "key": "social",
+      "label": "Social media",
+      "service": "social-media-marketing",
+      "fields": [
+        { "name": "platforms", "label": "Platforms", "type": "checkbox", "options": ["Instagram", "Facebook", "LinkedIn", "TikTok"] },
+        { "name": "content", "label": "Content", "type": "checkbox", "options": ["Static posts", "Carousels", "Reels", "Stories", "Email newsletters"] },
+        { "name": "posts", "label": "Posts per month", "type": "radio", "options": ["4", "8", "12", "16 or more", "Not sure"] },
+        { "name": "slides", "label": "Slides per carousel", "type": "radio", "options": ["3 to 5", "6 to 10", "Not sure"] },
+        { "name": "shoots", "label": "Photo or video shoots", "type": "checkbox", "options": ["At our business", "Product shoot", "Event coverage", "We have our own content"] },
+        { "name": "handling", "label": "What we handle", "type": "radio", "options": ["Content only", "Content and posting", "Content, posting and replying to comments"] },
+        { "name": "term", "label": "Type of work", "type": "radio", "options": ["Ongoing monthly", "Once-off campaign"] }
+      ]
+    },
+    {
+      "key": "website",
+      "label": "Website",
+      "service": "web-design",
+      "fields": [
+        { "name": "kind", "label": "New site or redesign", "type": "radio", "options": ["New website", "Redesign"] },
+        { "name": "pages", "label": "Number of pages", "type": "radio", "options": ["1", "2 to 5", "6 to 10", "More than 10"] },
+        { "name": "features", "label": "Features", "type": "checkbox", "options": ["Contact form", "WhatsApp button", "Bookings", "Online shop", "Gallery", "Blog"] },
+        { "name": "have", "label": "What you already have", "type": "checkbox", "options": ["Logo", "Photos", "Written copy"] },
+        { "name": "hosting", "label": "Domain and hosting", "type": "radio", "options": ["Already have them", "Need help"] },
+        { "name": "when", "label": "When it’s needed", "type": "text", "placeholder": "For example, end of March" }
+      ]
+    },
+    {
+      "key": "seo",
+      "label": "SEO",
+      "service": "seo",
+      "fields": [
+        { "name": "manage", "label": "What to manage", "type": "radio", "options": ["Website only", "Google Business Profile only", "Both", "Not sure"] },
+        { "name": "gbp", "label": "Google Business Profile already set up", "type": "radio", "options": ["Yes", "No", "Not sure"] },
+        { "name": "areas", "label": "Areas you serve", "type": "text", "placeholder": "For example, Centurion and Pretoria East" },
+        { "name": "services", "label": "Services you want to be found for", "type": "text", "placeholder": "For example, kitchen renovations" },
+        { "name": "term", "label": "Type of work", "type": "radio", "options": ["Ongoing monthly", "Once-off check-up"] }
+      ]
+    },
+    {
+      "key": "design",
+      "label": "Graphic design",
+      "service": "graphic-design",
+      "fields": [
+        { "name": "need", "label": "What you need", "type": "checkbox", "options": ["Logo", "Logo refresh", "Brand development", "Business cards", "Email signatures", "Flyers or brochures", "Company profile", "Digital invites", "Social media graphics"] },
+        { "name": "guidelines", "label": "Brand guidelines", "type": "radio", "options": ["Yes", "No"] },
+        { "name": "format", "label": "Format", "type": "radio", "options": ["Print", "Digital", "Both"] },
+        { "name": "when", "label": "When it’s needed", "type": "text", "placeholder": "For example, before our launch on 3 May" }
+      ]
+    }
+  ]
+}
