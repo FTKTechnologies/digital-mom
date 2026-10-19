@@ -39,6 +39,9 @@ function doPost(e) {
     const doc = makeBrief(data);
     sheet.appendRow([new Date(), 'New', clean(data.name), clean(data.business), clean(data.email), clean(data.phone),
       clean(data.link), clean(data.service), answers, clean(data.message), doc.getUrl()]);
+    // Show the brief as a short "Open brief" link instead of the long address.
+    sheet.getRange(sheet.getLastRow(), HEADERS.length)
+      .setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Open brief').setLinkUrl(doc.getUrl()).build());
     return reply({ ok: true, brief: doc.getUrl() });
   } finally {
     lock.releaseLock();
