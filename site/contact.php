@@ -58,6 +58,7 @@ $set = null;
 foreach (is_array($sets) ? $sets : [] as $candidate) if ($candidate['key'] === $optional['topic']) $set = $candidate;
 if ($optional['topic'] !== '' && $optional['topic'] !== 'unsure' && $set === null) reply(422, 'Please choose what we can help with.');
 $answers = '';
+$answerList = [];
 if ($set !== null) {
     $given = isset($_POST['q'][$set['key']]) && is_array($_POST['q'][$set['key']]) ? $_POST['q'][$set['key']] : [];
     foreach ($set['fields'] as $field) {
@@ -74,6 +75,7 @@ if ($set !== null) {
             $value = trim($value);
         }
         $answers .= "- {$field['label']}: {$value}\n";
+        $answerList[] = ['label' => $field['label'], 'value' => $value];
     }
 }
 
@@ -108,7 +110,7 @@ flock($handle, LOCK_UN);
 fclose($handle);
 
 // These addresses stay on the PHP server and are never returned to the browser.
-$recipient = 'charlene@digital-mom.co.za';
+$recipient = 'info@digital-mom.co.za';
 $headers = ['From' => 'Digital Mom Website <website@digital-mom.co.za>', 'Reply-To' => $email, 'MIME-Version' => '1.0', 'Content-Type' => 'text/plain; charset=UTF-8'];
 $details = "Name: {$name}\nEmail: {$email}\n";
 $topicLabel = $set !== null ? $set['label'] : ($optional['topic'] === 'unsure' ? 'Not sure yet' : '');
@@ -117,9 +119,30 @@ foreach (['business' => 'Business', 'phone' => 'WhatsApp', 'link' => 'Website or
 }
 if ($topicLabel !== '') $details .= "Needs help with: {$topicLabel}\n";
 if ($answers !== '') $details .= "\n{$topicLabel} answers\n{$answers}";
-$body = "Website enquiry\n\n{$details}\n" . ($message !== '' ? "Message:\n{$message}\n" : "(No extra message.)\n");
+// Google Sheet (digitalmomseo account, see google/enquiries.gs): the enquiry becomes a row and a brief Doc. The script
+// can only add, never read, so a compromised server cannot reach the sheet. sheet-config.php is added to the upload zip
+// by pack.mjs and never committed. If Google is slow or down, the email below still goes out without the link.
+$brief = '';
+$sheet = is_file(__DIR__ . '/sheet-config.php') ? require __DIR__ . '/sheet-config.php' : null;
+if (is_array($sheet) && !empty($sheet['url']) && !empty($sheet['key']) && function_exists('curl_init')) {
+    $curl = curl_init($sheet['url']);
+    curl_setopt_array($curl, [
+        CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 3,
+        CURLOPT_CONNECTTIMEOUT => 4, CURLOPT_TIMEOUT => 10, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode(['key' => $sheet['key'], 'name' => $name, 'business' => $optional['business'], 'email' => $email,
+            'phone' => $optional['phone'], 'link' => $optional['link'], 'service' => $topicLabel, 'answers' => $answerList, 'message' => $message]),
+    ]);
+    $result = json_decode((string)curl_exec($curl), true);
+    curl_close($curl);
+    if (is_array($result) && !empty($result['ok']) && is_string($result['brief'] ?? null) && preg_match('#^https://docs\.google\.com/\S+$#', $result['brief'])) $brief = $result['brief'];
+}
+
+$body = "Website enquiry\n\n{$details}\n" . ($message !== '' ? "Message:\n{$message}\n" : "(No extra message.)\n")
+    . ($brief !== '' ? "\nClient brief: {$brief}\n" : '');
 $headerLines = '';
 foreach ($headers as $header => $value) $headerLines .= "{$header}: {$value}\r\n";
-if (!@mail($recipient, 'Digital Mom website enquiry' . ($topicLabel !== '' ? ": {$topicLabel}" : ''), $body, rtrim($headerLines))) reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
+$sent = @mail($recipient, 'Digital Mom website enquiry' . ($topicLabel !== '' ? ": {$topicLabel}" : ''), $body, rtrim($headerLines));
+if (!$sent && $brief === '') reply(503, 'Your message could not be sent. Please WhatsApp us instead.');
 unset($_SESSION['token'], $_SESSION['issued']);
 reply(200, 'Your enquiry has been submitted.');

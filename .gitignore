@@ -22,3 +22,6 @@ node_modules/
 # Team preview password hash and token (npm run preview-password). Goes only into the upload zips.
 /preview-secret.json
 /site/preview-config.php
+/sheet-secret.json
+/site/sheet-config.php
+/google/enquiries.local.gs

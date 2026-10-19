@@ -22,7 +22,7 @@ const tar = path.join(process.env.SystemRoot || 'C:/Windows', 'System32', 'tar.e
 const makeZip = (target, dir, entries = ['.']) => execFileSync(tar, ['-a', '-c', '-f', target, '-C', dir, ...entries], { stdio: 'inherit' });
 
 const stage = await mkdtemp(path.join(tmpdir(), 'dm-pack-'));
-await cp(path.join(root, 'site'), stage, { recursive: true, filter: src => path.basename(src) !== 'README.md' && path.basename(src) !== 'preview-config.php' });
+await cp(path.join(root, 'site'), stage, { recursive: true, filter: src => path.basename(src) !== 'README.md' && !['preview-config.php', 'sheet-config.php'].includes(path.basename(src)) });
 try {
   // Team preview (maintenance mode): the password hash and token from preview-secret.json (gitignored) go into the
   // zips only, never into site/ or git. See preview-password.mjs.
@@ -33,6 +33,14 @@ try {
   if (site.maintenance && !secret) throw new Error('Maintenance mode is on but no Team preview password is set: run `npm run preview-password` first.');
   const htaccess = path.join(stage, '.htaccess');
   await writeFile(htaccess, (await readFile(htaccess, 'utf8')).replace('{{preview_token}}', secret ? secret.token : randomBytes(32).toString('hex')));
+  // Enquiry Sheet (google/enquiries.gs): the web app link and key from sheet-secret.json (gitignored), zip only.
+  let sheet = null;
+  try { sheet = JSON.parse(await readFile(path.join(root, 'sheet-secret.json'), 'utf8')); } catch { /* not set up: enquiries are emailed only */ }
+  if (sheet?.url) {
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(sheet.url) || !/^[0-9a-f]{64}$/.test(sheet.key)) throw new Error('sheet-secret.json is damaged: it needs the Apps Script /exec link and the 64-character key.');
+    await writeFile(path.join(stage, 'sheet-config.php'),
+      `<?php\n// Enquiry Sheet settings, written by pack.mjs from sheet-secret.json. See google/enquiries.gs.\nreturn ['url' => '${sheet.url}', 'key' => '${sheet.key}'];\n`);
+  }
   if (secret) await writeFile(path.join(stage, 'preview-config.php'),
     `<?php\n// Team preview login settings, written by pack.mjs. Change with \`npm run preview-password\`.\nreturn ['hash' => '${secret.hash}', 'token' => '${secret.token}'];\n`);
 
