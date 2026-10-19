@@ -9,6 +9,9 @@ function initScrollEffects(root = document) {
   if (!gsap || !ScrollTrigger) return empty; // Leave the HTML visible.
 
   gsap.registerPlugin(ScrollTrigger);
+  // Phones resize the viewport whenever the address bar slides in or out. Recalculating every effect then makes the
+  // page jump mid-scroll, so those resizes are ignored (a real rotation or window resize still refreshes).
+  ScrollTrigger.config({ ignoreMobileResize: true });
   const elements = [...root.querySelectorAll('[data-scroll]')];
   const media = gsap.matchMedia();
   let destroyed = false;
@@ -136,7 +139,9 @@ function initScrollEffects(root = document) {
           scrollTrigger: { trigger: element, start: 'top bottom', end: 'top 30%', scrub: 0.4 }
         });
       } else if (mode === 'stack') {
-        // Cards pin near the top (CSS sticky) while the next one slides over; the card underneath recedes.
+        // Cards pin near the top (CSS sticky, from 768px up) while the next one slides over; the card underneath
+        // recedes. Phones get a plain list, so there is nothing to animate there.
+        if (window.innerWidth < 768) continue;
         const cards = [...element.querySelectorAll('[data-stack-card]')];
         cards.forEach((card, i) => {
           const next = cards[i + 1];

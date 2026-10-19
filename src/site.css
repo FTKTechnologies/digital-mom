@@ -165,7 +165,9 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 }
 
 /* The example chat keeps a fixed height and scrolls inside, like a phone. Thin, quiet scrollbar. */
-.chat-scroll { overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #fbf9f433 transparent; }
+/* On phones the chat moves on by itself and never takes over a swipe, so the page always scrolls. */
+@media (max-width: 767px) { .chat-scroll { overflow-y: hidden !important; touch-action: pan-y; } }
+.chat-scroll { overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #fbf9f433 transparent; }
 .chat-scroll::-webkit-scrollbar { width: 6px; }
 .chat-scroll::-webkit-scrollbar-thumb { background: #fbf9f433; border-radius: 6px; }
 
@@ -175,6 +177,26 @@ body:has(.cookie-banner:not([hidden])) .to-top { opacity: 0; visibility: hidden;
 @media (min-width: 1024px) { .gallery-grid { columns: 3; column-gap: 24px; } }
 .gallery-tile { break-inside: avoid; margin-bottom: 24px; }
 .gallery-open { cursor: zoom-in; }
+
+/* Case studies: client rows on /case-studies/ and the facts list on each client page. */
+.case-facts { display: grid; gap: 10px; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px solid var(--color-line); }
+.case-facts > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; }
+.case-facts dt { color: var(--color-muted); font-size: 14px; line-height: 1.6; }
+.case-facts dd { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--color-ink); }
+/* Pictures under every case study section share one width. */
+.case-media { max-width: 880px; }
+.case-shot { box-shadow: 0 1px 0 var(--color-line), 0 18px 40px #11150f1f; }
+.score-table-wrap { overflow-x: auto; border-radius: 18px; background: var(--color-sand); padding: 6px 18px 14px; }
+.score-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.score-table caption { caption-side: top; text-align: left; padding: 12px 0 8px; font-size: 14px; color: var(--color-muted); }
+.score-table th, .score-table td { padding: 12px 10px; text-align: left; border-top: 1px solid #11150f1a; white-space: nowrap; }
+.score-table thead th { border-top: 0; font-size: 13px; font-weight: 500; color: var(--color-muted); }
+.score-table tbody th { font-weight: 600; padding-left: 0; }
+.score-table strong { font-weight: 600; }
+.score-table .score-up { color: var(--color-olive); }
+.score-table thead th { white-space: normal; vertical-align: bottom; }
+@media (max-width: 639px) { .score-table-wrap { padding: 4px 12px 10px; } .score-table { font-size: 13.5px; } .score-table th, .score-table td { padding: 10px 5px; } .score-table thead th { font-size: 12px; } }
+.service-tag { border-radius: 999px; background: var(--color-sand); padding: 6px 14px; font-size: 14px; line-height: 1.4; color: var(--color-ink); }
 
 /* Picture viewer (gallery.js). */
 .lightbox { width: min(1100px, calc(100% - 24px)); max-width: none; max-height: calc(100dvh - 24px); padding: 0; border: 0; background: transparent; box-shadow: none; overflow: visible; }
@@ -228,9 +250,12 @@ figure:has(> .photo-pill-caption) { position: relative; }
   color: #ffffff;
 }
 .photo-pill-caption { color: rgba(255, 255, 255, 0.9); }
+/* Before/After labels on website screenshots: solid, since screenshots are often white. */
+.gallery-open.case-shot .photo-pill { background: #11150fd9; border-color: transparent; }
 .photo-pill-caption strong { color: #ffffff; font-weight: 600; }
 .photo-pill-caption a { color: inherit; text-decoration-color: #fbf9f4b3; }
 @media (max-width: 767px) { .photo-pill-caption { background: var(--color-sand); color: var(--color-ink); text-shadow: none; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+@media (max-width: 767px) { .photo-pill-caption strong { color: var(--color-ink); } .photo-pill-caption a { text-decoration-color: #a0764e99; } }
 
 /* Gallery jump links land with the section heading 24px from the top (not the padding above it). */
 .gallery-section { scroll-margin-top: calc(24px - clamp(48px, 6vw, 88px)); }

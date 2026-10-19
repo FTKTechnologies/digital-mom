@@ -1,0 +1,360 @@
+{
+  "clients": [
+    {
+      "slug": "veriserv",
+      "name": "Veriserv",
+      "url": "https://veriserv.co.za/",
+      "industry": "Commercial vehicle finance, insurance and fleet technology",
+      "location": "Sandton, Gauteng",
+      "intro": "A refreshed logo, a new website, a social media campaign and ongoing search care for a business that helps South African companies fund, insure and keep track of their commercial vehicles.",
+      "cover": {
+        "image": "cover.jpg",
+        "alt": "The new Veriserv home page on a desktop screen."
+      },
+      "profiles": [
+        {
+          "platform": "Instagram",
+          "url": "https://www.instagram.com/veriserv/"
+        },
+        {
+          "platform": "Facebook",
+          "url": "https://www.facebook.com/profile.php?id=61564966567739"
+        },
+        {
+          "platform": "LinkedIn",
+          "url": "https://www.linkedin.com/company/veriserv-pty-ltd/"
+        },
+        {
+          "platform": "TikTok",
+          "url": "https://www.tiktok.com/@veriserv"
+        }
+      ],
+      "work": [
+        {
+          "title": "Website redesign",
+          "facts": {},
+          "summary": "The new site gives each part of Veriserv's business its own clear page: finance and insurance, fleet solutions, the K220 and K245C dashcams and a contact page, all built to work well on a phone.",
+          "before": {
+            "image": "site-before.jpg",
+            "alt": "The top of the old Veriserv website: a dark menu bar, a photo of a hand on a glowing tablet and the heading Our Products and Services."
+          },
+          "after": {
+            "image": "site-after.jpg",
+            "alt": "The top of the new Veriserv website: the refreshed logo, a clear menu and the headline Optimised Commercial Mobility For Sustainable Business Growth."
+          },
+          "images": [],
+          "type": "website"
+        },
+        {
+          "title": "Logo refinement",
+          "facts": {
+            "What changed": "Proportions, slogan position and slogan wording"
+          },
+          "summary": "The icon, name and slogan were rebalanced on a 3x3 grid so the logo reads as one unit, from a website header down to a profile picture. The slogan changed from Sustainable Mobility Solutions to Commercial Mobility Solutions, which says straight away who Veriserv serves.",
+          "images": [],
+          "before": {
+            "image": "logo-before.jpg",
+            "alt": "The old Veriserv logo: a large green-to-blue tick beside a smaller VERISERV wordmark."
+          },
+          "after": {
+            "image": "logo-after.jpg",
+            "alt": "The refined Veriserv logo: a rebalanced tick and wordmark with Commercial Mobility Solutions centred underneath."
+          },
+          "type": "logo"
+        },
+        {
+          "title": "Digital business cards and email signatures",
+          "facts": {
+            "Made for": "Each director, in the new brand"
+          },
+          "summary": "Digital business cards with a QR code that saves the contact straight to a phone, and matching email signatures with a photo, contact details, social links and Veriserv’s FSP number, so every email carries the new brand.",
+          "images": [
+            {
+              "image": "email-signature.jpg",
+              "alt": "A Veriserv email signature for director Michael Faulds, with his photo, contact details, social icons, a QR code and the Veriserv logo.",
+              "caption": "Email signature."
+            },
+            {
+              "image": "business-card-1.jpg",
+              "alt": "Digital business card for Michael Faulds, Director, with a QR code and his contact details.",
+              "caption": "Digital business card."
+            },
+            {
+              "image": "business-card-2.jpg",
+              "alt": "Digital business card for Morné van den Berg, Director, with a QR code and his contact details.",
+              "caption": "Digital business card."
+            }
+          ],
+          "type": "print"
+        },
+        {
+          "title": "Social introduction campaign",
+          "facts": {
+            "Format": "16 portrait cards, 1080 x 1350"
+          },
+          "summary": "A campaign that introduces Veriserv card by card: the business and its credentials, the finance and risk solutions, then the fleet technology and dashcams, ending with an invitation to get in touch.",
+          "images": [
+            {
+              "image": "social-card-1.jpg",
+              "alt": "Campaign card: What Keeps Your Business Moving? A truck on an open road."
+            },
+            {
+              "image": "social-card-2.jpg",
+              "alt": "Campaign card: What If Every Asset Decision Connected? Finance and insurance alongside fleet solutions."
+            },
+            {
+              "image": "social-card-3.jpg",
+              "alt": "Campaign card: Every Asset Should Earn Its Place, with a bulldozer."
+            },
+            {
+              "image": "social-card-4.jpg",
+              "alt": "Campaign card: Who Is Accountable When It Matters? Veriserv's registrations and accreditations."
+            },
+            {
+              "image": "social-card-5.jpg",
+              "alt": "Campaign card: What Could Your Next Asset Unlock? A row of trucks."
+            },
+            {
+              "image": "social-card-6.jpg",
+              "alt": "Campaign card: Protect More Than the Asset, with a driver beside his truck."
+            },
+            {
+              "image": "social-card-7.jpg",
+              "alt": "Campaign card: A Sale Is Not Cash Flow, about debtors insurance."
+            },
+            {
+              "image": "social-card-8.jpg",
+              "alt": "Campaign card: Before You Say Yes, Know the Risk, about customer vetting."
+            },
+            {
+              "image": "social-card-9.jpg",
+              "alt": "Campaign card: What Is Your Fleet Trying to Tell You? A truck in fog."
+            },
+            {
+              "image": "social-card-10.jpg",
+              "alt": "Campaign card: You Know Where. Do You Know Why? A phone map on a road."
+            },
+            {
+              "image": "social-card-11.jpg",
+              "alt": "Campaign card: When Stories Differ, Footage Matters, with a driver in a cab."
+            },
+            {
+              "image": "social-card-12.jpg",
+              "alt": "Campaign card: See Both Sides of Every Journey, the K220 dashcam."
+            },
+            {
+              "image": "social-card-13.jpg",
+              "alt": "Campaign card: Who Is Driving Your Shared Fleet? The K245C dashcam."
+            },
+            {
+              "image": "social-card-14.jpg",
+              "alt": "Campaign card: Track the Movement. Understand the Risk. A truck at sunset."
+            },
+            {
+              "image": "social-card-15.jpg",
+              "alt": "Campaign card: What Could Connected Fleet Data Reveal?"
+            },
+            {
+              "image": "social-card-16.jpg",
+              "alt": "Campaign card: Ready to See the Bigger Picture? An invitation to discuss requirements."
+            }
+          ],
+          "type": "social"
+        },
+        {
+          "title": "Search care",
+          "facts": {
+            "Status": "Ongoing, on a monthly plan"
+          },
+          "summary": "We manage Veriserv’s Google Business Profile, improve how fast the site loads and keep its SEO up to Google’s latest standards. The scores show the first round of changes; the work carries on every month.",
+          "images": [
+            {
+              "image": "pagespeed-mobile-before.jpg",
+              "label": "Before",
+              "caption": "Mobile scores before.",
+              "alt": "Google PageSpeed Insights for veriserv.co.za on mobile before: performance 55, accessibility 100, best practices 96, SEO 92."
+            },
+            {
+              "image": "pagespeed-mobile-after.jpg",
+              "label": "After",
+              "caption": "Mobile scores after.",
+              "alt": "Google PageSpeed Insights for veriserv.co.za on mobile after: performance 62, accessibility 100, best practices 96, SEO 100."
+            },
+            {
+              "image": "pagespeed-desktop-before.jpg",
+              "label": "Before",
+              "caption": "Desktop scores before.",
+              "alt": "Google PageSpeed Insights for veriserv.co.za on desktop before: performance 67, accessibility 100, best practices 96, SEO 92."
+            },
+            {
+              "image": "pagespeed-desktop-after.jpg",
+              "label": "After",
+              "caption": "Desktop scores after.",
+              "alt": "Google PageSpeed Insights for veriserv.co.za on desktop after: performance 89, accessibility 97, best practices 96, SEO 100."
+            }
+          ],
+          "scores": {
+            "source": "Google PageSpeed Insights",
+            "columns": [
+              "Performance",
+              "Accessibility",
+              "Best practices",
+              "SEO"
+            ],
+            "rows": [
+              {
+                "label": "Mobile",
+                "before": [
+                  55,
+                  100,
+                  96,
+                  92
+                ],
+                "after": [
+                  62,
+                  100,
+                  96,
+                  100
+                ]
+              },
+              {
+                "label": "Desktop",
+                "before": [
+                  67,
+                  100,
+                  96,
+                  92
+                ],
+                "after": [
+                  89,
+                  97,
+                  96,
+                  100
+                ]
+              }
+            ]
+          },
+          "type": "seo"
+        }
+      ]
+    },
+    {
+      "slug": "sacred-sage",
+      "name": "Sacred Sage",
+      "url": "https://sacredsagerituals.com/",
+      "industry": "Natural skincare",
+      "intro": "A new logo and a 17-card social media campaign for Sacred Sage Rituals, a South African skincare range built around a simple, balancing daily Ritual.",
+      "cover": {
+        "image": "cover.jpg",
+        "alt": "Three Sacred Sage campaign cards side by side on a warm sand background."
+      },
+      "profiles": [
+        {
+          "platform": "Instagram",
+          "url": "https://www.instagram.com/sacred_sage_rituals/"
+        },
+        {
+          "platform": "Facebook",
+          "url": "https://www.facebook.com/sacredsagerituals"
+        }
+      ],
+      "work": [
+        {
+          "title": "Logo redesign",
+          "facts": {
+            "What changed": "A new icon, cleaner lettering and versions for every size"
+          },
+          "summary": "The round stamp with its tree made way for a new logo built around a crescent moon, a line of balance points and soft waves. The line Beyond Suppression. Into Regulation. stays, now set clearly under the name, with a wide version for headers and a stacked one for profile pictures and packaging.",
+          "images": [],
+          "before": {
+            "image": "logo-before.jpg",
+            "alt": "The old Sacred Sage logo: a round sand-coloured stamp with the name, the line Beyond Suppression. Into Regulation. and a small tree."
+          },
+          "after": {
+            "image": "logo-after.jpg",
+            "alt": "The new Sacred Sage logo: a crescent moon with balance points and waves above the name and the line Beyond Suppression. Into Regulation."
+          },
+          "type": "logo"
+        },
+        {
+          "title": "Sacred Sage Rituals campaign",
+          "facts": {
+            "Format": "17 portrait cards, 1080 x 1350"
+          },
+          "summary": "A campaign that explains the Ritual card by card: the brand’s point of view, the simple three-step routine, what each product is for, and where to start, ending with the Ritual Kit.",
+          "images": [
+            {
+              "image": "social-card-1.jpg",
+              "alt": "Campaign card: Most Skincare Works On The Skin. We work with it."
+            },
+            {
+              "image": "social-card-2.jpg",
+              "alt": "Campaign card: You Don’t Need a 10 Step Routine. Just this."
+            },
+            {
+              "image": "social-card-3.jpg",
+              "alt": "Campaign card: Why Handmade Matters, with a woman holding a woven basket."
+            },
+            {
+              "image": "social-card-4.jpg",
+              "alt": "Campaign card: You Smell Nice. What Scent Is That?"
+            },
+            {
+              "image": "social-card-5.jpg",
+              "alt": "Campaign card: Three Steps: the morning and night Ritual."
+            },
+            {
+              "image": "social-card-6.jpg",
+              "alt": "Campaign card: I Do This First: a cleansing bar held in two hands."
+            },
+            {
+              "image": "social-card-7.jpg",
+              "alt": "Campaign card: The Best Partners Don’t Do The Same Job: OzoBloom balancing mist."
+            },
+            {
+              "image": "social-card-8.jpg",
+              "alt": "Campaign card: Stop Adding, Start Understanding: one ingredient that is it."
+            },
+            {
+              "image": "social-card-9.jpg",
+              "alt": "Campaign card: Recover Like It Matters: OzoPure nourishing gel."
+            },
+            {
+              "image": "social-card-10.jpg",
+              "alt": "Campaign card: It Does Not Stop At Your Face: scalp, face, eyes and body."
+            },
+            {
+              "image": "social-card-11.jpg",
+              "alt": "Campaign card: Release The Day: NectoStorm oil among ferns."
+            },
+            {
+              "image": "social-card-12.jpg",
+              "alt": "Campaign card: Some Days Need More: EarthRest balm."
+            },
+            {
+              "image": "social-card-13.jpg",
+              "alt": "Campaign card: Scrub Does Not Have To Mean Stripped: exfoliation with richness built in."
+            },
+            {
+              "image": "social-card-14.jpg",
+              "alt": "Campaign card: See Better, Live Better: LumenRestore eye drops."
+            },
+            {
+              "image": "social-card-15.jpg",
+              "alt": "Campaign card: The Most Underestimated Step In Your Routine: LumenSilk for the eyes."
+            },
+            {
+              "image": "social-card-16.jpg",
+              "alt": "Campaign card: Official Apology: RootMuse for hair."
+            },
+            {
+              "image": "social-card-17.jpg",
+              "alt": "Campaign card: Ritual Begins: the Ritual Kit in its box."
+            }
+          ],
+          "type": "social"
+        }
+      ]
+    }
+  ]
+}

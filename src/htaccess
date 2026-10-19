@@ -1,0 +1,82 @@
+# Digital Mom: security and speed rules for Apache on cPanel.
+# Built from src/htaccess by `npm run build` (the CSP below follows site.json "ga_id"). Edit the source, not site/.htaccess.
+
+Options -Indexes -MultiViews
+ServerSignature Off
+DirectoryIndex index.html
+ErrorDocument 403 /404.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS only, on the bare domain (www and http both redirect).
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Hidden files and folders (.git, .env, .htpasswd...) are never served. .well-known stays open for SSL checks.
+  RewriteRule (^|/)\.(?!well-known/) - [F]
+
+  # Only GET, HEAD and POST (the contact form) are allowed.
+  RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|POST)$
+  RewriteRule ^ - [F]
+
+  # contact.php is the only script on the site. Any other .php request (a planted file or a WordPress probe) is refused.
+  RewriteCond %{REQUEST_URI} \.(php\d?|phtml|phar|cgi|pl|py|sh|asp|aspx|jsp)$ [NC]
+  RewriteCond %{REQUEST_URI} !^/contact\.php$ [NC]
+  RewriteRule ^ - [F]
+
+  # Common attack patterns in the address: script tags, folder climbing, code injection, SQL injection.
+  RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+  RewriteCond %{QUERY_STRING} (\.\./|\.\.%2F|%2E%2E) [NC,OR]
+  RewriteCond %{QUERY_STRING} (base64_(en|de)code|GLOBALS|_REQUEST|eval\(|proc/self) [NC,OR]
+  RewriteCond %{QUERY_STRING} (union.*select|select.*from|insert.*into|drop\s+table) [NC]
+  RewriteRule ^ - [F]
+
+  # Probes for software this site does not run (WordPress, admin panels, backups).
+  RewriteRule ^(wp-admin|wp-login|wp-content|wp-includes|xmlrpc|phpmyadmin|administrator|vendor|node_modules)(/|\.|$) - [F,NC]
+</IfModule>
+
+# Source, backup and config files are never served, even if one is uploaded by mistake.
+<FilesMatch "(?i)\.(md|log|ini|env|conf|config|sh|sql|sqlite|db|bak|backup|old|orig|save|swp|tmp|dist|lock|ya?ml|json|zip|tar|gz|tgz|rar|7z|af|psd|ai)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(README|LICENSE|composer|package|php\.ini|\.user\.ini|error_log)">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+  Header always set Content-Security-Policy "{{csp}}; frame-ancestors 'none'; upgrade-insecure-requests"
+
+  # Pages are checked for updates on every visit; pictures and fonts are kept for a month, scripts and styles for a day.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(jpe?g|png|webp|avif|gif|svg|ico|ttf|woff2?)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Old address of the case studies page.
+<IfModule mod_alias.c>
+  Redirect 301 /gallery/ /case-studies/
+</IfModule>

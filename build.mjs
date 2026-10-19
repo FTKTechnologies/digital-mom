@@ -7,6 +7,7 @@
 import { readFile, writeFile, readdir, mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const src = (...p) => path.join(root, 'src', ...p);
@@ -73,50 +74,198 @@ ${work.slice(0, 3).map(w => workCard(w, 0, false).replace(' class="">', '>').rep
       <p class="mt-10"><a class="link" href="/work/">See all our work <span aria-hidden="true">↗</span></a></p>
     </section>` : '';
 
-// ---------- gallery (src/gallery.json): pictures of client work, one section per service ----------
-// Pictures live in site/assets/gallery/<service-slug>/. Each item: { "image": "file.jpg", "alt": "...", "caption": "...", "client": "..." }.
-// Sections without pictures are left out. With no pictures at all there is no page, no menu link and no sitemap entry,
-// unless "draft": true, which builds /gallery/ for review (noindex, not in the menu or sitemap) with placeholder tiles.
-const gallery = JSON.parse(await readFile(src('gallery.json'), 'utf8'));
-const gallerySections = services.map(s => ({ s, items: gallery.sections?.[s.slug] || [] }));
-const hasGallery = gallerySections.some(g => g.items.length);
-const galleryDraft = !hasGallery && gallery.draft === true;
+// ---------- case studies (src/clients.json): one card per client at /case-studies/, a full page per client ----------
+// A client: { "slug", "name", "url", "industry", "location", "intro", "cover": { "image", "alt" },
+//   "profiles": [{ "platform", "url" }], "hidden": true to keep it out until it is ready,
+//   "work": [{ "type": website | logo | print | social | seo, "title", "summary", "facts": { "Label": "value" },
+//     "before"/"after": { "image", "alt" }, "images": [{ "image", "alt", "caption", "label" }], "scores" (seo only) }] }.
+// The type fixes the layout and the order on the page, so every client looks the same. The full template, image sizes
+// and copy rules are in docs/case-study-template.md; case-images.mjs makes the standard logo panels and campaign cards.
+// Pictures live in site/assets/clients/<slug>/. Links to the client's site and pages are normal followed links, so
+// every case study gives the client a backlink. With no visible clients there is no page, menu link or sitemap entry.
+const clients = JSON.parse(await readFile(src('clients.json'), 'utf8')).clients.filter(c => c.slug && c.name && !c.hidden);
+const hasGallery = clients.length > 0;
 let sharp = null;
 try { sharp = (await import('sharp')).default; } catch { /* without sharp, images are built without width/height */ }
 const imageSize = async file => {
   if (!sharp) return '';
   try { const m = await sharp(file).metadata(); return ` width="${m.width}" height="${m.height}"`; } catch { return ''; }
 };
-const galleryShown = gallerySections.filter(g => g.items.length || galleryDraft);
-const galleryJump = `      <nav class="flex flex-wrap gap-3" aria-label="Gallery sections">
-${galleryShown.map(g => `        <a class="chip inline-flex items-center no-underline" href="#${esc(g.s.slug)}">${esc(g.s.title)}</a>`).join('\n')}
-      </nav>`;
-const placeholderTiles = ['aspect-[4/5]', 'aspect-[4/3]', 'aspect-square'].map(r => `          <li class="gallery-tile"><div class="${r} grid place-items-center rounded-[22px] border border-dashed border-olive/30 bg-sand/60 p-6 text-center text-[14px] text-muted">Add pictures in src/gallery.json</div></li>`).join('\n');
-const galleryBody = (await Promise.all(galleryShown.map(async ({ s, items }) => {
-  const tiles = items.length ? (await Promise.all(items.map(async it => {
-    const url = `/assets/gallery/${s.slug}/${it.image}`;
-    const size = await imageSize(out('assets', 'gallery', s.slug, it.image));
-    const caption = [it.caption, it.client && `for ${it.client}`].filter(Boolean).join(' ');
-    return `          <li class="gallery-tile">
-            <button class="gallery-open group relative block w-full overflow-hidden rounded-[22px] border-0 bg-sand p-0 text-left" type="button" data-full="${esc(url)}" data-caption="${esc(caption)}" aria-label="Enlarge: ${esc(it.alt)}">
-              <img class="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]" src="${esc(url)}"${size} alt="${esc(it.alt)}" loading="lazy">
-              ${caption ? `<span class="photo-pill" aria-hidden="true">${esc(caption.replace(/\.$/, ''))}</span>` : ''}
-            </button>
-          </li>`;
-  }))).join('\n') : placeholderTiles;
-  return `    <section id="${esc(s.slug)}" class="gallery-section wrap border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(s.slug)}-heading" data-scroll-zone>
-      <div class="mb-10 grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
+const domainOf = url => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
+const serviceBySlug = Object.fromEntries(services.map(s => [s.slug, s]));
+// One block of work on a client page. Every type uses the same two columns: title, facts and text on the left, the
+// pictures on the right. The work "type" decides only how the pictures sit, so every client page looks the same. Types, in the order they appear on a page (see docs/case-study-template.md):
+const workTypes = {
+  website: { service: 'web-design', beside: true },        // before/after of the home page (same crop), side by side
+  logo: { service: 'graphic-design', beside: true },       // before/after logo panels (case-images.mjs logo), side by side
+  print: { service: 'graphic-design', beside: true },      // cards, signatures, brochures: one row, every picture the same height
+  social: { service: 'social-media-marketing', beside: true }, // campaign cards (case-images.mjs card) in a grid, platforms listed
+  seo: { service: 'seo', beside: true },                   // score table, then the screenshots in one row
+};
+const typeOrder = Object.keys(workTypes);
+const workOf = c => [...c.work].filter(w => workTypes[w.type]).sort((a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type));
+const clientServices = c => [...new Set(workOf(c).map(w => w.service || workTypes[w.type].service))].map(slug => serviceBySlug[slug]).filter(Boolean);
+const clientImg = async (c, it, extra = '') => {
+  const url = `/assets/clients/${c.slug}/${it.image}`;
+  return `<img class="block h-auto w-full${extra}" src="${esc(url)}"${await imageSize(out('assets', 'clients', c.slug, it.image))} alt="${esc(it.alt)}" loading="lazy">`;
+};
+// A picture that opens bigger in the viewer (gallery.js).
+const zoomable = async (c, it, cls = '', pill = '') => `<button class="gallery-open group relative block w-full overflow-hidden border-0 bg-sand p-0 text-left ${cls}" type="button" data-full="${esc(`/assets/clients/${c.slug}/${it.image}`)}" data-caption="${esc([pill, it.caption?.replace(/\.$/, '')].filter(Boolean).join(': ') || it.alt)}" aria-label="Enlarge: ${esc(it.alt)}">
+                ${await clientImg(c, it, ' transition-transform duration-500 group-hover:scale-[1.02]')}${pill ? `
+                <span class="photo-pill" aria-hidden="true">${esc(pill)}</span>` : ''}
+              </button>`;
+const profileLinks = c => (c.profiles || []).filter(p => p.platform && p.url).map(p => `<a class="underline decoration-bronze/60 underline-offset-4 hover:decoration-ink" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.platform)}</a>`).join(', ');
+const factList = rows => rows.length ? `<dl class="case-facts">
+${rows.map(([k, v]) => `            <div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('\n')}
+          </dl>` : '';
+const siteLink = c => c.url ? `<a class="link" href="${esc(c.url)}" target="_blank" rel="noopener">${esc(domainOf(c.url))} <span aria-hidden="true">↗</span></a>` : '';
+
+// Landing page: one row per client, picture on one side and the summary on the other (sides alternate).
+const clientRows = (await Promise.all(clients.map(async (c, i) => `      <article class="client-row grid gap-8 border-t border-line py-[clamp(40px,6vw,80px)] ${i % 2 ? 'md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]' : 'md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]'} md:items-center md:gap-14">
+        <a class="client-cover group block overflow-hidden rounded-[22px] bg-sand${i % 2 ? ' md:order-2' : ''}" href="/case-studies/${esc(c.slug)}/" tabindex="-1" aria-hidden="true">
+          ${c.cover ? await clientImg(c, c.cover, ' transition-transform duration-700 group-hover:scale-[1.03]') : ''}
+        </a>
         <div>
-          <h2 id="${esc(s.slug)}-heading" class="m-0 font-display text-[clamp(36px,4.4vw,60px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">${esc(s.title)}</h2>
-          <p class="mb-0 mt-4 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(s.short)}</p>
+          <h2 class="m-0 font-display text-[clamp(38px,4.6vw,64px)] font-bold leading-[1] tracking-[-0.02em]"><a class="no-underline hover:underline hover:decoration-bronze/60 hover:underline-offset-8" href="/case-studies/${esc(c.slug)}/">${esc(c.name)}</a></h2>
+          ${c.industry ? `<p class="m-0 mt-3 text-[15px] text-muted">${esc(c.industry)}</p>` : ''}
+          ${c.intro ? `<p class="m-0 mt-5 max-w-[48ch] text-[17px] leading-[1.7]">${esc(c.intro)}</p>` : ''}
+          <ul class="m-0 mt-6 flex list-none flex-wrap gap-2 p-0" aria-label="What we did">
+${clientServices(c).map(s => `            <li class="service-tag">${esc(s.title)}</li>`).join('\n')}
+          </ul>
+          <p class="m-0 mt-8 flex flex-wrap items-center gap-x-8 gap-y-3"><a class="btn" href="/case-studies/${esc(c.slug)}/">See the work<span class="sr-only"> for ${esc(c.name)}</span></a>${siteLink(c)}</p>
         </div>
-        <a class="link" href="/services/${esc(s.slug)}/">More about ${esc(s.title)} <span aria-hidden="true">↗</span></a>
+      </article>`))).join('\n');
+
+const ratio = async (c, it) => {
+  if (!sharp) return 1;
+  try { const m = await sharp(out('assets', 'clients', c.slug, it.image)).metadata(); return Math.round((m.width / m.height) * 100) / 100; } catch { return 1; }
+};
+const workBlock = async (c, w, i) => {
+  const s = serviceBySlug[w.service || workTypes[w.type].service];
+  const rows = Object.entries(w.facts || {}).filter(([, v]) => v).map(([k, v]) => [k, esc(v)]);
+  if (w.type === 'social' && profileLinks(c)) rows.unshift([c.profiles.length > 1 ? 'Platforms' : 'Platform', profileLinks(c)]);
+  if (s) rows.unshift(['Service', `<a class="underline decoration-bronze/60 underline-offset-4 hover:decoration-ink" href="/services/${esc(s.slug)}/">${esc(s.title)}</a>`]);
+  const images = w.images || [];
+  const pic = (it, round = 'rounded-[18px] case-shot', extra = '') => zoomable(c, it, round + extra, it.label);
+  const parts = [];
+  // Before/after pair (website, logo): before above after, each panel the same size.
+  if (w.before && w.after) {
+    parts.push(`<div class="grid max-w-[420px] gap-4">
+          ${await zoomable(c, w.before, 'rounded-[18px] case-shot', 'Before')}
+          ${await zoomable(c, w.after, 'rounded-[18px] case-shot', 'After')}
+        </div>`);
+  }
+  // Score table (seo).
+  if (w.scores?.rows?.length) {
+    const sc = w.scores;
+    const cell = (b, a) => `<td><span class="text-muted">${esc(b)}</span> <span aria-hidden="true">→</span><span class="sr-only"> to </span> <strong class="${a > b ? 'score-up' : ''}">${esc(a)}</strong></td>`;
+    parts.push(`<div class="score-table-wrap">
+          <table class="score-table">
+            <caption>${esc(sc.source || 'Scores')}, before and after</caption>
+            <thead><tr><th scope="col"><span class="sr-only">Score</span></th>${sc.rows.map(r => `<th scope="col">${esc(r.label)}</th>`).join('')}</tr></thead>
+            <tbody>
+${sc.columns.map((h, k) => `              <tr><th scope="row">${esc(h)}</th>${sc.rows.map(r => cell(r.before[k], r.after[k])).join('')}</tr>`).join('\n')}
+            </tbody>
+          </table>
+        </div>`);
+  }
+  if (images.length) {
+    if (w.type === 'social') {
+      // Campaign cards: a tidy grid of small portrait cards.
+      parts.push(`<div class="grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-4">
+          ${(await Promise.all(images.map(it => pic(it, 'rounded-[12px]')))).join('\n          ')}
+        </div>`);
+    } else if (w.type === 'logo' && !(w.before && w.after)) {
+      // A logo with no "before": the new logo panels stacked, same size as a before/after pair.
+      parts.push(`<div class="grid max-w-[420px] gap-4">
+          ${(await Promise.all(images.map(it => pic(it)))).join('\n          ')}
+        </div>`);
+    } else if (w.type === 'print') {
+      // Print pieces, stacked like a before/after pair: landscape pieces (signatures) take the full width, portrait
+      // pieces (business cards) sit two across underneath.
+      const ratios = await Promise.all(images.map(it => ratio(c, it)));
+      parts.push(`<div class="grid max-w-[420px] grid-cols-2 items-start gap-4">
+          ${(await Promise.all(images.map((it, k) => pic(it, 'rounded-[14px] case-shot', ratios[k] > 1 ? ' col-span-2' : '')))).join('\n          ')}
+        </div>`);
+    } else {
+      // Screenshots (seo): one row where every picture has the same height. Column widths follow each picture's
+      // shape; on phones they wrap two across.
+      const ratios = await Promise.all(images.map(it => ratio(c, it)));
+      const cols = ratios.map(r => `${r}fr`).join('_');
+      parts.push(`<div class="grid grid-cols-2 items-start gap-3 md:grid-cols-[${cols}] md:gap-4">
+          ${(await Promise.all(images.map((it, k) => pic(it, 'rounded-[14px] case-shot', ratios[k] > 1.2 && ratios.some(x => x < 1) ? ' col-span-2 md:col-span-1' : '')))).join('\n          ')}
+        </div>`);
+    }
+  }
+  const id = `${w.type}-${i + 1}`;
+  if (workTypes[w.type].beside && parts.length) {
+    return `    <section id="${esc(id)}" class="gallery-section wrap border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(id)}-heading" data-scroll-zone>
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
+        <div>
+          <h2 id="${esc(id)}-heading" class="m-0 font-display text-[clamp(34px,4vw,54px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">${esc(w.title)}</h2>
+          ${factList(rows)}
+          ${w.summary ? `<p class="m-0 mt-5 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(w.summary)}</p>` : ''}
+        </div>
+        <div class="grid content-start gap-5">
+          ${parts.join('\n          ')}
+        </div>
       </div>
-      <ul class="gallery-grid m-0 list-none p-0">
-${tiles}
-      </ul>
     </section>`;
-}))).join('\n');
+  }
+  return `    <section id="${esc(id)}" class="gallery-section wrap border-t border-line py-[clamp(48px,6vw,88px)]" aria-labelledby="${esc(id)}-heading" data-scroll-zone>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-14">
+        <h2 id="${esc(id)}-heading" class="m-0 font-display text-[clamp(34px,4vw,54px)] font-bold leading-[1] tracking-[-0.02em]" data-scroll="words">${esc(w.title)}</h2>
+        <div>
+          ${w.summary ? `<p class="m-0 max-w-[56ch] text-[18px] leading-[1.7]">${esc(w.summary)}</p>` : ''}
+          ${factList(rows)}
+        </div>
+      </div>${parts.length ? `
+      <div class="case-media mt-10 grid gap-5">
+        ${parts.join('\n        ')}
+      </div>` : ''}
+    </section>`;
+};
+const lightbox = `  <dialog class="lightbox" aria-label="Picture viewer">
+    <button class="lightbox-close" type="button" aria-label="Close">×</button>
+    <button class="lightbox-step lightbox-prev" type="button" aria-label="Previous picture">←</button>
+    <figure class="m-0"><img alt=""><figcaption></figcaption></figure>
+    <button class="lightbox-step lightbox-next" type="button" aria-label="Next picture">→</button>
+  </dialog>
+  <script src="/gallery.js" defer></script>`;
+const ldJson = data => `  <script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
+const clientOrg = c => ({ '@type': 'Organization', name: c.name, ...(c.url && { url: c.url }), ...(c.profiles?.length && { sameAs: c.profiles.map(p => p.url) }) });
+const clientPages = await Promise.all(clients.map(async c => {
+  const facts = [
+    c.industry && ['Industry', esc(c.industry)],
+    c.location && ['Based in', esc(c.location)],
+    c.url && ['Website', siteLink(c)],
+    profileLinks(c) && ['Social pages', profileLinks(c)],
+  ].filter(Boolean);
+  const jump = workOf(c).length > 1 ? `      <nav class="mt-10 flex flex-wrap gap-3" aria-label="Gallery sections">
+${workOf(c).map((w, i) => `        <a class="chip inline-flex items-center no-underline" href="#${esc(`${w.type}-${i + 1}`)}">${esc(w.title)}</a>`).join('\n')}
+      </nav>` : '';
+  return {
+    urlPath: `/case-studies/${c.slug}/`,
+    meta: { title: `${c.name} case study | Digital Mom`, description: `What Digital Mom did for ${c.name}: ${clientServices(c).map(s => s.title.toLowerCase().replace('seo', 'SEO')).join(', ')}.`, cta: true },
+    body: `  <main id="main">
+    <section class="wrap pb-12 pt-10 md:pb-16 md:pt-16" aria-labelledby="page-title" data-scroll-zone>
+      <p class="m-0 mb-8"><a class="link" href="/case-studies/"><span aria-hidden="true">←</span> All case studies</a></p>
+      <div class="grid gap-10 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-14">
+        <div>
+          <h1 id="page-title" class="m-0 font-display text-[clamp(52px,9vw,120px)] font-bold leading-[.92] tracking-[-0.03em]" data-scroll="words">${esc(c.name)}</h1>
+          ${c.intro ? `<p class="mb-0 mt-8 max-w-[50ch] text-lg leading-[1.7] md:text-xl">${esc(c.intro)}</p>` : ''}
+        </div>
+        <div>${factList(facts)}</div>
+      </div>
+${jump}
+    </section>
+${(await Promise.all(workOf(c).map((w, i) => workBlock(c, w, i)))).join('\n')}
+  </main>
+${ldJson({ '@context': 'https://schema.org', '@type': 'CreativeWork', name: `${c.name} case study`, url: `${site.url}/case-studies/${c.slug}/`, ...(c.intro && { description: c.intro }), creator: { '@type': 'Organization', name: 'Digital Mom', url: site.url }, about: clientOrg(c) })}
+${lightbox}`,
+    vars: {},
+  };
+}));
 
 // ---------- client messages (src/testimonials.json) ----------
 // Real quotes only, used with the client's permission: [{ "quote": "...", "name": "...", "business": "..." }].
@@ -148,7 +297,7 @@ ${reviewList()}${loop ? '\n' + reviewList(true) : ''}
 
 // ---------- generated fragments ----------
 if (hasWork && !site.nav.find(i => i.href === '/work/')?.live) site.nav.find(i => i.href === '/work/').live = true;
-if (hasGallery && site.nav.find(i => i.href === '/gallery/')) site.nav.find(i => i.href === '/gallery/').live = true;
+if (hasGallery && site.nav.find(i => i.href === '/case-studies/')) site.nav.find(i => i.href === '/case-studies/').live = true;
 const live = site.nav.filter(i => i.live);
 const links = cls => live.map(i => `<a class="${cls}" href="${esc(i.href)}">${esc(i.label)}</a>`).join('\n');
 const arrow = '<span aria-hidden="true">↗</span>';
@@ -172,16 +321,17 @@ const navVars = here => ({
   nav_footer: `      <nav aria-label="Footer navigation" class="mt-5 flex flex-wrap gap-x-7 text-paper">\n${navLinks(here, 'inline-flex min-h-11 items-center no-underline hover:underline', 'text-gold')}\n      </nav>`,
 });
 
-// Home page: services as cards that stack at the top while scrolling (see data-scroll="stack").
+// Home page: services as cards that stack at the top while scrolling (see data-scroll="stack"). Tablet and desktop
+// only: on phones the cards are taller than the space under the header, so they simply scroll as a list.
 const stackTones = [
-  { card: 'bg-sand text-ink', sticky: 'top-[88px]' },
-  { card: 'bg-olive text-paper', sticky: 'top-[108px]' },
-  { card: 'bg-gold text-ink', sticky: 'top-[128px]' },
-  { card: 'bg-olive-deep text-paper', sticky: 'top-[148px]' },
+  { card: 'bg-sand text-ink', sticky: 'md:top-[88px]' },
+  { card: 'bg-olive text-paper', sticky: 'md:top-[108px]' },
+  { card: 'bg-gold text-ink', sticky: 'md:top-[128px]' },
+  { card: 'bg-olive-deep text-paper', sticky: 'md:top-[148px]' },
 ];
 const servicesStack = `      <div data-scroll="stack">\n${services.map((s, i) => {
   const t = stackTones[i % stackTones.length];
-  return `        <a data-stack-card class="sticky ${t.sticky} mb-5 block min-h-[min(68svh,500px)] rounded-[28px] ${t.card} p-7 no-underline md:mb-8 md:p-12" href="${serviceHref(s)}">
+  return `        <a data-stack-card class="md:sticky ${t.sticky} mb-5 block md:min-h-[min(68svh,500px)] rounded-[28px] ${t.card} p-7 no-underline md:mb-8 md:p-12" href="${serviceHref(s)}">
           <div class="grid gap-8 md:grid-cols-2 md:gap-16">
             <div>
               <span class="font-display text-[clamp(44px,5vw,64px)] font-bold leading-none opacity-55" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
@@ -233,7 +383,7 @@ for (const rel of (await walk(src('pages'))).sort()) {
   const m = raw.match(/^\s*<!--meta\s*([\s\S]*?)\s*-->\s*/);
   if (!m) throw new Error(`${rel}: missing <!--meta {...} --> comment on the first line`);
   const stem = rel.replace(/\.html$/, '');
-  const urlPath = stem === 'index' ? '/' : stem.endsWith('/index') ? `/${stem.slice(0, -6)}/` : `/${stem}/`;
+  const urlPath = stem === '404' ? '/404.html' : stem === 'index' ? '/' : stem.endsWith('/index') ? `/${stem.slice(0, -6)}/` : `/${stem}/`;
   pages.push({ urlPath, meta: JSON.parse(m[1]), body: raw.slice(m[0].length), vars: {} });
 }
 const serviceTpl = await readFile(src('templates', 'service.html'), 'utf8');
@@ -250,37 +400,59 @@ for (const s of services) {
       service_short_name: esc(s.title === 'SEO' ? 'SEO' : s.title.toLowerCase()),
       service_whatsapp: esc(`${site.whatsapp}?text=${encodeURIComponent(`Hi Digital Mom, I’d love to chat about ${s.title === 'SEO' ? 'SEO' : s.title.toLowerCase()} for my business.`)}`),
       service_includes: s.includes.map(i => `<li>${esc(i)}</li>`).join('\n            '),
+      // "What we offer": the specific things this service covers (platforms, logo design, redesigns...), one row each,
+      // with a link to a case study that shows it. Readable for visitors and clear for search engines.
+      service_offers: s.offers?.length ? `    <section class="wrap pb-[clamp(64px,8vw,112px)]" aria-labelledby="offers-heading" data-scroll-zone>
+      <div class="grid gap-10 md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)] md:gap-20">
+        <h2 id="offers-heading" data-scroll="words" class="m-0 max-w-[13ch] self-start md:sticky md:top-28 font-display text-[clamp(36px,4.6vw,64px)] font-bold leading-[1.02] tracking-[-0.02em]">${esc(s.offers_heading || 'What we offer')}</h2>
+        <ul class="m-0 list-none border-b border-line p-0">
+${s.offers.map(o => `          <li data-scroll="draw" class="grid gap-2 border-t border-line py-7 sm:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] sm:gap-8">
+            <h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(o.title)}</h3>
+            <div>
+              <p class="m-0 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(o.text)}</p>${o.example ? `
+              <p class="m-0 mt-3"><a class="link" href="${esc(o.example.href)}">${esc(o.example.label)} <span aria-hidden="true">↗</span></a></p>` : ''}
+            </div>
+          </li>`).join('\n')}
+        </ul>
+      </div>
+    </section>
+` : '',
       service_how: s.how.map(h => `        <div data-scroll="draw" class="py-7"><h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(h.lead)}</h3><p class="mb-0 mt-2 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(h.text)}</p></div>`).join('\n'),
       services_others: `      <ul class="m-0 list-none border-b border-line p-0">\n${rows(others)}\n      </ul>`,
     },
   });
 }
 
-if (hasGallery || galleryDraft) pages.push({
-  urlPath: '/gallery/',
-  meta: { title: 'Gallery | Digital Mom', description: 'A visual look at social media, web design, SEO and graphic design, the four services Digital Mom offers.', cta: true, noindex: galleryDraft },
+if (hasGallery) pages.push({
+  urlPath: '/case-studies/',
+  meta: { title: 'Case studies | Digital Mom', description: 'Client work by Digital Mom: websites, logos, social media and search, with a full case study and a link to each business.', cta: true },
   body: `  <main id="main">
     <section class="wrap pb-12 pt-14 md:pb-16 md:pt-24" aria-labelledby="page-title" data-scroll-zone>
       <h1 id="page-title" class="m-0 max-w-[13ch] font-display text-[clamp(44px,8vw,104px)] font-bold leading-[.96] tracking-[-0.03em]" data-scroll="words">Good work speaks for itself.</h1>
-      <p class="mb-10 mt-8 max-w-[52ch] text-lg leading-[1.7] md:text-xl">A visual feel for each of our four services. Pick one to jump to it, or tap any picture to see it bigger.</p>
-${galleryJump}
+      <p class="mb-0 mt-8 max-w-[52ch] text-lg leading-[1.7] md:text-xl">The businesses we work with and what we made for them. Pick a client to see the full case study, from the website and logo to their social media and search.</p>
     </section>
-${galleryBody}
+    <div class="wrap">
+${clientRows}
+    </div>
   </main>
-  <dialog class="lightbox" aria-label="Picture viewer">
-    <button class="lightbox-close" type="button" aria-label="Close">×</button>
-    <button class="lightbox-step lightbox-prev" type="button" aria-label="Previous picture">←</button>
-    <figure class="m-0"><img alt=""><figcaption></figcaption></figure>
-    <button class="lightbox-step lightbox-next" type="button" aria-label="Next picture">→</button>
-  </dialog>
-  <script src="/gallery.js" defer></script>`,
+${ldJson({ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Case studies', url: `${site.url}/case-studies/`, publisher: { '@type': 'Organization', name: 'Digital Mom', url: site.url }, hasPart: clients.map(c => ({ '@type': 'CreativeWork', name: `${c.name} case study`, url: `${site.url}/case-studies/${c.slug}/`, about: clientOrg(c) })) })}`,
   vars: {},
 });
+pages.push(...clientPages);
 
 await rm(out('services'), { recursive: true, force: true });
-await rm(out('gallery', 'index.html'), { force: true }); // regenerated only when there are pictures (or draft mode)
+await rm(out('gallery'), { recursive: true, force: true }); // old address of the case studies page
+await rm(out('case-studies'), { recursive: true, force: true }); // regenerated only when src/clients.json has clients to show
 await rm(out('work'), { recursive: true, force: true }); // regenerated only when src/work.json has projects
 const urls = [];
+// The version stamp is a fingerprint of everything that shapes the CSS and scripts (sources, this file, the site's own
+// scripts), so pages only change when something really changed. That keeps the update zip (pack.mjs) small.
+const stampHash = createHash('sha1');
+const allFiles = async dir => (await readdir(dir, { recursive: true, withFileTypes: true })).filter(e => e.isFile()).map(e => path.join(e.parentPath ?? e.path, e.name)).sort();
+for (const f of await allFiles(src())) stampHash.update(path.relative(root, f)).update(await readFile(f));
+stampHash.update(await readFile(fileURLToPath(import.meta.url)));
+for (const f of (await readdir(out())).filter(f => f.endsWith('.js')).sort()) stampHash.update(f).update(await readFile(out(f)));
+const buildStamp = stampHash.digest('hex').slice(0, 10);
 const ctaHtml = fill(include(partials.cta), globals);
 for (const p of pages) {
   if (p.urlPath === '/work/' && !hasWork) continue; // no projects yet: no page, no sitemap entry
@@ -291,14 +463,19 @@ for (const p of pages) {
     canonical: esc(site.url + p.urlPath), cta: withCta,
     robots: p.meta.noindex ? '\n  <meta name="robots" content="noindex">' : '',
   };
-  const html = fill(include(partials.head + partials.header + p.body + partials.footer), vars);
+  // Every build stamps the site's own CSS and JS links (?v=...), so browsers and server caches fetch fresh files after an upload.
+  const html = fill(include(partials.head + partials.header + p.body + partials.footer), vars)
+    .replace(/(src|href)="(\/[^"?#]+\.(?:css|js))"/g, `$1="$2?v=${buildStamp}"`);
   const left = html.match(/\{\{\w+\}\}/);
   if (left) throw new Error(`${p.urlPath}: unresolved placeholder ${left[0]}`);
-  const target = p.urlPath === '/' ? out('index.html') : out(...p.urlPath.split('/').filter(Boolean), 'index.html');
+  const target = p.urlPath === '/' ? out('index.html') : p.urlPath.endsWith('.html') ? out(p.urlPath.slice(1)) : out(...p.urlPath.split('/').filter(Boolean), 'index.html');
   await mkdir(path.dirname(target), { recursive: true });
   await writeFile(target, html);
   if (!p.meta.noindex) urls.push(site.url + p.urlPath);
   console.log('built', p.urlPath);
 }
-await writeFile(out('sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(u => `<url><loc>${esc(u)}</loc></url>`).join('')}</urlset>\n`);
-await writeFile(out('robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
+const lastmod = new Date().toISOString().slice(0, 10); // the build date: every page is rebuilt together
+await writeFile(out('sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${esc(u)}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+await writeFile(out('robots.txt'), `User-agent: *\nAllow: /\nDisallow: /contact.php\n\nSitemap: ${site.url}/sitemap.xml\n`);
+// Apache rules (src/htaccess). The Content-Security-Policy header matches the page meta tag, so it widens with Google Analytics too.
+await writeFile(out('.htaccess'), (await readFile(src('htaccess'), 'utf8')).replace('{{csp}}', csp));

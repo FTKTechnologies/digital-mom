@@ -2,7 +2,7 @@
   {
     "slug": "social-media-marketing",
     "title": "Social Media Marketing",
-    "short": "A clearer plan for your channels, with content that sounds like your business and gives people a reason to pay attention.",
+    "short": "A clearer plan for Instagram, Facebook, LinkedIn and TikTok, with content that sounds like your business and gives people a reason to pay attention.",
     "intro": "Social media marketing for businesses that want a feed that keeps going. We plan content around what your business is doing, what your audience needs to know and what you want the brand to be known for, then make it: the captions, the photos, the reels. The goal is a social presence that looks and sounds like the business behind it.",
     "includes": [
       "Content planning and calendar direction.",
@@ -12,7 +12,7 @@
       "Publishing and ongoing channel support where agreed."
     ],
     "fit": "Businesses that know they should post more, but never have the time to plan, shoot and write it.",
-    "meta": "Social media marketing from Digital Mom: content planning, captions, photography and short-form video that sound and look like your business.",
+    "meta": "Social media marketing for Instagram, Facebook, LinkedIn and TikTok: content plans, captions, photos and reels that sound and look like your business.",
     "keyline": "Plans, captions, reels and shoots that look like you.",
     "how": [
       {
@@ -30,16 +30,43 @@
     ],
     "photo": "/assets/hero/social-media-marketing.jpg",
     "photo_alt": "A phone photographing a grazing board of fruit and snacks for social media.",
-    "page_title": "Social Media Marketing South Africa",
+    "page_title": "Social Media Marketing for Instagram, Facebook and TikTok",
     "photo_credit": {
       "name": "Priscilla Du Preez",
       "url": "https://unsplash.com/photos/a-woman-taking-a-picture-of-food-on-her-phone-m8pYWJQnRs0"
-    }
+    },
+    "offers_heading": "The platforms we work on",
+    "offers": [
+      {
+        "title": "Instagram",
+        "text": "Feed posts, carousels, reels and stories, planned so your grid looks like your brand."
+      },
+      {
+        "title": "Facebook",
+        "text": "Posts and updates for your customers and community, with the details people look for: offers, news and how to reach you."
+      },
+      {
+        "title": "LinkedIn",
+        "text": "Company page posts that show your expertise to business buyers, partners and future staff."
+      },
+      {
+        "title": "TikTok",
+        "text": "Short, simple videos that show the people and the work behind the business."
+      },
+      {
+        "title": "Social media campaigns",
+        "text": "A series of posts that introduces your business or a product step by step, made for every platform you use.",
+        "example": {
+          "label": "See it in the Veriserv case study",
+          "href": "/case-studies/veriserv/"
+        }
+      }
+    ]
   },
   {
     "slug": "web-design",
     "title": "Web Design",
-    "short": "A website that looks like your brand, says what you do clearly and makes it easy for people to get in touch.",
+    "short": "A new website, or a redesign of the one you have, that looks like your brand and makes it easy for people to get in touch.",
     "intro": "Your website is where everything else lands: the social post, the Google search, the recommendation from a friend. It should show people quickly what you do, whether it is for them and how to take the next step. We design sites that feel like your brand and work properly on a phone.",
     "includes": [
       "Page structure and layout planned around what your visitors need to find.",
@@ -48,8 +75,8 @@
       "Contact forms and WhatsApp links that make getting in touch easy.",
       "Launch setup and handover, with the scope confirmed before work starts."
     ],
-    "fit": "Businesses that need a new site, or a site that finally matches how good the business is.",
-    "meta": "Web design from Digital Mom: clear, on-brand websites that work on every screen and make it easy for customers to get in touch.",
+    "fit": "Businesses that need a new site, or a redesign of a site that no longer matches how good the business is.",
+    "meta": "Web design from Digital Mom: new websites and website redesigns, built to work on every screen and make it easy for customers to get in touch.",
     "keyline": "A site that matches how good the business is.",
     "how": [
       {
@@ -67,11 +94,26 @@
     ],
     "photo": "/assets/hero/web-design.jpg",
     "photo_alt": "A laptop showing a website, on a wooden table outdoors beside a potted plant.",
-    "page_title": "Web Design South Africa",
+    "page_title": "Web Design and Website Redesign South Africa",
     "photo_credit": {
       "name": "solidpixels.",
       "url": "https://unsplash.com/photos/a-laptop-computer-sitting-on-top-of-a-wooden-table-iq2RzBMj-Wg"
-    }
+    },
+    "offers_heading": "New websites and redesigns",
+    "offers": [
+      {
+        "title": "New websites",
+        "text": "A site planned around what your visitors need to find, designed to look like your brand and work on every screen."
+      },
+      {
+        "title": "Website redesign",
+        "text": "A fresh design and clearer pages for a site that no longer matches the business, keeping what already works.",
+        "example": {
+          "label": "See it in the Veriserv case study",
+          "href": "/case-studies/veriserv/"
+        }
+      }
+    ]
   },
   {
     "slug": "seo",
@@ -117,7 +159,7 @@
   {
     "slug": "graphic-design",
     "title": "Graphic Design",
-    "short": "Visuals for everyday communication, promotions and campaigns that feel like they belong to your brand.",
+    "short": "Logos, business cards, email signatures and campaign visuals that look like they belong to your brand.",
     "intro": "Graphic design for the posts, flyers, adverts and brochures your business puts out, so people recognise the brand and get the message. We create visual material that works with your existing identity, or help shape a clearer creative direction when the brand needs it.",
     "includes": [
       "Social media graphics and promotional artwork.",
@@ -127,7 +169,7 @@
       "Print-ready artwork based on confirmed supplier specifications."
     ],
     "fit": "Businesses whose posts, flyers and adverts don’t yet look like they come from the same brand.",
-    "meta": "Graphic design from Digital Mom: social graphics, campaign visuals, brochures and print-ready artwork that feel like your brand.",
+    "meta": "Graphic design from Digital Mom: logo design and redesign, digital business cards, email signatures, social media graphics and brochures that feel like your brand.",
     "keyline": "Visuals that look like they belong together.",
     "how": [
       {
@@ -145,10 +187,57 @@
     ],
     "photo": "/assets/hero/graphic-design.jpg",
     "photo_alt": "A graffiti mural of bold orange, blue, teal and cream shapes painted on a brick wall.",
-    "page_title": "Graphic Design South Africa",
+    "page_title": "Logo Design, Business Cards and Graphic Design South Africa",
     "photo_credit": {
       "name": "Josep Martins",
       "url": "https://unsplash.com/photos/orange-blue-and-white-artwork-nAsdr5DC2Ss"
-    }
+    },
+    "offers_heading": "What we design",
+    "offers": [
+      {
+        "title": "Logo design",
+        "text": "A new logo built to work everywhere, from a website header to a profile picture, with a wide and a stacked version.",
+        "example": {
+          "label": "See it in the Sacred Sage case study",
+          "href": "/case-studies/sacred-sage/"
+        }
+      },
+      {
+        "title": "Logo redesign",
+        "text": "A refresh for a logo that no longer fits the business: better balance, clearer lettering and a line that says what you do.",
+        "example": {
+          "label": "See it in the Veriserv case study",
+          "href": "/case-studies/veriserv/"
+        }
+      },
+      {
+        "title": "Digital business cards",
+        "text": "A business card on the phone, with a QR code that saves your details straight to someone’s contacts.",
+        "example": {
+          "label": "See it in the Veriserv case study",
+          "href": "/case-studies/veriserv/"
+        }
+      },
+      {
+        "title": "Email signatures",
+        "text": "A branded signature for everyone in the team, with a photo, contact details and social links, so every email looks the same.",
+        "example": {
+          "label": "See it in the Veriserv case study",
+          "href": "/case-studies/veriserv/"
+        }
+      },
+      {
+        "title": "Social media graphics",
+        "text": "Posts, carousels and campaign cards made in your brand and sized for each platform.",
+        "example": {
+          "label": "See it in the Sacred Sage case study",
+          "href": "/case-studies/sacred-sage/"
+        }
+      },
+      {
+        "title": "Brochures and print",
+        "text": "Flyers, brochures and company profiles, delivered print-ready to your supplier’s specifications."
+      }
+    ]
   }
 ]

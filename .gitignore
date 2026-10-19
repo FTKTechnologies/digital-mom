@@ -15,3 +15,6 @@ node_modules/
 
 # Loose reference images dropped in the project root
 /WhatsApp*.jpeg
+
+# Ready-to-upload zips
+/upload/
