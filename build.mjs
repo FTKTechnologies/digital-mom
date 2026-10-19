@@ -242,6 +242,13 @@ const lightbox = `  <dialog class="lightbox" aria-label="Picture viewer">
     <button class="lightbox-step lightbox-next" type="button" aria-label="Next picture">→</button>
   </dialog>
   <script src="/gallery.js" defer></script>`;
+// Line icons for the platforms a service card lists ("platforms" in services.json), drawn in the footer icon style.
+const platformIcons = {
+  instagram: { name: 'Instagram', svg: '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>' },
+  facebook: { name: 'Facebook', svg: '<circle cx="12" cy="12" r="8.5"/><path d="M13.3 20.4v-10a2.3 2.3 0 0 1 2.3-2.3h1.2M10.4 13.2h5.4"/>' },
+  linkedin: { name: 'LinkedIn', svg: '<rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><path d="M8.2 10.6v5.9M11.8 16.5v-5.9M11.8 13.4a2.5 2.5 0 0 1 5 0v3.1"/><circle cx="8.2" cy="7.7" r=".6" fill="currentColor"/>' },
+  tiktok: { name: 'TikTok', svg: '<path d="M13.8 3.8v11a3.6 3.6 0 1 1-3.6-3.6"/><path d="M13.8 3.8c.5 2.5 2.2 4.1 4.7 4.4"/>' },
+};
 const ldJson = data => `  <script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 const clientOrg = c => ({ '@type': 'Organization', name: c.name, ...(c.url && { url: c.url }), ...(c.profiles?.length && { sameAs: c.profiles.map(p => p.url) }) });
 const clientPages = await Promise.all(clients.map(async c => {
@@ -419,7 +426,8 @@ for (const s of services) {
 ${s.offers.map(o => `          <li data-scroll="draw" class="grid gap-2 border-t border-line py-7 sm:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] sm:gap-8">
             <h3 class="m-0 font-display text-[26px] font-bold leading-[1.1]">${esc(o.title)}</h3>
             <div>
-              <p class="m-0 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(o.text)}</p>${o.example ? `
+              <p class="m-0 max-w-[52ch] text-[17px] leading-[1.7] text-muted">${esc(o.text)}</p>${o.platforms ? `
+              <ul class="m-0 mt-4 flex list-none flex-wrap gap-2 p-0" aria-label="Platforms">${o.platforms.map(p => `<li class="inline-flex min-h-9 items-center gap-2 rounded-full border border-line px-3.5 text-[14px]"><svg class="size-[18px] text-bronze" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${platformIcons[p].svg}</svg>${platformIcons[p].name}</li>`).join('')}</ul>` : ''}${o.example ? `
               <p class="m-0 mt-3"><a class="link" href="${esc(o.example.href)}">${esc(o.example.label)} <span aria-hidden="true">↗</span></a></p>` : ''}
             </div>
           </li>`).join('\n')}

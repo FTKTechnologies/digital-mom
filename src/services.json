@@ -36,38 +36,20 @@
       "name": "Priscilla Du Preez",
       "url": "https://unsplash.com/photos/a-woman-taking-a-picture-of-food-on-her-phone-m8pYWJQnRs0"
     },
-    "offers_heading": "Platforms and the content we make",
+    "offers_heading": "What we make",
     "offers": [
       {
-        "title": "Instagram",
-        "text": "Feed posts, carousels, reels and stories, planned so your grid looks like your brand."
-      },
-      {
-        "title": "Facebook",
-        "text": "Posts and updates for your customers and community, with the details people look for: offers, news and how to reach you."
-      },
-      {
-        "title": "LinkedIn",
-        "text": "Company page posts that show your expertise to business buyers, partners and future staff."
-      },
-      {
-        "title": "TikTok",
-        "text": "Short, simple videos that show the people and the work behind the business."
-      },
-      {
         "title": "Social media campaigns",
-        "text": "A series of posts that introduces your business or a product step by step, made for every platform you use.",
+        "text": "Feed posts, carousels, reels and stories, planned as a series that introduces your business or a product step by step, made for every platform you use.",
+        "platforms": [
+          "instagram",
+          "facebook",
+          "linkedin",
+          "tiktok"
+        ],
         "example": {
           "label": "See it in the Veriserv case study",
           "href": "/case-studies/veriserv/"
-        }
-      },
-      {
-        "title": "Reels",
-        "text": "Short videos planned, filmed and edited for Instagram, Facebook and TikTok, with covers and captions that suit your feed.",
-        "example": {
-          "label": "See it in the Innovation Laser Clinic case study",
-          "href": "/case-studies/innovation-laser-clinic/"
         }
       },
       {
