@@ -415,6 +415,67 @@
       ]
     },
     {
+      "slug": "isuzu",
+      "name": "Isuzu",
+      "industry": "Trucks and commercial vehicles",
+      "intro": "Event photography for the Isuzu Golf Day 2026, from the branded goodie bags at registration to the group photo and the tee shots on the course.",
+      "cover": {
+        "image": "cover.jpg",
+        "alt": "The golfers at the Isuzu Golf Day 2026 together in matching red shirts for the group photo."
+      },
+      "work": [
+        {
+          "type": "photo",
+          "service": "social-media-marketing",
+          "title": "Isuzu Golf Day 2026",
+          "facts": {
+            "Date": "27 August 2026",
+            "What we did": "Photography on the day and an online gallery for the client"
+          },
+          "summary": "We covered the whole day: the trucks and branding on display, the players arriving, the speeches and the golf itself. The photos are ready for Isuzu to use on social media and in their own communication.",
+          "images": [
+            {
+              "image": "team.jpg",
+              "alt": "Two Digital Mom team members with a camera on a tripod, planning the next shot at the golf day.",
+              "caption": "Our team planning the next shot."
+            },
+            {
+              "image": "trucks.jpg",
+              "alt": "A row of white Isuzu trucks on display at the golf day."
+            },
+            {
+              "image": "goodie-bags.jpg",
+              "alt": "Pink Isuzu Golf Day 2026 goodie bags lined up for the players."
+            },
+            {
+              "image": "fire-pit.jpg",
+              "alt": "A fire pit with cut-out Isuzu lettering."
+            },
+            {
+              "image": "icecold-stand.jpg",
+              "alt": "The Icecold stand at the golf day, with a red branded table."
+            },
+            {
+              "image": "mc.jpg",
+              "alt": "The MC in a red shirt speaking into a microphone to the players."
+            },
+            {
+              "image": "players.jpg",
+              "alt": "Players in matching red golf shirts standing together with their arms folded."
+            },
+            {
+              "image": "fourball.jpg",
+              "alt": "A fourball of golfers posing together on the course."
+            },
+            {
+              "image": "tee-shot.jpg",
+              "alt": "A golfer in a red shirt taking a tee shot."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "slug": "grocery-store-bargain-outlet",
       "name": "Grocery Store Bargain Outlet",
       "industry": "Grocery retail",
